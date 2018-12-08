@@ -155,6 +155,11 @@ public class Test : MonoBehaviour
                 while (client.Connected)
                 {
                     var line = await reader.ReadLineAsync();
+                    if (line == null)
+                    {
+                        Debug.Log("Disconnected");
+                        break;
+                    }
                     Debug.Log($"Received: {line}");
                     var parser = new CommandParser();
                     try

@@ -167,6 +167,7 @@ public class Test : MonoBehaviour
                         var command = parser.ParseCommandLine(line);
                         Debug.Log("Respond: OK");
                         writer.WriteLine("OK");
+                        writer.Flush();
                         if (command is QuitCommand)
                         {
                             break;
@@ -176,6 +177,7 @@ public class Test : MonoBehaviour
                     {
                         Debug.Log($"Respond: ERROR {e.Message}");
                         writer.WriteLine($"ERROR {e.Message}");
+                        writer.Flush();
                     }
                 }
             }

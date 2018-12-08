@@ -87,6 +87,8 @@ public class Test : MonoBehaviour
     [SerializeField]
     private TextAsset _exampleSource = null;
 
+    private TcpListener _listener;
+
     private void Awake()
     {
         var parser = new CommandParser();
@@ -112,16 +114,37 @@ public class Test : MonoBehaviour
     [ContextMenu("Start Listen")]
     private async Task StartListen()
     {
-        await Listen();
+        if (_listener == null)
+        {
+            await Listen();
+        }
+    }
+
+    [ContextMenu("Stop Listen")]
+    private void StopListen()
+    {
+        _listener?.Stop();
     }
 
     private async Task Listen()
     {
         Debug.Log("Start Listen.");
-        var listener = new TcpListener(new IPEndPoint(IPAddress.Any, 3000));
-        listener.Start();
-        var client = await listener.AcceptTcpClientAsync();
-        listener.Stop();
+        _listener = new TcpListener(new IPEndPoint(IPAddress.Any, 3000));
+        _listener.Start();
+
+        TcpClient client;
+        try
+        {
+            client = await _listener.AcceptTcpClientAsync();
+            _listener.Stop();
+        }
+        catch (ObjectDisposedException e)
+        {
+            Debug.Log("stop server");
+            _listener = null;
+            return;
+        }
+        _listener = null;
 
         Debug.Log("Client Connected.");
         try
@@ -154,7 +177,7 @@ public class Test : MonoBehaviour
         }
         finally
         {
-            client.Close();
+            client?.Close();
             Debug.Log("Listen end.");
         }
     }

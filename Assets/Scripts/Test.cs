@@ -1,68 +1,11 @@
-﻿using XFlag.Alter3Simulator;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using UnityEngine;
-using System.Net.Sockets;
-using System.Threading.Tasks;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
-
-namespace Sandbox
-{
-    public interface IQueryState { }
-    public class Initial : IQueryState { private Initial() { } }
-    public class Secondary : IQueryState { private Secondary() { } }
-    public class Final : IQueryState { private Final() { } }
-
-    class Query<T> where T : IQueryState
-    {
-        public override string ToString()
-        {
-            return $"Query ({typeof(T).Name})";
-        }
-    }
-
-    static class QueryExtension
-    {
-        public static Query<Secondary> Next(this Query<Initial> query)
-        {
-            return new Query<Secondary>();
-        }
-
-        public static Query<Final> Final(this Query<Secondary> query)
-        {
-            return new Query<Final>();
-        }
-    }
-
-    public class RateValue { }
-    public class PercentValue { }
-
-    public class Value<T>
-    {
-        public float value;
-
-        public static implicit operator float(Value<T> value)
-        {
-            return value.value;
-        }
-    }
-
-    public static class ValueExtension
-    {
-        public static Value<PercentValue> ToPercent(this Value<RateValue> rate)
-        {
-            return new Value<PercentValue> { value = rate * 100.0f };
-        }
-
-        public static Value<RateValue> ToRate(this Value<PercentValue> percent)
-        {
-            return new Value<RateValue> { value = percent / 100.0f };
-        }
-    }
-}
+using System.Threading.Tasks;
+using UnityEngine;
+using XFlag.Alter3Simulator;
 
 public class Test : MonoBehaviour
 {
@@ -111,6 +54,11 @@ public class Test : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        StopListen();
+    }
+
     [ContextMenu("Start Listen")]
     private async Task StartListen()
     {
@@ -138,7 +86,7 @@ public class Test : MonoBehaviour
             client = await _listener.AcceptTcpClientAsync();
             _listener.Stop();
         }
-        catch (ObjectDisposedException e)
+        catch (ObjectDisposedException)
         {
             Debug.Log("stop server");
             _listener = null;

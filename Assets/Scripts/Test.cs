@@ -5,10 +5,16 @@ using XFlag.Alter3Simulator;
 
 public class Test : MonoBehaviour
 {
+    private CoreSystem _coreSystem = new CoreSystem();
     private ConnectionManager _server = new ConnectionManager();
 
     private void Awake()
     {
+        _server.OnConnected += (id, endPoint) =>
+        {
+            _coreSystem.RegisterClient(id, endPoint.Address, "User");
+        };
+        _server.OnDisconnected += _coreSystem.UnregisterClient;
         _server.OnReceived += OnReceived;
     }
 
@@ -32,7 +38,7 @@ public class Test : MonoBehaviour
     private void OnReceived(RequestContext context)
     {
         var parser = new CommandParser();
-        var processor = new CommandProcessor(context.ClientId, context.EndPoint);
+        var processor = new CommandProcessor(_coreSystem, context.ClientId);
         try
         {
             var command = parser.ParseCommandLine(context.ReceivedString);

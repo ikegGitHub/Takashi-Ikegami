@@ -25,7 +25,7 @@ namespace XFlag.Alter3Simulator
 
         private uint NextClientId => _clientId++;
 
-        public event Action<uint> OnConnected;
+        public event Action<uint, IPEndPoint> OnConnected;
         public event Action<uint> OnDisconnected;
         public event Action<RequestContext> OnReceived;
 
@@ -93,7 +93,7 @@ namespace XFlag.Alter3Simulator
                 {
                     _connections.Add(connection.id, connection);
                 }
-                OnConnected?.Invoke(connection.id);
+                OnConnected?.Invoke(connection.id, (IPEndPoint)client.Client.LocalEndPoint);
                 new Task(() => WaitForCommand(connection.id, connection.tcpClient)).Start();
             }
         }

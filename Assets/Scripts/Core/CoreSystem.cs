@@ -13,6 +13,15 @@ namespace XFlag.Alter3Simulator
 
         public bool IsRecording { get; set; }
 
+        private double[] _axes;
+
+        public IReadOnlyList<double> Axes => _axes;
+
+        public CoreSystem(int axisCount)
+        {
+            _axes = new double[axisCount];
+        }
+
         public void RegisterClient(uint clientId, IPAddress address, ClientType type)
         {
             var client = new ClientConnection(clientId, address, type);
@@ -33,6 +42,11 @@ namespace XFlag.Alter3Simulator
         public ClientConnection GetClient(uint clientId)
         {
             return _clients[clientId];
+        }
+
+        public double GetAxis(int axisNumber)
+        {
+            return _axes[axisNumber - 1];
         }
     }
 }

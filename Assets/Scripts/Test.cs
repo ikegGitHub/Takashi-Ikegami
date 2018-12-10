@@ -6,7 +6,7 @@ namespace XFlag.Alter3Simulator
 {
     public class Test : MonoBehaviour
     {
-        private CoreSystem _coreSystem = new CoreSystem();
+        private CoreSystem _coreSystem = new CoreSystem(50);
         private ConnectionManager _server = new ConnectionManager();
 
         private void Awake()

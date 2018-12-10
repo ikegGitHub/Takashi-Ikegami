@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace XFlag.Alter3Simulator
 {
@@ -102,6 +103,15 @@ namespace XFlag.Alter3Simulator
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(GetAxisCommand command)
         {
+            if (command.AxisNumber == 0)
+            {
+                yield return _coreSystem.Axes.Select(x => x.ToString()).Aggregate((a, b) => $"{a} {b}");
+            }
+            else
+            {
+                var axisValue = _coreSystem.GetAxis(command.AxisNumber);
+                yield return axisValue.ToString();
+            }
             yield return "OK";
         }
 

@@ -117,11 +117,23 @@ namespace XFlag.Alter3Simulator
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(MoveAxisCommand command)
         {
+            if (!_coreSystem.IsRobotConnected)
+            {
+                yield return "ERROR: Not connected to robot";
+                yield break;
+            }
+
             yield return "OK";
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(MoveAxesCommand command)
         {
+            if (!_coreSystem.IsRobotConnected)
+            {
+                yield return "ERROR: Not connected to robot";
+                yield break;
+            }
+
             yield return "OK";
         }
 

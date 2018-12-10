@@ -117,7 +117,7 @@ namespace XFlag.Alter3Simulator
                             break;
                         }
                         Debug.Log($"[{clientId}] received: {line}");
-                        var context = new RequestContext(clientId, line, writer);
+                        var context = new RequestContext(clientId, (IPEndPoint)client.Client.LocalEndPoint, line, writer);
                         OnReceived?.Invoke(context);
                         if (context.IsClose)
                         {

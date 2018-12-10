@@ -32,7 +32,7 @@ public class Test : MonoBehaviour
     private void OnReceived(RequestContext context)
     {
         var parser = new CommandParser();
-        var processor = new CommandProcessor(context.ClientId);
+        var processor = new CommandProcessor(context.ClientId, context.EndPoint);
         try
         {
             var command = parser.ParseCommandLine(context.ReceivedString);

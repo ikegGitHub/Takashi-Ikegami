@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Net;
 
 namespace XFlag.Alter3Simulator
 {
@@ -12,9 +13,12 @@ namespace XFlag.Alter3Simulator
 
         public StreamWriter ResponseWriter { get; }
 
-        public RequestContext(uint clientId, string receivedString, StreamWriter responseWriter)
+        public IPEndPoint EndPoint { get; }
+
+        public RequestContext(uint clientId, IPEndPoint endPoint, string receivedString, StreamWriter responseWriter)
         {
             ClientId = clientId;
+            EndPoint = endPoint;
             ReceivedString = receivedString;
             ResponseWriter = responseWriter;
         }

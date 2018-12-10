@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Sockets;
 using UnityEngine;
 
 namespace XFlag.Alter3Simulator
@@ -7,15 +9,18 @@ namespace XFlag.Alter3Simulator
     public class CommandProcessor : ICommandVisitor<IEnumerable<string>>
     {
         private uint _clientId;
+        private IPEndPoint _endPoint;
+        private string _clientName;
 
-        public CommandProcessor(uint clientId)
+        public CommandProcessor(uint clientId, IPEndPoint endPoint)
         {
             _clientId = clientId;
+            _endPoint = endPoint;
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(HelpCommand command)
         {
-            throw new System.NotImplementedException();
+            yield return "OK";
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(RecordMotionCommand command)
@@ -45,7 +50,7 @@ namespace XFlag.Alter3Simulator
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(HelloCommand command)
         {
-            Debug.Log($"client name = {command.ClientName}");
+            _clientName = command.ClientName;
             yield return "OK";
         }
 
@@ -61,7 +66,7 @@ namespace XFlag.Alter3Simulator
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(NoopCommand command)
         {
-            throw new System.NotImplementedException();
+            yield return "OK";
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(MoveAxisCommand command)
@@ -86,7 +91,8 @@ namespace XFlag.Alter3Simulator
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(WhoAmICommand command)
         {
-            throw new System.NotImplementedException();
+            yield return $"{_clientName} {_clientId}@{_endPoint.Address} {_endPoint.Address} User";
+            yield return "OK";
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(ConnectRobotCommand command)

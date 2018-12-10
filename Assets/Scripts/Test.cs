@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Net;
-using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -33,30 +30,11 @@ public class Test : MonoBehaviour
     [SerializeField]
     private TextAsset _exampleSource = null;
 
-    private TcpListener _listener;
-
-    private List<TcpClient> _clients = new List<TcpClient>();
+    private ConnectionManager _server = new ConnectionManager();
 
     private void Awake()
     {
-        var parser = new CommandParser();
-        var visitor = new SampleVisitor();
-        using (var reader = new StringReader(_exampleSource.text))
-        {
-            string line;
-            while ((line = reader.ReadLine()) != null)
-            {
-                try
-                {
-                    var command = parser.ParseCommandLine(line);
-                    command.AcceptVisitor(visitor);
-                }
-                catch (ApplicationException e)
-                {
-                    Debug.Log($"Parse Error: {e.Message}");
-                }
-            }
-        }
+        _server.OnReceived += OnReceived;
     }
 
     private void OnDestroy()
@@ -67,98 +45,35 @@ public class Test : MonoBehaviour
     [ContextMenu("Start Listen")]
     private async Task StartListen()
     {
-        if (_listener == null)
-        {
-            await Listen();
-        }
+        await _server.StartServerAsync("0.0.0.0", 3000);
     }
 
     [ContextMenu("Stop Listen")]
     private void StopListen()
     {
-        _listener?.Stop();
+        _server.StopServer();
     }
 
-    private async Task Listen()
+    private bool OnReceived(uint clientId, string line, StreamWriter writer)
     {
-        Debug.Log("Start Listen.");
-        _listener = new TcpListener(new IPEndPoint(IPAddress.Any, 3000));
-        _listener.Start();
-
-        while (true)
-        {
-            try
-            {
-                var client = await _listener.AcceptTcpClientAsync();
-                _clients.Add(client);
-                Debug.Log("Client Connected.");
-                Task.Run(() => ClientSequence(client));
-            }
-            catch (ObjectDisposedException)
-            {
-                Debug.Log("server stopped");
-                break;
-            }
-        }
-        _listener = null;
-
-        lock (_clients)
-        {
-            foreach (var client in _clients)
-            {
-                client.Close();
-                client.Dispose();
-            }
-        }
-    }
-
-    private void ClientSequence(TcpClient client)
-    {
+        var parser = new CommandParser();
         try
         {
-            using (var stream = client.GetStream())
-            using (var reader = new StreamReader(stream, Encoding))
-            using (var writer = new StreamWriter(stream, Encoding))
+            var command = parser.ParseCommandLine(line);
+            Debug.Log($"[{clientId}] respond: OK");
+            writer.WriteLine("OK");
+            writer.Flush();
+            if (command is QuitCommand)
             {
-                while (client.Connected)
-                {
-                    var line = reader.ReadLine();
-                    if (line == null)
-                    {
-                        Debug.Log("Disconnected");
-                        break;
-                    }
-                    Debug.Log($"Received: {line}");
-                    var parser = new CommandParser();
-                    try
-                    {
-                        var command = parser.ParseCommandLine(line);
-                        Debug.Log("Respond: OK");
-                        writer.WriteLine("OK");
-                        writer.Flush();
-                        if (command is QuitCommand)
-                        {
-                            break;
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.Log($"Respond: ERROR: {e.Message}");
-                        writer.WriteLine($"ERROR: {e.Message}");
-                        writer.Flush();
-                    }
-                }
+                return false;
             }
         }
-        finally
+        catch (Exception e)
         {
-            client.Close();
-            client.Dispose();
-            lock (_clients)
-            {
-                _clients.Remove(client);
-            }
-            Debug.Log("client end");
+            Debug.Log($"[{clientId}] respond: ERROR: {e.Message}");
+            writer.WriteLine($"ERROR: {e.Message}");
+            writer.Flush();
         }
+        return true;
     }
 }

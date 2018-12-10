@@ -116,8 +116,9 @@ public class Test : MonoBehaviour
     {
         try
         {
-            using (var reader = new StreamReader(client.GetStream(), Encoding))
-            using (var writer = new StreamWriter(client.GetStream(), Encoding))
+            using (var stream = client.GetStream())
+            using (var reader = new StreamReader(stream, Encoding))
+            using (var writer = new StreamWriter(stream, Encoding))
             {
                 while (client.Connected)
                 {

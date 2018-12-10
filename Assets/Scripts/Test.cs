@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -54,26 +53,25 @@ public class Test : MonoBehaviour
         _server.StopServer();
     }
 
-    private bool OnReceived(uint clientId, string line, StreamWriter writer)
+    private void OnReceived(RequestContext context)
     {
         var parser = new CommandParser();
         try
         {
-            var command = parser.ParseCommandLine(line);
-            Debug.Log($"[{clientId}] respond: OK");
-            writer.WriteLine("OK");
-            writer.Flush();
+            var command = parser.ParseCommandLine(context.ReceivedString);
+            Debug.Log($"[{context.ClientId}] respond: OK");
+            context.ResponseWriter.WriteLine("OK");
+            context.ResponseWriter.Flush();
             if (command is QuitCommand)
             {
-                return false;
+                context.IsClose = true;
             }
         }
         catch (Exception e)
         {
-            Debug.Log($"[{clientId}] respond: ERROR: {e.Message}");
-            writer.WriteLine($"ERROR: {e.Message}");
-            writer.Flush();
+            Debug.Log($"[{context.ClientId}] respond: ERROR: {e.Message}");
+            context.ResponseWriter.WriteLine($"ERROR: {e.Message}");
+            context.ResponseWriter.Flush();
         }
-        return true;
     }
 }

@@ -27,7 +27,7 @@ namespace XFlag.Alter3Simulator
 
         public event Action<uint> OnConnected;
         public event Action<uint> OnDisconnected;
-        public event Func<uint, string, StreamWriter, bool> OnReceived;
+        public event Action<RequestContext> OnReceived;
 
         public async Task StartServerAsync(string ipAddress, ushort port)
         {
@@ -90,12 +90,11 @@ namespace XFlag.Alter3Simulator
                         break;
                     }
                     Debug.Log($"[{clientId}] received: {line}");
-                    if (OnReceived != null)
+                    var context = new RequestContext(clientId, line, writer);
+                    OnReceived?.Invoke(context);
+                    if (context.IsClose)
                     {
-                        if (!OnReceived.Invoke(clientId, line, writer))
-                        {
-                            break;
-                        }
+                        break;
                     }
                 }
             }

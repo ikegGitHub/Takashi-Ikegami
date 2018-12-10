@@ -3,18 +3,28 @@ namespace XFlag.Alter3Simulator
 {
     public partial class MoveAxisCommand : ICommand
     {
-        public void AcceptVisitor(CommandVisitorBase visitor) => visitor.Visit(this);
+        public void AcceptVisitor(ICommandVisitor visitor) => visitor.Visit(this);
 
-        public T AcceptVisitor<T>(CommandVisitorBase<T> visitor) => visitor.Visit(this);
+        public T AcceptVisitor<T>(ICommandVisitor<T> visitor) => visitor.Visit(this);
     }
 
-    public partial class CommandVisitorBase
+    public partial interface ICommandVisitor
     {
-        protected internal virtual void Visit(MoveAxisCommand command) => Default(command);
+        void Visit(MoveAxisCommand command);
     }
 
-    public partial class CommandVisitorBase<T>
+    public partial interface ICommandVisitor<T>
     {
-        protected internal virtual T Visit(MoveAxisCommand command) => Default(command);
+        T Visit(MoveAxisCommand command);
+    }
+
+    public partial class CommandVisitorBase : ICommandVisitor
+    {
+        public virtual void Visit(MoveAxisCommand command) => Default(command);
+    }
+
+    public partial class CommandVisitorBase<T> : ICommandVisitor<T>
+    {
+        public virtual T Visit(MoveAxisCommand command) => Default(command);
     }
 }

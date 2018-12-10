@@ -6,24 +6,6 @@ using XFlag.Alter3Simulator;
 
 public class Test : MonoBehaviour
 {
-    class SampleVisitor : CommandVisitorBase
-    {
-        protected internal override void Visit(AddAxisCommand command)
-        {
-            Debug.Log($"AddAxis: {command}");
-        }
-
-        protected internal override void Visit(MoveAxesCommand command)
-        {
-            Debug.Log($"MoveAxes: {command}");
-        }
-
-        protected internal override void Visit(PrintQueueCommand command)
-        {
-            Debug.Log("PrintQueue!");
-        }
-    }
-
     private static readonly Encoding Encoding = new UTF8Encoding(false, false);
 
     [SerializeField]
@@ -56,11 +38,15 @@ public class Test : MonoBehaviour
     private void OnReceived(RequestContext context)
     {
         var parser = new CommandParser();
+        var processor = new CommandProcessor(context.ClientId);
         try
         {
             var command = parser.ParseCommandLine(context.ReceivedString);
-            Debug.Log($"[{context.ClientId}] respond: OK");
-            context.ResponseWriter.WriteLine("OK");
+            foreach (var responseLine in command.AcceptVisitor(processor))
+            {
+                Debug.Log($"[{context.ClientId}] {responseLine}");
+                context.ResponseWriter.WriteLine(responseLine);
+            }
             context.ResponseWriter.Flush();
             if (command is QuitCommand)
             {

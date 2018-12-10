@@ -75,7 +75,7 @@ namespace XFlag.Alter3Simulator
 
         private void WaitForCommand(uint clientId, TcpClient client)
         {
-            Debug.Log($"[{clientId}] connected");
+            Debug.Log($"[{clientId}] connected endpoint={client.Client.LocalEndPoint}");
 
             using (var stream = client.GetStream())
             using (var reader = new StreamReader(stream, Encoding))

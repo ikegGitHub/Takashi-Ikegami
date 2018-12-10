@@ -2,7 +2,7 @@
 {
     public interface ICommand
     {
-        void AcceptVisitor(CommandVisitorBase visitor);
-        T AcceptVisitor<T>(CommandVisitorBase<T> visitor);
+        void AcceptVisitor(ICommandVisitor visitor);
+        T AcceptVisitor<T>(ICommandVisitor<T> visitor);
     }
 }

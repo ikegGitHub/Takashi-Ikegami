@@ -28,6 +28,8 @@ public class Test : MonoBehaviour
         }
     }
 
+    private static readonly Encoding Encoding = new UTF8Encoding(false, false);
+
     [SerializeField]
     private TextAsset _exampleSource = null;
 
@@ -114,8 +116,8 @@ public class Test : MonoBehaviour
     {
         try
         {
-            using (var reader = new StreamReader(client.GetStream(), Encoding.UTF8))
-            using (var writer = new StreamWriter(client.GetStream(), Encoding.UTF8))
+            using (var reader = new StreamReader(client.GetStream(), Encoding))
+            using (var writer = new StreamWriter(client.GetStream(), Encoding))
             {
                 while (client.Connected)
                 {

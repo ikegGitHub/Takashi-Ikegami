@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using XFlag.Alter3Simulator;
 
 public class Test : MonoBehaviour
 {
-    private static readonly Encoding Encoding = new UTF8Encoding(false, false);
-
-    [SerializeField]
-    private TextAsset _exampleSource = null;
-
     private ConnectionManager _server = new ConnectionManager();
 
     private void Awake()

@@ -11,6 +11,8 @@ namespace XFlag.Alter3Simulator
 
         public bool IsRobotConnected { get; set; }
 
+        public bool IsRecording { get; set; }
+
         public void RegisterClient(uint clientId, IPAddress address, ClientType type)
         {
             var client = new ClientConnection(clientId, address, type);

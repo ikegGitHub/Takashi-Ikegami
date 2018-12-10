@@ -20,7 +20,7 @@ public class Test : MonoBehaviour
     [ContextMenu("Start Listen")]
     private async Task StartListen()
     {
-        await _server.StartServerAsync("0.0.0.0", 3000);
+        await _server.StartServerAsync("0.0.0.0", 3000).ConfigureAwait(false);
     }
 
     [ContextMenu("Stop Listen")]

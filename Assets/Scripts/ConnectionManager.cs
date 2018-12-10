@@ -94,7 +94,7 @@ namespace XFlag.Alter3Simulator
                     _connections.Add(connection.id, connection);
                 }
                 OnConnected?.Invoke(connection.id);
-                var task = Task.Run(() => WaitForCommand(connection.id, connection.tcpClient));
+                new Task(() => WaitForCommand(connection.id, connection.tcpClient)).Start();
             }
         }
 

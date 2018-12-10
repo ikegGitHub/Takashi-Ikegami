@@ -42,6 +42,18 @@ namespace XFlag.Alter3Simulator
 
             await WaitForClientConnection();
 
+            lock (_connections)
+            {
+                foreach (var connection in _connections.Values)
+                {
+                    connection.tcpClient.Close();
+                }
+            }
+            while (_connections.Count > 0)
+            {
+                await Task.Yield();
+            }
+
             Debug.Log("server stopped");
         }
 
@@ -52,6 +64,15 @@ namespace XFlag.Alter3Simulator
                 _listener.Stop();
                 _listener = null;
             }
+        }
+
+        private void OnClientDisconnected(uint clientId)
+        {
+            lock (_connections)
+            {
+                _connections.Remove(clientId);
+            }
+            OnDisconnected?.Invoke(clientId);
         }
 
         private async Task WaitForClientConnection()
@@ -68,6 +89,10 @@ namespace XFlag.Alter3Simulator
                     break;
                 }
                 var connection = new Connection { id = NextClientId, tcpClient = client };
+                lock (_connections)
+                {
+                    _connections.Add(connection.id, connection);
+                }
                 OnConnected?.Invoke(connection.id);
                 var task = Task.Run(() => WaitForCommand(connection.id, connection.tcpClient));
             }
@@ -77,32 +102,37 @@ namespace XFlag.Alter3Simulator
         {
             Debug.Log($"[{clientId}] connected endpoint={client.Client.LocalEndPoint}");
 
-            using (var stream = client.GetStream())
-            using (var reader = new StreamReader(stream, Encoding))
-            using (var writer = new StreamWriter(stream, Encoding))
+            try
             {
-                while (client.Connected)
+                using (var stream = client.GetStream())
+                using (var reader = new StreamReader(stream, Encoding))
+                using (var writer = new StreamWriter(stream, Encoding))
                 {
-                    var line = reader.ReadLine();
-                    if (line == null)
+                    while (client.Connected)
                     {
-                        Debug.Log($"[{clientId}] disconnected");
-                        break;
-                    }
-                    Debug.Log($"[{clientId}] received: {line}");
-                    var context = new RequestContext(clientId, line, writer);
-                    OnReceived?.Invoke(context);
-                    if (context.IsClose)
-                    {
-                        break;
+                        var line = reader.ReadLine();
+                        if (line == null)
+                        {
+                            Debug.Log($"[{clientId}] disconnected");
+                            break;
+                        }
+                        Debug.Log($"[{clientId}] received: {line}");
+                        var context = new RequestContext(clientId, line, writer);
+                        OnReceived?.Invoke(context);
+                        if (context.IsClose)
+                        {
+                            break;
+                        }
                     }
                 }
             }
-            client.Close();
-            client.Dispose();
-            Debug.Log($"[{clientId}] client end");
+            finally
+            {
+                client.Close();
+                Debug.Log($"[{clientId}] client end");
 
-            OnDisconnected?.Invoke(clientId);
+                OnClientDisconnected(clientId);
+            }
         }
     }
 }

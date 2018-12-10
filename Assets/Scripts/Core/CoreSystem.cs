@@ -9,7 +9,7 @@ namespace XFlag.Alter3Simulator
 
         public IReadOnlyCollection<ClientConnection> Clients => _clients.Values;
 
-        public void RegisterClient(uint clientId, IPAddress address, string type)
+        public void RegisterClient(uint clientId, IPAddress address, ClientType type)
         {
             var client = new ClientConnection(clientId, address, type);
             _clients.Add(client.Id, client);

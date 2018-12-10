@@ -12,7 +12,7 @@ public class Test : MonoBehaviour
     {
         _server.OnConnected += (id, endPoint) =>
         {
-            _coreSystem.RegisterClient(id, endPoint.Address, "User");
+            _coreSystem.RegisterClient(id, endPoint.Address, ClientType.User);
         };
         _server.OnDisconnected += _coreSystem.UnregisterClient;
         _server.OnReceived += OnReceived;

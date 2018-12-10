@@ -8,11 +8,11 @@ namespace XFlag.Alter3Simulator
 
         public IPAddress Address { get; }
 
-        public string Type { get; }
+        public ClientType Type { get; }
 
         public string Name { get; set; }
 
-        public ClientConnection(uint id, IPAddress address, string type)
+        public ClientConnection(uint id, IPAddress address, ClientType type)
         {
             Id = id;
             Address = address;

@@ -20,27 +20,29 @@ namespace XFlag.Alter3Simulator
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(RecordMotionCommand command)
         {
-            throw new System.NotImplementedException();
+            yield return "OK";
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(IsRecordingMotionCommand command)
         {
-            throw new System.NotImplementedException();
+            yield return "NOT RECORDING";
+            yield return "OK";
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(AppendAxisCommand command)
         {
-            throw new System.NotImplementedException();
+            yield return "OK";
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(RobotInfoCommand command)
         {
-            throw new System.NotImplementedException();
+            yield return "DummyRobot 0 0";
+            yield return "OK";
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(ResetPoseCommand command)
         {
-            throw new System.NotImplementedException();
+            yield return "OK";
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(HelloCommand command)
@@ -51,7 +53,7 @@ namespace XFlag.Alter3Simulator
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(GetAxisCommand command)
         {
-            throw new System.NotImplementedException();
+            yield return "OK";
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(QuitCommand command)
@@ -66,22 +68,23 @@ namespace XFlag.Alter3Simulator
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(MoveAxisCommand command)
         {
-            throw new System.NotImplementedException();
+            yield return "OK";
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(IsConnectedCommand command)
         {
-            throw new System.NotImplementedException();
+            yield return _coreSystem.IsRobotConnected ? "CONNECTED" : "NOT CONNECTED";
+            yield return "OK";
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(PrintQueueCommand command)
         {
-            throw new System.NotImplementedException();
+            yield return "OK";
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(ClearQueueCommand command)
         {
-            throw new System.NotImplementedException();
+            yield return "OK";
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(WhoAmICommand command)
@@ -92,12 +95,14 @@ namespace XFlag.Alter3Simulator
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(ConnectRobotCommand command)
         {
-            throw new System.NotImplementedException();
+            _coreSystem.IsRobotConnected = true;
+            yield return "OK";
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(DisconnectRobotCommand command)
         {
-            throw new System.NotImplementedException();
+            _coreSystem.IsRobotConnected = false;
+            yield return "OK";
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(ClientsInfoCommand command)
@@ -111,22 +116,22 @@ namespace XFlag.Alter3Simulator
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(AddAxisCommand command)
         {
-            throw new System.NotImplementedException();
+            yield return "OK";
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(PlayMotionCommand command)
         {
-            throw new System.NotImplementedException();
+            yield return "OK";
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(CalibCommand command)
         {
-            throw new System.NotImplementedException();
+            yield return "OK";
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(MoveAxesCommand command)
         {
-            throw new System.NotImplementedException();
+            yield return "OK";
         }
     }
 }

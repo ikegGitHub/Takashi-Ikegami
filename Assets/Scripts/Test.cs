@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -31,6 +32,8 @@ public class Test : MonoBehaviour
     private TextAsset _exampleSource = null;
 
     private TcpListener _listener;
+
+    private List<TcpClient> _clients = new List<TcpClient>();
 
     private void Awake()
     {
@@ -80,21 +83,35 @@ public class Test : MonoBehaviour
         _listener = new TcpListener(new IPEndPoint(IPAddress.Any, 3000));
         _listener.Start();
 
-        TcpClient client;
-        try
+        while (true)
         {
-            client = await _listener.AcceptTcpClientAsync();
-            _listener.Stop();
-        }
-        catch (ObjectDisposedException)
-        {
-            Debug.Log("stop server");
-            _listener = null;
-            return;
+            try
+            {
+                var client = await _listener.AcceptTcpClientAsync();
+                _clients.Add(client);
+                Debug.Log("Client Connected.");
+                Task.Run(() => ClientSequence(client));
+            }
+            catch (ObjectDisposedException)
+            {
+                Debug.Log("server stopped");
+                break;
+            }
         }
         _listener = null;
 
-        Debug.Log("Client Connected.");
+        lock (_clients)
+        {
+            foreach (var client in _clients)
+            {
+                client.Close();
+                client.Dispose();
+            }
+        }
+    }
+
+    private void ClientSequence(TcpClient client)
+    {
         try
         {
             using (var reader = new StreamReader(client.GetStream(), Encoding.UTF8))
@@ -102,7 +119,7 @@ public class Test : MonoBehaviour
             {
                 while (client.Connected)
                 {
-                    var line = await reader.ReadLineAsync();
+                    var line = reader.ReadLine();
                     if (line == null)
                     {
                         Debug.Log("Disconnected");
@@ -123,8 +140,8 @@ public class Test : MonoBehaviour
                     }
                     catch (Exception e)
                     {
-                        Debug.Log($"Respond: ERROR {e.Message}");
-                        writer.WriteLine($"ERROR {e.Message}");
+                        Debug.Log($"Respond: ERROR: {e.Message}");
+                        writer.WriteLine($"ERROR: {e.Message}");
                         writer.Flush();
                     }
                 }
@@ -132,8 +149,13 @@ public class Test : MonoBehaviour
         }
         finally
         {
-            client?.Close();
-            Debug.Log("Listen end.");
+            client.Close();
+            client.Dispose();
+            lock (_clients)
+            {
+                _clients.Remove(client);
+            }
+            Debug.Log("client end");
         }
     }
 }

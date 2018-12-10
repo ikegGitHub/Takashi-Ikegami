@@ -45,17 +45,18 @@ namespace XFlag.Alter3Simulator
     public partial class {type}Command : ICommand
     {{
         public void AcceptVisitor(CommandVisitorBase visitor) => visitor.Visit(this);
+
         public T AcceptVisitor<T>(CommandVisitorBase<T> visitor) => visitor.Visit(this);
     }}
 
     public partial class CommandVisitorBase
     {{
-        public virtual void Visit({type}Command command) => Visit((ICommand)command);
+        protected internal virtual void Visit({type}Command command) => Default(command);
     }}
 
     public partial class CommandVisitorBase<T>
     {{
-        public virtual T Visit({type}Command command) => Visit((ICommand)command);
+        protected internal virtual T Visit({type}Command command) => Default(command);
     }}
 }}
 ";

@@ -2,16 +2,11 @@
 {
     public partial class CommandVisitorBase
     {
-        public virtual void Visit(ICommand command)
-        {
-        }
+        protected internal virtual void Default(ICommand command) { }
     }
 
     public partial class CommandVisitorBase<T>
     {
-        public virtual T Visit(ICommand command)
-        {
-            return default(T);
-        }
+        protected internal virtual T Default(ICommand command) => default(T);
     }
 }

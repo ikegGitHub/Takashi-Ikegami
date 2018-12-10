@@ -4,16 +4,17 @@ namespace XFlag.Alter3Simulator
     public partial class ClearQueueCommand : ICommand
     {
         public void AcceptVisitor(CommandVisitorBase visitor) => visitor.Visit(this);
+
         public T AcceptVisitor<T>(CommandVisitorBase<T> visitor) => visitor.Visit(this);
     }
 
     public partial class CommandVisitorBase
     {
-        public virtual void Visit(ClearQueueCommand command) => Visit((ICommand)command);
+        protected internal virtual void Visit(ClearQueueCommand command) => Default(command);
     }
 
     public partial class CommandVisitorBase<T>
     {
-        public virtual T Visit(ClearQueueCommand command) => Visit((ICommand)command);
+        protected internal virtual T Visit(ClearQueueCommand command) => Default(command);
     }
 }

@@ -11,17 +11,17 @@ public class Test : MonoBehaviour
 {
     class SampleVisitor : CommandVisitorBase
     {
-        public override void Visit(AddAxisCommand command)
+        protected internal override void Visit(AddAxisCommand command)
         {
             Debug.Log($"AddAxis: {command}");
         }
 
-        public override void Visit(MoveAxesCommand command)
+        protected internal override void Visit(MoveAxesCommand command)
         {
             Debug.Log($"MoveAxes: {command}");
         }
 
-        public override void Visit(PrintQueueCommand command)
+        protected internal override void Visit(PrintQueueCommand command)
         {
             Debug.Log("PrintQueue!");
         }

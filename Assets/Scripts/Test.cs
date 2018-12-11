@@ -12,13 +12,24 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private string _listenAddress = "";
 
+        private ILogger _logger;
+
         private IDictionary<string, string> _config;
         private CoreSystem _coreSystem = new CoreSystem(50);
-        private ConnectionManager _server = new ConnectionManager();
+        private ConnectionManager _server;
 
         private void Awake()
         {
             _config = ConfigParser.Parse(_sampleConfig);
+
+            var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+            var logFileName = $"{timestamp}.log";
+            _logger = UnityLogger.Instance.And(new FileLogger(logFileName));
+
+            _server = new ConnectionManager
+            {
+                Logger = _logger
+            };
 
             _server.OnConnected += (id, endPoint) =>
             {

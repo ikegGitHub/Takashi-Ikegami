@@ -27,7 +27,7 @@ namespace XFlag.Alter3Simulator
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(IsRecordingMotionCommand command)
         {
-            yield return _coreSystem.IsRecording ? "RECORDING" : "NOT RECORDING";
+            yield return _coreSystem.IsRecording ? StatusText.Recording : StatusText.NotRecording;
             yield return Response.OK;
         }
 
@@ -60,7 +60,7 @@ namespace XFlag.Alter3Simulator
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(IsConnectedCommand command)
         {
-            yield return _coreSystem.IsRobotConnected ? "CONNECTED" : "NOT CONNECTED";
+            yield return _coreSystem.IsRobotConnected ? StatusText.Connected : StatusText.NotConnected;
             yield return Response.OK;
         }
 

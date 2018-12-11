@@ -1,0 +1,50 @@
+﻿## Geminoid Server configuration file
+### Server settings
+# Type of robot connected
+# use class names in communicationComponent/
+# e.g. GeminoidHI1, GeminoidHI2, GeminoidF, TelenoidR1, TelenoidR2, ...
+robot_type = GeminoidHI2
+# port numbers
+port_num_User = 11000
+port_num_Admin = 12000
+# path to motion files
+motion_dir = C:/motions
+### logging settings
+## path for storing logs
+log_dir = logs
+# TelenoidR2.sensorlog_template = R2_sensor_%s.txt
+log_template = GeminoidServer-%s.txt
+## java.util.logging settings
+## Note: java.util.logging.FileHandler is also added by default
+handlers=java.util.logging.ConsoleHandler
+java.util.logging.ConsoleHandler.level=INFO
+java.util.logging.ConsoleHandler.formatter=GeminoidServerFormatter
+java.util.logging.FileHandler.level=CONFIG
+.level=CONFIG
+### CommunicationComponent settings
+CommunicationComponent.device = COM9
+## Geminoid
+Geminoid.update_interval = 50
+Geminoid.no_scaling = true
+# Geminoid HI-1
+GeminoidHI1.num_axis = 50
+GeminoidHI1.init_vals = 107, 130, 128, 128, 128, 0, 0, 0, 0, 0, 0, 0, 0, 171, 0, 97, 0, 0, 13, 64, 188, 13, 85, 193, 166, 203, 172, 137, 156, 244, 0, 130, 0, 154, 255, 255, 211, 143, 233, 121, 122, 98, 128, 167, 130, 0, 141, 46, 32, 3
+# Geminoid F
+GeminoidF.num_axis = 12
+GeminoidF.init_vals = 128,0,0,128,128,32,0,211,211,128,0,200
+## Telenoid
+Telenoid.update_interval = 50
+Telenoid.no_scaling = false
+# Telenoid.minVals = -4500,-4500,-4900, 0,-8000, 7000, 7500, 0, 0
+# Telenoid.maxVals = 4500, 4500, 4900,-4000, 8000,-7000,-7500,-15000,15000
+# Telenoid.minVals = -4500,-4500,-4900, 0,-4000, 6000, 2000, 0, 0
+# Telenoid.maxVals = 4500, 4500, 4900,-4000, 4000,-6000,-2000,-15000,15000
+Telenoid.min_vals = -4500,-4500,-4900, 0,-4000, 6000, 2000, 0, 0
+Telenoid.max_vals = 4500, 4500, 4900,-4000, 4000,-6000,-2000,-15000,15000
+Telenoid.init_vals = 0, 0, 0, 0, 0, 0, 0, 0, 0
+## Telenoid R2
+## uncomment these to change from default values
+# TelenoidR2.calib_steps = 30
+# TelenoidR2.calib_filename = R2_calib.txt
+# TelenoidR2.record_sensor = true
+# TelenoidR2.sensorlog_template = R2_sensor_%s.txt

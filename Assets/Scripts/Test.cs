@@ -9,6 +9,9 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private TextAsset _sampleConfig = null;
 
+        [SerializeField]
+        private string _listenAddress = "";
+
         private IDictionary<string, string> _config;
         private CoreSystem _coreSystem = new CoreSystem(50);
         private ConnectionManager _server = new ConnectionManager();
@@ -33,7 +36,7 @@ namespace XFlag.Alter3Simulator
         public void StartListen()
         {
             var port = ushort.Parse(_config["port_num_User"]);
-            _server.StartServerAsync("0.0.0.0", port);
+            _server.StartServerAsync(_listenAddress, port);
         }
 
         public void StopListen()

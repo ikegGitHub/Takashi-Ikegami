@@ -625,6 +625,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sampleConfig: {fileID: 4900000, guid: deef6007aa30bbe46b7398d632fe65fa, type: 3}
+  _listenAddress: 0.0.0.0
 --- !u!4 &1532764322
 Transform:
   m_ObjectHideFlags: 0

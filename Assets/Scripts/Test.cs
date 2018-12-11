@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace XFlag.Alter3Simulator
@@ -31,15 +30,13 @@ namespace XFlag.Alter3Simulator
             StopListen();
         }
 
-        [ContextMenu("Start Listen")]
-        private async Task StartListen()
+        public void StartListen()
         {
             var port = ushort.Parse(_config["port_num_User"]);
-            await _server.StartServerAsync("0.0.0.0", port).ConfigureAwait(false);
+            _server.StartServerAsync("0.0.0.0", port);
         }
 
-        [ContextMenu("Stop Listen")]
-        private void StopListen()
+        public void StopListen()
         {
             _server.StopServer();
         }

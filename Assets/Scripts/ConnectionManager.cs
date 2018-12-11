@@ -36,6 +36,7 @@ namespace XFlag.Alter3Simulator
                 throw new ApplicationException("server already started");
             }
 
+            Debug.Log($"starting server {ipAddress}:{port}");
             _listener = new TcpListener(IPAddress.Parse(ipAddress), port);
             _listener.Start();
             Debug.Log("server started");

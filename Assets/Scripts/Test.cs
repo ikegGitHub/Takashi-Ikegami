@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -6,11 +7,17 @@ namespace XFlag.Alter3Simulator
 {
     public class Test : MonoBehaviour
     {
+        [SerializeField]
+        private TextAsset _sampleConfig = null;
+
+        private IDictionary<string, string> _config;
         private CoreSystem _coreSystem = new CoreSystem(50);
         private ConnectionManager _server = new ConnectionManager();
 
         private void Awake()
         {
+            _config = ConfigParser.Parse(_sampleConfig);
+
             _server.OnConnected += (id, endPoint) =>
             {
                 _coreSystem.RegisterClient(id, endPoint.Address, ClientType.User);
@@ -27,7 +34,8 @@ namespace XFlag.Alter3Simulator
         [ContextMenu("Start Listen")]
         private async Task StartListen()
         {
-            await _server.StartServerAsync("0.0.0.0", 3000).ConfigureAwait(false);
+            var port = ushort.Parse(_config["port_num_User"]);
+            await _server.StartServerAsync("0.0.0.0", port).ConfigureAwait(false);
         }
 
         [ContextMenu("Stop Listen")]

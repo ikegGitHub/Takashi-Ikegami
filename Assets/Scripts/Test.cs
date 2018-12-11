@@ -48,7 +48,6 @@ namespace XFlag.Alter3Simulator
                     Debug.Log($"[{context.ClientId}] {responseLine}");
                     context.ResponseWriter.WriteLine(responseLine);
                 }
-                context.ResponseWriter.Flush();
                 if (command is QuitCommand)
                 {
                     context.IsClose = true;
@@ -58,8 +57,8 @@ namespace XFlag.Alter3Simulator
             {
                 Debug.Log($"[{context.ClientId}] respond: ERROR: {e.Message}");
                 context.ResponseWriter.WriteLine(Response.MakeErrorResponse(e.Message));
-                context.ResponseWriter.Flush();
             }
+            context.ResponseWriter.Flush();
         }
     }
 }

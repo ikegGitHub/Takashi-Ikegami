@@ -51,6 +51,7 @@ namespace XFlag.Alter3Simulator
         {
             var command = _commandInput.text;
             _commandInput.text = "";
+            _commandInput.ActivateInputField();
 
             _writer.WriteLine(command);
             _writer.Flush();

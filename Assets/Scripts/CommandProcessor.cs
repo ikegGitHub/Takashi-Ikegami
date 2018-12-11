@@ -16,80 +16,80 @@ namespace XFlag.Alter3Simulator
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(HelpCommand command)
         {
-            yield return "OK";
+            yield return Response.OK;
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(RecordMotionCommand command)
         {
             _coreSystem.IsRecording = !command.IsStop;
-            yield return "OK";
+            yield return Response.OK;
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(IsRecordingMotionCommand command)
         {
             yield return _coreSystem.IsRecording ? "RECORDING" : "NOT RECORDING";
-            yield return "OK";
+            yield return Response.OK;
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(RobotInfoCommand command)
         {
             yield return "DummyRobot 0 0";
-            yield return "OK";
+            yield return Response.OK;
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(ResetPoseCommand command)
         {
-            yield return "OK";
+            yield return Response.OK;
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(HelloCommand command)
         {
             _coreSystem.SetClientName(_clientId, command.ClientName);
-            yield return "OK";
+            yield return Response.OK;
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(QuitCommand command)
         {
-            yield return "OK";
+            yield return Response.OK;
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(NoopCommand command)
         {
-            yield return "OK";
+            yield return Response.OK;
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(IsConnectedCommand command)
         {
             yield return _coreSystem.IsRobotConnected ? "CONNECTED" : "NOT CONNECTED";
-            yield return "OK";
+            yield return Response.OK;
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(ConnectRobotCommand command)
         {
             _coreSystem.IsRobotConnected = true;
-            yield return "OK";
+            yield return Response.OK;
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(DisconnectRobotCommand command)
         {
             _coreSystem.IsRobotConnected = false;
-            yield return "OK";
+            yield return Response.OK;
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(PrintQueueCommand command)
         {
-            yield return "OK";
+            yield return Response.OK;
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(ClearQueueCommand command)
         {
-            yield return "OK";
+            yield return Response.OK;
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(WhoAmICommand command)
         {
             yield return _coreSystem.GetClient(_clientId).ToString();
-            yield return "OK";
+            yield return Response.OK;
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(ClientsInfoCommand command)
@@ -98,7 +98,7 @@ namespace XFlag.Alter3Simulator
             {
                 yield return client.ToString();
             }
-            yield return "OK";
+            yield return Response.OK;
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(GetAxisCommand command)
@@ -112,49 +112,49 @@ namespace XFlag.Alter3Simulator
                 var axisValue = _coreSystem.GetAxis(command.AxisNumber);
                 yield return axisValue.ToString();
             }
-            yield return "OK";
+            yield return Response.OK;
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(AppendAxisCommand command)
         {
-            yield return "OK";
+            yield return Response.OK;
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(AddAxisCommand command)
         {
-            yield return "OK";
+            yield return Response.OK;
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(MoveAxisCommand command)
         {
             if (!_coreSystem.IsRobotConnected)
             {
-                yield return "ERROR: Not connected to robot";
+                yield return Response.MakeErrorResponse("Not connected to robot");
                 yield break;
             }
 
-            yield return "OK";
+            yield return Response.OK;
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(MoveAxesCommand command)
         {
             if (!_coreSystem.IsRobotConnected)
             {
-                yield return "ERROR: Not connected to robot";
+                yield return Response.MakeErrorResponse("Not connected to robot");
                 yield break;
             }
 
-            yield return "OK";
+            yield return Response.OK;
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(PlayMotionCommand command)
         {
-            yield return "OK";
+            yield return Response.OK;
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(CalibCommand command)
         {
-            yield return "OK";
+            yield return Response.OK;
         }
     }
 }

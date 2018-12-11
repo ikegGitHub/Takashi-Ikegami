@@ -57,7 +57,7 @@ namespace XFlag.Alter3Simulator
             catch (Exception e)
             {
                 Debug.Log($"[{context.ClientId}] respond: ERROR: {e.Message}");
-                context.ResponseWriter.WriteLine($"ERROR: {e.Message}");
+                context.ResponseWriter.WriteLine(Response.MakeErrorResponse(e.Message));
                 context.ResponseWriter.Flush();
             }
         }

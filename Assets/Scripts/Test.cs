@@ -53,8 +53,7 @@ namespace XFlag.Alter3Simulator
                 var command = parser.ParseCommandLine(context.ReceivedString);
                 foreach (var responseLine in command.AcceptVisitor(processor))
                 {
-                    Debug.Log($"[{context.ClientId}] {responseLine}");
-                    context.ResponseWriter.WriteLine(responseLine);
+                    context.AppendResponseLine(responseLine);
                 }
                 if (command is QuitCommand)
                 {
@@ -63,10 +62,8 @@ namespace XFlag.Alter3Simulator
             }
             catch (Exception e)
             {
-                Debug.Log($"[{context.ClientId}] respond: ERROR: {e.Message}");
-                context.ResponseWriter.WriteLine(Response.MakeErrorResponse(e.Message));
+                context.AppendResponseLine(Response.MakeErrorResponse(e.Message));
             }
-            context.ResponseWriter.Flush();
         }
     }
 }

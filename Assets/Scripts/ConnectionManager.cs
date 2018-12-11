@@ -117,9 +117,15 @@ namespace XFlag.Alter3Simulator
                             Debug.Log($"[{clientId}] disconnected");
                             break;
                         }
-                        Debug.Log($"[{clientId}] received: {line}");
-                        var context = new RequestContext(clientId, (IPEndPoint)client.Client.LocalEndPoint, line, writer);
+                        Debug.Log($"[{clientId}](req) {line}");
+                        var context = new RequestContext(clientId, (IPEndPoint)client.Client.LocalEndPoint, line);
                         OnReceived?.Invoke(context);
+                        foreach (var res in context.ResponseLines)
+                        {
+                            Debug.Log($"[{clientId}](res) {res}");
+                            writer.WriteLine(res);
+                        }
+                        writer.Flush();
                         if (context.IsClose)
                         {
                             break;

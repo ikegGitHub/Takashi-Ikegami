@@ -1,4 +1,5 @@
-﻿using SyntaxTree.VisualStudio.Unity.Bridge;
+﻿#if UNITY_EDITOR_WIN
+using SyntaxTree.VisualStudio.Unity.Bridge;
 using System;
 using System.Linq;
 using UnityEditor;
@@ -28,3 +29,4 @@ namespace XFlag.Alter3SimulatorEditor
         }
     }
 }
+#endif

@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Net;
+﻿using System.IO;
 using System.Net.Sockets;
 using System.Text;
-using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,6 +31,11 @@ namespace XFlag.Alter3Simulator
 
         public void Connect()
         {
+            if (_client != null)
+            {
+                return;
+            }
+
             _client = new TcpClient(_addressInput.text, int.Parse(_portInput.text));
             var stream = _client.GetStream();
             _writer = new StreamWriter(stream, Encoding);
@@ -45,6 +47,9 @@ namespace XFlag.Alter3Simulator
         public void Disconnect()
         {
             _client.Close();
+            _client = null;
+            _writer = null;
+            _reader = null;
         }
 
         public void Submit()
@@ -53,6 +58,7 @@ namespace XFlag.Alter3Simulator
             _commandInput.text = "";
             _commandInput.ActivateInputField();
 
+            AppendLine($"(req) {command}");
             _writer.WriteLine(command);
             _writer.Flush();
 
@@ -60,7 +66,7 @@ namespace XFlag.Alter3Simulator
             while ((line = _reader.ReadLine()) != null)
             {
                 line = line.Trim();
-                AppendLine(line);
+                AppendLine($"(res) {line}");
                 if (line == "OK" || line.StartsWith("ERROR: "))
                 {
                     break;

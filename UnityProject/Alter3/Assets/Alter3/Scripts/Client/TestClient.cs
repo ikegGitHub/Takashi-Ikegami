@@ -10,6 +10,7 @@ namespace XFlag.Alter3Simulator
     public class TestClient : MonoBehaviour
     {
         private static readonly Encoding Encoding = new UTF8Encoding(false, false);
+
         [SerializeField]
         private InputField _addressInput = null;
 
@@ -36,24 +37,39 @@ namespace XFlag.Alter3Simulator
                 return;
             }
 
-            _client = new TcpClient(_addressInput.text, int.Parse(_portInput.text));
-            var stream = _client.GetStream();
-            _writer = new StreamWriter(stream, Encoding);
-            _reader = new StreamReader(stream, Encoding);
+            try
+            {
+                _client = new TcpClient(_addressInput.text, int.Parse(_portInput.text));
+                var stream = _client.GetStream();
+                _writer = new StreamWriter(stream, Encoding);
+                _reader = new StreamReader(stream, Encoding);
 
-            AppendLine("connected");
+                AppendLine("connected");
+            }
+            catch (SocketException)
+            {
+                AppendLine("failed to connect");
+            }
         }
 
         public void Disconnect()
         {
-            _client.Close();
-            _client = null;
-            _writer = null;
-            _reader = null;
+            if (_client != null)
+            {
+                _client.Close();
+                _client = null;
+                _writer = null;
+                _reader = null;
+            }
         }
 
         public void Submit()
         {
+            if (_client == null)
+            {
+                AppendLine("not connected");
+            }
+
             var command = _commandInput.text;
             _commandInput.text = "";
             _commandInput.ActivateInputField();

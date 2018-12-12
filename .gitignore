@@ -42,3 +42,7 @@ sysinfo.txt
 
 # Logs
 *.log
+
+# Misc
+.DS_Store
+*~

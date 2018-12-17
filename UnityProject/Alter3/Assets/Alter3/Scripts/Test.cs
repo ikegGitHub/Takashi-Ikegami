@@ -24,7 +24,7 @@ namespace XFlag.Alter3Simulator
 
             var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
             var logFileName = $"{timestamp}.log";
-            _logger = UnityLogger.Instance.And(new FileLogger(logFileName));
+            _logger = new Logger(Debug.unityLogger.And(new FileLogger(logFileName)));
 
             _server = new ConnectionManager
             {

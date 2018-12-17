@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace XFlag.Alter3Simulator
 {
@@ -37,10 +38,10 @@ namespace XFlag.Alter3Simulator
                 throw new ApplicationException("server already started");
             }
 
-            Logger.Info($"starting server {ipAddress}:{port}");
+            Logger.Log($"starting server {ipAddress}:{port}");
             _listener = new TcpListener(IPAddress.Parse(ipAddress), port);
             _listener.Start();
-            Logger.Info("server started");
+            Logger.Log("server started");
 
             await WaitForClientConnection();
 
@@ -56,7 +57,7 @@ namespace XFlag.Alter3Simulator
                 await Task.Yield();
             }
 
-            Logger.Info("server stopped");
+            Logger.Log("server stopped");
         }
 
         public void StopServer()
@@ -102,7 +103,7 @@ namespace XFlag.Alter3Simulator
 
         private void WaitForCommand(uint clientId, TcpClient client)
         {
-            Logger.Info($"[{clientId}] connected endpoint={client.Client.LocalEndPoint}");
+            Logger.Log($"[{clientId}] connected endpoint={client.Client.LocalEndPoint}");
 
             try
             {
@@ -115,15 +116,15 @@ namespace XFlag.Alter3Simulator
                         var line = reader.ReadLine();
                         if (line == null)
                         {
-                            Logger.Info($"[{clientId}] disconnected");
+                            Logger.Log($"[{clientId}] disconnected");
                             break;
                         }
-                        Logger.Info($"[{clientId}](req) {line}");
+                        Logger.Log($"[{clientId}](req) {line}");
                         var context = new RequestContext(clientId, (IPEndPoint)client.Client.LocalEndPoint, line);
                         OnReceived?.Invoke(context);
                         foreach (var res in context.ResponseLines)
                         {
-                            Logger.Info($"[{clientId}](res) {res}");
+                            Logger.Log($"[{clientId}](res) {res}");
                             writer.WriteLine(res);
                         }
                         writer.Flush();
@@ -137,7 +138,7 @@ namespace XFlag.Alter3Simulator
             finally
             {
                 client.Close();
-                Logger.Info($"[{clientId}] client end");
+                Logger.Log($"[{clientId}] client end");
 
                 OnClientDisconnected(clientId);
             }

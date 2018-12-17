@@ -1,26 +1,29 @@
-﻿namespace XFlag.Alter3Simulator
-{
-    public class CombineLogger : ILogger
-    {
-        private readonly ILogger _logger1;
-        private readonly ILogger _logger2;
+﻿using System;
+using UnityEngine;
 
-        public CombineLogger(ILogger logger1, ILogger logger2)
+namespace XFlag.Alter3Simulator
+{
+    public class CombineLogger : ILogHandler
+    {
+        private readonly ILogHandler _logger1;
+        private readonly ILogHandler _logger2;
+
+        public CombineLogger(ILogHandler logger1, ILogHandler logger2)
         {
             _logger1 = logger1;
             _logger2 = logger2;
         }
 
-        public void Info(string message)
+        public void LogFormat(LogType logType, UnityEngine.Object context, string format, params object[] args)
         {
-            _logger1.Info(message);
-            _logger2.Info(message);
+            _logger1.LogFormat(logType, context, format, args);
+            _logger2.LogFormat(logType, context, format, args);
         }
 
-        public void Error(string message)
+        public void LogException(Exception exception, UnityEngine.Object context)
         {
-            _logger1.Error(message);
-            _logger2.Error(message);
+            _logger1.LogException(exception, context);
+            _logger2.LogException(exception, context);
         }
     }
 }

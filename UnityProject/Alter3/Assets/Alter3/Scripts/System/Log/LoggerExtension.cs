@@ -1,8 +1,10 @@
-﻿namespace XFlag.Alter3Simulator
+﻿using UnityEngine;
+
+namespace XFlag.Alter3Simulator
 {
     public static class LoggerExtension
     {
-        public static ILogger And(this ILogger logger, ILogger anotherLogger)
+        public static ILogHandler And(this ILogHandler logger, ILogHandler anotherLogger)
         {
             return new CombineLogger(logger, anotherLogger);
         }

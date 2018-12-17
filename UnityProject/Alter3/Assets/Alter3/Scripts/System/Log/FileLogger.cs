@@ -1,10 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using UnityEngine;
 
 namespace XFlag.Alter3Simulator
 {
-    public class FileLogger : ILogger, IDisposable
+    public class FileLogger : ILogHandler, IDisposable
     {
         private TextWriter _writer;
 
@@ -13,15 +14,15 @@ namespace XFlag.Alter3Simulator
             _writer = new StreamWriter(filePath, append, new UTF8Encoding(false, false));
         }
 
-        public void Info(string message)
+        public void LogFormat(LogType logType, UnityEngine.Object context, string format, params object[] args)
         {
-            _writer.WriteLine($"l:INFO\tt:{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}\tm:{message}");
+            _writer.WriteLine($"l:{logType}\tt:{LogUtil.Timestamp()}\tm:{string.Format(format, args)}");
             _writer.Flush();
         }
 
-        public void Error(string message)
+        public void LogException(Exception exception, UnityEngine.Object context)
         {
-            _writer.WriteLine($"l:ERROR\tt:{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}\tm:{message}");
+            _writer.WriteLine($"l:{LogType.Exception}\tt:{LogUtil.Timestamp()}\tm:{exception.Message}");
             _writer.Flush();
         }
 
@@ -31,7 +32,7 @@ namespace XFlag.Alter3Simulator
         }
 
         #region IDisposable Support
-        private bool disposedValue = false; // 重複する呼び出しを検出するには
+        private bool disposedValue = false;
 
         protected virtual void Dispose(bool disposing)
         {

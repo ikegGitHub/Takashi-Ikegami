@@ -11,6 +11,11 @@ namespace XFlag.Alter3Simulator
 
         public FileLogger(string filePath, bool append = false)
         {
+            var dirname = Path.GetDirectoryName(filePath);
+            if (!Directory.Exists(dirname))
+            {
+                Directory.CreateDirectory(dirname);
+            }
             _writer = new StreamWriter(filePath, append, new UTF8Encoding(false, false));
         }
 

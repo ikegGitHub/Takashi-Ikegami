@@ -40,7 +40,7 @@ namespace XFlag.Alter3Simulator
             _config = ConfigParser.Parse(_sampleConfig);
 
             var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
-            var logFileName = $"{timestamp}.log";
+            var logFileName = $"Logs/{timestamp}.log";
             _logger = new Logger(Debug.unityLogger.And(new FileLogger(logFileName)));
 
             _server = new ConnectionManager

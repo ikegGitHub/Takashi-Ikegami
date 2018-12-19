@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Threading;
+using TMPro;
 using UnityEngine;
 
 namespace XFlag.Alter3Simulator
@@ -12,14 +16,24 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private string _listenAddress = "";
 
+        [SerializeField]
+        private TMP_Text _serverStatusText = null;
+
+        [SerializeField]
+        private TMP_Text _clientListText = null;
+
         private ILogger _logger;
 
         private IDictionary<string, string> _config;
         private CoreSystem _coreSystem = new CoreSystem(50);
         private ConnectionManager _server;
 
+        private SynchronizationContext _context;
+
         private void Awake()
         {
+            _context = SynchronizationContext.Current;
+
             _config = ConfigParser.Parse(_sampleConfig);
 
             var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
@@ -31,11 +45,8 @@ namespace XFlag.Alter3Simulator
                 Logger = _logger
             };
 
-            _server.OnConnected += (id, endPoint) =>
-            {
-                _coreSystem.RegisterClient(id, endPoint.Address, ClientType.User);
-            };
-            _server.OnDisconnected += _coreSystem.UnregisterClient;
+            _server.OnConnected += OnClientConnected;
+            _server.OnDisconnected += OnClientDisconnected;
             _server.OnReceived += OnReceived;
         }
 
@@ -48,11 +59,33 @@ namespace XFlag.Alter3Simulator
         {
             var port = ushort.Parse(_config["port_num_User"]);
             _server.StartServerAsync(_listenAddress, port);
+            _serverStatusText.text = $"server started {_listenAddress}:{port}";
         }
 
         public void StopListen()
         {
             _server.StopServer();
+            _serverStatusText.text = "server stopped";
+        }
+
+        private void UpdateClientListText()
+        {
+            _context.Post(state =>
+            {
+                _clientListText.text = _coreSystem.Clients.Aggregate("", (str, c) => $"{str}\n{c}");
+            }, null);
+        }
+
+        private void OnClientConnected(uint clientId, IPEndPoint ipEndPoint)
+        {
+            _coreSystem.RegisterClient(clientId, ipEndPoint.Address, ClientType.User);
+            UpdateClientListText();
+        }
+
+        private void OnClientDisconnected(uint clientId)
+        {
+            _coreSystem.UnregisterClient(clientId);
+            UpdateClientListText();
         }
 
         private void OnReceived(RequestContext context)

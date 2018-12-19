@@ -17,6 +17,11 @@ namespace XFlag.Alter3Simulator
 
         public IReadOnlyList<double> Axes => _axes;
 
+        /// <summary>
+        /// 接続されているロボット。接続されていない場合は<code>null</code>。
+        /// </summary>
+        public IRobot Robot { get; set; }
+
         public CoreSystem(int axisCount)
         {
             _axes = new double[axisCount];

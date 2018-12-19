@@ -31,7 +31,7 @@ namespace XFlag.Alter3Simulator
         public event Action<uint> OnDisconnected;
         public event Action<RequestContext> OnReceived;
 
-        public async Task StartServerAsync(string ipAddress, ushort port)
+        public void StartServerAsync(string ipAddress, ushort port)
         {
             if (_listener != null)
             {
@@ -41,23 +41,8 @@ namespace XFlag.Alter3Simulator
             Logger.Log($"starting server {ipAddress}:{port}");
             _listener = new TcpListener(IPAddress.Parse(ipAddress), port);
             _listener.Start();
-            Logger.Log("server started");
 
-            await WaitForClientConnection();
-
-            lock (_connections)
-            {
-                foreach (var connection in _connections.Values)
-                {
-                    connection.tcpClient.Close();
-                }
-            }
-            while (_connections.Count > 0)
-            {
-                await Task.Yield();
-            }
-
-            Logger.Log("server stopped");
+            Task.Factory.StartNew(WaitForClientConnection, TaskCreationOptions.LongRunning);
         }
 
         public void StopServer()
@@ -65,7 +50,22 @@ namespace XFlag.Alter3Simulator
             if (_listener != null)
             {
                 _listener.Stop();
+                _listener.Server.Close();
                 _listener = null;
+
+                CloseClientConnections();
+            }
+        }
+
+        private void CloseClientConnections()
+        {
+            lock (_connections)
+            {
+                foreach (var connection in _connections.Values)
+                {
+                    connection.tcpClient.Close();
+                }
+                _connections.Clear();
             }
         }
 
@@ -78,27 +78,36 @@ namespace XFlag.Alter3Simulator
             OnDisconnected?.Invoke(clientId);
         }
 
-        private async Task WaitForClientConnection()
+        private void WaitForClientConnection()
         {
+            Logger.Log("server started");
             while (true)
             {
                 TcpClient client;
                 try
                 {
-                    client = await _listener.AcceptTcpClientAsync();
+                    Logger.Log("start accept");
+                    client = _listener.AcceptTcpClient();
+                    Logger.Log("connected");
                 }
-                catch (ObjectDisposedException)
+                catch (SocketException)
                 {
                     break;
                 }
-                var connection = new Connection { id = NextClientId, tcpClient = client };
-                lock (_connections)
-                {
-                    _connections.Add(connection.id, connection);
-                }
-                OnConnected?.Invoke(connection.id, (IPEndPoint)client.Client.LocalEndPoint);
-                new Task(() => WaitForCommand(connection.id, connection.tcpClient)).Start();
+                StartClient(client);
             }
+            Logger.Log("server stopped");
+        }
+
+        private void StartClient(TcpClient tcpClient)
+        {
+            var connection = new Connection { id = NextClientId, tcpClient = tcpClient };
+            lock (_connections)
+            {
+                _connections.Add(connection.id, connection);
+            }
+            OnConnected?.Invoke(connection.id, (IPEndPoint)tcpClient.Client.LocalEndPoint);
+            Task.Factory.StartNew(() => WaitForCommand(connection.id, connection.tcpClient), TaskCreationOptions.LongRunning);
         }
 
         private void WaitForCommand(uint clientId, TcpClient client)

@@ -86,9 +86,7 @@ namespace XFlag.Alter3Simulator
                 TcpClient client;
                 try
                 {
-                    Logger.Log("start accept");
                     client = _listener.AcceptTcpClient();
-                    Logger.Log("connected");
                 }
                 catch (SocketException)
                 {
@@ -110,17 +108,17 @@ namespace XFlag.Alter3Simulator
             Task.Factory.StartNew(() => WaitForCommand(connection.id, connection.tcpClient), TaskCreationOptions.LongRunning);
         }
 
-        private void WaitForCommand(uint clientId, TcpClient client)
+        private void WaitForCommand(uint clientId, TcpClient tcpClient)
         {
-            Logger.Log($"[{clientId}] connected endpoint={client.Client.LocalEndPoint}");
+            Logger.Log($"[{clientId}] connected LocalEndPoint={tcpClient.Client.LocalEndPoint}, RemoteEndPoint={tcpClient.Client.RemoteEndPoint}");
 
             try
             {
-                using (var stream = client.GetStream())
+                using (var stream = tcpClient.GetStream())
                 using (var reader = new StreamReader(stream, Encoding))
                 using (var writer = new StreamWriter(stream, Encoding))
                 {
-                    while (client.Connected)
+                    while (tcpClient.Connected)
                     {
                         var line = reader.ReadLine();
                         if (line == null)
@@ -128,15 +126,21 @@ namespace XFlag.Alter3Simulator
                             Logger.Log($"[{clientId}] disconnected");
                             break;
                         }
+
                         Logger.Log($"[{clientId}](req) {line}");
-                        var context = new RequestContext(clientId, (IPEndPoint)client.Client.LocalEndPoint, line);
+
+                        var ipEndPoint = (IPEndPoint)tcpClient.Client.RemoteEndPoint;
+                        var context = new RequestContext(clientId, ipEndPoint, line);
+
                         OnReceived?.Invoke(context);
+
                         foreach (var res in context.ResponseLines)
                         {
                             Logger.Log($"[{clientId}](res) {res}");
                             writer.WriteLine(res);
                         }
                         writer.Flush();
+
                         if (context.IsClose)
                         {
                             break;
@@ -146,7 +150,7 @@ namespace XFlag.Alter3Simulator
             }
             finally
             {
-                client.Close();
+                tcpClient.Close();
                 Logger.Log($"[{clientId}] client end");
 
                 OnClientDisconnected(clientId);

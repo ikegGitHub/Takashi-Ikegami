@@ -22,6 +22,9 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private TMP_Text _clientListText = null;
 
+        [SerializeField]
+        private LampView _serverStatusLamp = null;
+
         private ILogger _logger;
 
         private IDictionary<string, string> _config;
@@ -60,12 +63,14 @@ namespace XFlag.Alter3Simulator
             var port = ushort.Parse(_config["port_num_User"]);
             _server.StartServerAsync(_listenAddress, port);
             _serverStatusText.text = $"server started {_listenAddress}:{port}";
+            _serverStatusLamp.IsOn = true;
         }
 
         public void StopListen()
         {
             _server.StopServer();
             _serverStatusText.text = "server stopped";
+            _serverStatusLamp.IsOn = false;
         }
 
         private void UpdateClientListText()

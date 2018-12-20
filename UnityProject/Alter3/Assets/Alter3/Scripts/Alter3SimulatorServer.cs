@@ -30,6 +30,7 @@ namespace XFlag.Alter3Simulator
         private IDictionary<string, string> _config;
         private CoreSystem _coreSystem = new CoreSystem(50);
         private ConnectionManager _server;
+        private CommandParser _commandParser = new CommandParser();
 
         private SynchronizationContext _context;
 
@@ -95,11 +96,10 @@ namespace XFlag.Alter3Simulator
 
         private void OnReceived(RequestContext context)
         {
-            var parser = new CommandParser();
             var processor = new CommandProcessor(_coreSystem, context.ClientId);
             try
             {
-                var command = parser.ParseCommandLine(context.ReceivedString);
+                var command = _commandParser.ParseCommandLine(context.ReceivedString);
                 foreach (var responseLine in command.AcceptVisitor(processor))
                 {
                     context.AppendResponseLine(responseLine);

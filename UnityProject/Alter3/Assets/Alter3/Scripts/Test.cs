@@ -55,7 +55,7 @@ namespace XFlag.Alter3Simulator
 
         private void OnDestroy()
         {
-            StopListen();
+            _server.StopServer();
         }
 
         public void StartListen()

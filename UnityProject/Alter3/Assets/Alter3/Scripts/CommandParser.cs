@@ -21,30 +21,30 @@ namespace XFlag.Alter3Simulator
             switch (command)
             {
                 case "ADDAXIS": // <<ADDAXIS>> ::= "ADDAXIS" <<GENERIC_PARAMS>>
-                    return new AddAxisCommand { Param = ParseGenericAxisArgs(args) };
+                    return CommandFactory.CreateAddAxisCommand(ParseGenericAxisArgs(args));
                 case "APPENDAXIS": // <<APPENDAXIS>> ::= "APPENDAXIS" <<GENERIC_PARAMS>>
-                    return new AppendAxisCommand { Param = ParseGenericAxisArgs(args) };
+                    return CommandFactory.CreateAppendAxisCommand(ParseGenericAxisArgs(args));
                 case "GETAXIS": // <<GETAXIS>> ::= "GETAXIS" [<AXIS_NUM>]
                     if (args.Length == 1)
                     {
-                        return new GetAxisCommand();
+                        return CommandFactory.CreateGetAxisCommand(0);
                     }
                     else if (args.Length == 2)
                     {
                         var axisNum = ParseAxisNum(args[1]);
-                        return new GetAxisCommand { AxisNumber = axisNum };
+                        return CommandFactory.CreateGetAxisCommand(axisNum);
                     }
                     break;
                 case "HELLO": // <<HELLO>> ::= "HELLO" <STRING>
-                    return new HelloCommand { ClientName = args[1] };
+                    return CommandFactory.CreateHelloCommand(args[1]);
                 case "HELP":
-                    return new HelpCommand();
+                    return CommandFactory.CreateHelpCommand();
                 case "MOVEAXIS": // <<MOVEAXIS>> ::= "MOVEAXIS" <<GENERIC_PARAMS>>
-                    return new MoveAxisCommand { Param = ParseGenericAxisArgs(args) };
+                    return CommandFactory.CreateMoveAxisCommand(ParseGenericAxisArgs(args));
                 case "MOVEAXES": // <<MOVEAXES>> ::= "MOVEAXES" <<MOVEAXES_PARAMS>> {<<MOVEAXES_PARAMS>>}
-                    return new MoveAxesCommand { Params = ParseMultipleAxisArgs(args) };
+                    return CommandFactory.CreateMoveAxesCommand(ParseMultipleAxisArgs(args));
                 case "NOOP":
-                    return new NoopCommand();
+                    return CommandFactory.CreateNoopCommand();
                 case "PLAYMOTION": // <<PLAYMOTION>> ::= "PLAYMOTION" ["CLEAR"] <STRING> [<PRIORITY>]
                     var offset = 0;
                     var clear = false;
@@ -59,59 +59,59 @@ namespace XFlag.Alter3Simulator
                     {
                         priority = ParsePriority(args[offset + 2]);
                     }
-                    return new PlayMotionCommand { IsClear = clear, Path = path, Priority = priority };
+                    return CommandFactory.CreatePlayMotionCommand(clear, path, priority);
                 case "PRINTQUEUE": // <<PRINTQUEUE>> ::= "PRINTQUEUE" [<AXIS_NUM>]
                     if (args.Length == 1)
                     {
-                        return new PrintQueueCommand();
+                        return CommandFactory.CreatePrintQueueCommand(0);
                     }
                     else if (args.Length == 2)
                     {
                         var axisNum = ParseAxisNum(args[1]);
-                        return new PrintQueueCommand { AxisNumber = axisNum };
+                        return CommandFactory.CreatePrintQueueCommand(axisNum);
                     }
                     break;
                 case "QUIT":
                 case "BYE": // <<QUIT_BYE>> ::= "QUIT" | "BYE"
-                    return new QuitCommand();
+                    return CommandFactory.CreateQuitCommand();
                 case "CLEARQUEUE": // <<CLEARQUEUE>> ::= "CLEARQUEUE" [<AXIS_NUM>]
                     if (args.Length == 1)
                     {
-                        return new ClearQueueCommand();
+                        return CommandFactory.CreateClearQueueCommand(0);
                     }
                     else if (args.Length == 2)
                     {
                         var axisNum = ParseAxisNum(args[1]);
-                        return new ClearQueueCommand { AxisNumber = axisNum };
+                        return CommandFactory.CreateClearQueueCommand(axisNum);
                     }
                     break;
                 case "CLIENTSINFO":
-                    return new ClientsInfoCommand();
+                    return CommandFactory.CreateClientsInfoCommand();
                 case "CONNECTROBOT":
-                    return new ConnectRobotCommand();
+                    return CommandFactory.CreateConnectRobotCommand();
                 case "DISCONNECTROBOT":
-                    return new DisconnectRobotCommand();
+                    return CommandFactory.CreateDisconnectRobotCommand();
                 case "ISCONNECTED":
-                    return new IsConnectedCommand();
+                    return CommandFactory.CreateIsConnectedCommand();
                 case "ISRECORDINGMOTION":
-                    return new IsRecordingMotionCommand();
+                    return CommandFactory.CreateIsRecordingMotionCommand();
                 case "RECORDMOTION": // <<RECORDMOTION>> ::= "RECORDMOTION" ("START" | "STOP")
                     switch (args[1].ToUpper())
                     {
                         case "START":
-                            return new RecordMotionCommand { IsStop = false };
+                            return CommandFactory.CreateRecordMotionCommand(false);
                         case "STOP":
-                            return new RecordMotionCommand { IsStop = true };
+                            return CommandFactory.CreateRecordMotionCommand(true);
                     }
                     break;
                 case "RESETPOSE":
-                    return new ResetPoseCommand();
+                    return CommandFactory.CreateResetPoseCommand();
                 case "ROBOTINFO":
-                    return new RobotInfoCommand();
+                    return CommandFactory.CreateRobotInfoCommand();
                 case "WHOAMI":
-                    return new WhoAmICommand();
+                    return CommandFactory.CreateWhoAmICommand();
                 case "CALIB":
-                    return new CalibCommand();
+                    return CommandFactory.CreateCalibCommand();
             }
 
             throw new ApplicationException($"unknown command: '{command}'");

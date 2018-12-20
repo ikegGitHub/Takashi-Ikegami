@@ -88,8 +88,12 @@ namespace XFlag.Alter3Simulator
                 {
                     client = _listener.AcceptTcpClient();
                 }
-                catch (SocketException)
+                catch (SocketException e)
                 {
+                    if (e.SocketErrorCode != SocketError.Interrupted)
+                    {
+                        Logger.LogException(e);
+                    }
                     break;
                 }
                 StartClient(client);
@@ -147,6 +151,10 @@ namespace XFlag.Alter3Simulator
                         }
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                Logger.LogException(e);
             }
             finally
             {

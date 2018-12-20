@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace XFlag.Alter3Simulator
 {
-    public class Test : MonoBehaviour
+    public class Alter3SimulatorServer : MonoBehaviour
     {
         [SerializeField]
         private TextAsset _sampleConfig = null;

@@ -1,2 +1,4 @@
-# alter3-simulator
- - Unity2018.2.17f1
+﻿Alter3 Simulator
+================
+
+開発環境などの情報は[Wiki](https://github.com/xflagstudio/alter3-simulator/wiki)を参照してください。

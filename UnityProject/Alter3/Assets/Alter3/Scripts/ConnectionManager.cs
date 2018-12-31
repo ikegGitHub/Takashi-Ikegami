@@ -27,7 +27,7 @@ namespace XFlag.Alter3Simulator
             _clientIdSequencer = clientIdSequencer;
         }
 
-        public void StartServerAsync(string ipAddress, ushort port)
+        public Task StartServerAsync(string ipAddress, ushort port)
         {
             if (_listener != null)
             {
@@ -38,7 +38,7 @@ namespace XFlag.Alter3Simulator
             _listener = new TcpListener(IPAddress.Parse(ipAddress), port);
             _listener.Start();
 
-            Task.Factory.StartNew(WaitForClientConnection, TaskCreationOptions.LongRunning);
+            return WaitForClientConnection();
         }
 
         public void StopServer()
@@ -76,7 +76,7 @@ namespace XFlag.Alter3Simulator
             OnDisconnected?.Invoke(client.Id);
         }
 
-        private void WaitForClientConnection()
+        private async Task WaitForClientConnection()
         {
             Logger.Log("server started");
             while (true)
@@ -84,14 +84,10 @@ namespace XFlag.Alter3Simulator
                 TcpClient client;
                 try
                 {
-                    client = _listener.AcceptTcpClient();
+                    client = await _listener.AcceptTcpClientAsync();
                 }
-                catch (SocketException e)
+                catch (ObjectDisposedException)
                 {
-                    if (e.SocketErrorCode != SocketError.Interrupted)
-                    {
-                        Logger.LogException(e);
-                    }
                     break;
                 }
                 StartClient(client);

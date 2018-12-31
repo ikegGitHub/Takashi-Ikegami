@@ -105,7 +105,7 @@ namespace XFlag.Alter3Simulator
             {
                 _clients.Add(client.Id, client);
             }
-            OnConnected?.Invoke(client.Id, (IPEndPoint)tcpClient.Client.LocalEndPoint);
+            OnConnected?.Invoke(client.Id, (IPEndPoint)tcpClient.Client.RemoteEndPoint);
             client.Start();
         }
 

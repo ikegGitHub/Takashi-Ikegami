@@ -25,6 +25,23 @@ namespace XFlag.Alter3Simulator
 
         public ClientConnectionManager(uint id, TcpClient tcpClient, Action<RequestContext> onRequest, Action<ClientConnectionManager> onDisconnected)
         {
+            if (id == 0)
+            {
+                throw new ArgumentException("cannot be 0", nameof(id));
+            }
+            if (tcpClient == null)
+            {
+                throw new ArgumentNullException(nameof(tcpClient));
+            }
+            if (onRequest == null)
+            {
+                throw new ArgumentNullException(nameof(onRequest));
+            }
+            if (onDisconnected == null)
+            {
+                throw new ArgumentNullException(nameof(onDisconnected));
+            }
+
             Id = id;
             _tcpClient = tcpClient;
             _onRequest = onRequest;

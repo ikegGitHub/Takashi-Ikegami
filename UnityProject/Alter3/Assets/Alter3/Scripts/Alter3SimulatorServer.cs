@@ -96,7 +96,7 @@ namespace XFlag.Alter3Simulator
 
         private void OnReceived(RequestContext context)
         {
-            var processor = new CommandProcessor(_coreSystem, context.ClientId);
+            var processor = new CommandProcessor(_coreSystem, context);
             try
             {
                 var command = _commandParser.ParseCommandLine(context.ReceivedString);

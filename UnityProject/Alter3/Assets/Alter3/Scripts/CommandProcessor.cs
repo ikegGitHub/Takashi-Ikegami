@@ -6,12 +6,12 @@ namespace XFlag.Alter3Simulator
     public class CommandProcessor : ICommandVisitor<IEnumerable<string>>
     {
         private CoreSystem _coreSystem;
-        private uint _clientId;
+        private RequestContext _requestContext;
 
-        public CommandProcessor(CoreSystem coreSystem, uint clientId)
+        public CommandProcessor(CoreSystem coreSystem, RequestContext requestContext)
         {
             _coreSystem = coreSystem;
-            _clientId = clientId;
+            _requestContext = requestContext;
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(HelpCommand command)
@@ -44,7 +44,7 @@ namespace XFlag.Alter3Simulator
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(HelloCommand command)
         {
-            _coreSystem.SetClientName(_clientId, command.ClientName);
+            _coreSystem.SetClientName(_requestContext.ClientId, command.ClientName);
             yield return Response.OK;
         }
 
@@ -88,7 +88,7 @@ namespace XFlag.Alter3Simulator
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(WhoAmICommand command)
         {
-            yield return _coreSystem.GetClient(_clientId).ToString();
+            yield return _coreSystem.GetClient(_requestContext.ClientId).ToString();
             yield return Response.OK;
         }
 

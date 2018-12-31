@@ -20,6 +20,8 @@ namespace XFlag.Alter3Simulator
         public event Action<uint> OnDisconnected;
         public event Action<RequestContext> OnReceived;
 
+        public bool IsStarted => _listener != null;
+
         public ConnectionManager(ISequencer clientIdSequencer)
         {
             _clientIdSequencer = clientIdSequencer;

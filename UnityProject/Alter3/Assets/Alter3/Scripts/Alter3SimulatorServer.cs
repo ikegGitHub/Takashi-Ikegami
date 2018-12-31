@@ -27,10 +27,7 @@ namespace XFlag.Alter3Simulator
         private LampView _serverStatusLamp = null;
 
         [SerializeField]
-        private Button _startButton = null;
-
-        [SerializeField]
-        private Button _stopButton = null;
+        private ServerButtonView _serverButtonView = null;
 
         private ILogger _logger;
 
@@ -57,8 +54,8 @@ namespace XFlag.Alter3Simulator
             _server.OnDisconnected += OnClientDisconnected;
             _server.OnReceived += OnReceived;
 
-            _startButton.onClick.AddListener(StartListen);
-            _stopButton.onClick.AddListener(StopListen);
+            _serverButtonView.OnClick.AddListener(OnServerButtonClick);
+            _serverButtonView.IsStart = true;
         }
 
         private void OnDestroy()
@@ -66,19 +63,31 @@ namespace XFlag.Alter3Simulator
             _server.StopServer();
         }
 
-        private void StartListen()
+        private void OnServerButtonClick()
+        {
+            if (_server.IsStarted)
+            {
+                StopServer();
+            }
+            else
+            {
+                StartServer();
+            }
+            _serverStatusLamp.IsOn = _server.IsStarted;
+            _serverButtonView.IsStart = !_server.IsStarted;
+        }
+
+        private void StartServer()
         {
             var port = ushort.Parse(_config["port_num_User"]);
             _server.StartServerAsync(_listenAddress, port);
             _serverStatusText.text = $"server started {_listenAddress}:{port}";
-            _serverStatusLamp.IsOn = true;
         }
 
-        private void StopListen()
+        private void StopServer()
         {
             _server.StopServer();
             _serverStatusText.text = "server stopped";
-            _serverStatusLamp.IsOn = false;
         }
 
         private void UpdateClientListText()

@@ -40,9 +40,7 @@ namespace XFlag.Alter3Simulator
 
             _config = ConfigParser.Parse(_sampleConfig);
 
-            var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
-            var logFileName = $"Logs/{timestamp}.log";
-            _logger = new Logger(Debug.unityLogger.And(new FileLogger(logFileName)));
+            _logger = CreateLogger();
 
             _server = new ConnectionManager(new IncrementalSequencer())
             {
@@ -109,6 +107,13 @@ namespace XFlag.Alter3Simulator
             {
                 context.AppendResponseLine(Response.MakeErrorResponse(e.Message));
             }
+        }
+
+        private ILogger CreateLogger()
+        {
+            var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+            var logFileName = $"Logs/{timestamp}.log";
+            return new Logger(Debug.unityLogger.And(new FileLogger(logFileName)));
         }
     }
 }

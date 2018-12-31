@@ -2,7 +2,7 @@
 
 namespace XFlag.Alter3Simulator
 {
-    public class ClientConnection
+    public class Client
     {
         public uint Id { get; }
 
@@ -12,7 +12,7 @@ namespace XFlag.Alter3Simulator
 
         public string Name { get; set; }
 
-        public ClientConnection(uint id, IPAddress address, ClientType type)
+        public Client(uint id, IPAddress address, ClientType type)
         {
             Id = id;
             Address = address;

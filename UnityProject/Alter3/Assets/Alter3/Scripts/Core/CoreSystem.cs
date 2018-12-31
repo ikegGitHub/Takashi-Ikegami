@@ -5,9 +5,9 @@ namespace XFlag.Alter3Simulator
 {
     public class CoreSystem
     {
-        private Dictionary<uint, ClientConnection> _clients = new Dictionary<uint, ClientConnection>();
+        private Dictionary<uint, Client> _clients = new Dictionary<uint, Client>();
 
-        public IReadOnlyCollection<ClientConnection> Clients => _clients.Values;
+        public IReadOnlyCollection<Client> Clients => _clients.Values;
 
         public bool IsRobotConnected { get; set; }
 
@@ -29,7 +29,7 @@ namespace XFlag.Alter3Simulator
 
         public void RegisterClient(uint clientId, IPAddress address, ClientType type)
         {
-            var client = new ClientConnection(clientId, address, type);
+            var client = new Client(clientId, address, type);
             _clients.Add(client.Id, client);
         }
 
@@ -44,7 +44,7 @@ namespace XFlag.Alter3Simulator
             client.Name = name;
         }
 
-        public ClientConnection GetClient(uint clientId)
+        public Client GetClient(uint clientId)
         {
             return _clients[clientId];
         }

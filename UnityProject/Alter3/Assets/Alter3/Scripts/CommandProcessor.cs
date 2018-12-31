@@ -106,7 +106,7 @@ namespace XFlag.Alter3Simulator
         {
             if (command.AxisNumber == 0)
             {
-                yield return _coreSystem.Axes.Select(x => x.ToString()).Aggregate((a, b) => $"{a} {b}");
+                yield return _coreSystem.Axes.Aggregate("", (a, b) => $"{a} {b}");
             }
             else
             {

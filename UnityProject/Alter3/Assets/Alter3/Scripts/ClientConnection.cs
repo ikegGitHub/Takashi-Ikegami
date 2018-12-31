@@ -8,14 +8,14 @@ using UnityEngine;
 
 namespace XFlag.Alter3Simulator
 {
-    public class ClientConnectionManager
+    public class ClientConnection
     {
         private static readonly Encoding Encoding = new UTF8Encoding(false, false);
 
         private TcpClient _tcpClient;
 
         private Action<RequestContext> _onRequest;
-        private Action<ClientConnectionManager> _onDisconnected;
+        private Action<ClientConnection> _onDisconnected;
 
         public uint Id { get; }
 
@@ -23,7 +23,7 @@ namespace XFlag.Alter3Simulator
 
         public ILogger Logger { get; set; }
 
-        public ClientConnectionManager(uint id, TcpClient tcpClient, Action<RequestContext> onRequest, Action<ClientConnectionManager> onDisconnected)
+        public ClientConnection(uint id, TcpClient tcpClient, Action<RequestContext> onRequest, Action<ClientConnection> onDisconnected)
         {
             if (id == 0)
             {

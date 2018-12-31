@@ -14,7 +14,7 @@ namespace XFlag.Alter3Simulator
         private ISequencer _clientIdSequencer;
 
         private TcpListener _listener;
-        private Dictionary<uint, ClientConnectionManager> _clients = new Dictionary<uint, ClientConnectionManager>();
+        private Dictionary<uint, ClientConnection> _clients = new Dictionary<uint, ClientConnection>();
 
         public event Action<uint, IPEndPoint> OnConnected;
         public event Action<uint> OnDisconnected;
@@ -55,7 +55,7 @@ namespace XFlag.Alter3Simulator
 
         private void CloseClientConnections()
         {
-            var clients = new List<ClientConnectionManager>();
+            var clients = new List<ClientConnection>();
             lock (_clients)
             {
                 clients.AddRange(_clients.Values);
@@ -67,7 +67,7 @@ namespace XFlag.Alter3Simulator
             }
         }
 
-        private void OnClientDisconnected(ClientConnectionManager client)
+        private void OnClientDisconnected(ClientConnection client)
         {
             lock (_clients)
             {
@@ -97,7 +97,7 @@ namespace XFlag.Alter3Simulator
 
         private void StartClient(TcpClient tcpClient)
         {
-            var client = new ClientConnectionManager(_clientIdSequencer.Next(), tcpClient, InvokeOnReceivedEvent, OnClientDisconnected);
+            var client = new ClientConnection(_clientIdSequencer.Next(), tcpClient, InvokeOnReceivedEvent, OnClientDisconnected);
             client.Logger = Logger;
             lock (_clients)
             {

@@ -15,7 +15,7 @@ namespace XFlag.Alter3Simulator
         private TcpClient _tcpClient;
 
         private Action<RequestContext> _onRequest;
-        private Action _onDisconnected;
+        private Action<ClientConnectionManager> _onDisconnected;
 
         public uint Id { get; }
 
@@ -23,7 +23,7 @@ namespace XFlag.Alter3Simulator
 
         public ILogger Logger { get; set; }
 
-        public ClientConnectionManager(uint id, TcpClient tcpClient, Action<RequestContext> onRequest, Action onDisconnected)
+        public ClientConnectionManager(uint id, TcpClient tcpClient, Action<RequestContext> onRequest, Action<ClientConnectionManager> onDisconnected)
         {
             Id = id;
             _tcpClient = tcpClient;
@@ -46,7 +46,7 @@ namespace XFlag.Alter3Simulator
             if (_tcpClient.Connected)
             {
                 _tcpClient.Close();
-                _onDisconnected();
+                _onDisconnected(this);
             }
         }
 

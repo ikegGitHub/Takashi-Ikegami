@@ -21,15 +21,19 @@ namespace XFlag.Alter3Simulator
 
         public ILogger Logger { get; set; }
 
-        private uint _clientId = 1;
+        private ISequencer _clientIdSequencer;
+
         private TcpListener _listener;
         private Dictionary<uint, Connection> _connections = new Dictionary<uint, Connection>();
-
-        private uint NextClientId => _clientId++;
 
         public event Action<uint, IPEndPoint> OnConnected;
         public event Action<uint> OnDisconnected;
         public event Action<RequestContext> OnReceived;
+
+        public ConnectionManager(ISequencer clientIdSequencer)
+        {
+            _clientIdSequencer = clientIdSequencer;
+        }
 
         public void StartServerAsync(string ipAddress, ushort port)
         {
@@ -103,7 +107,7 @@ namespace XFlag.Alter3Simulator
 
         private void StartClient(TcpClient tcpClient)
         {
-            var connection = new Connection { id = NextClientId, tcpClient = tcpClient };
+            var connection = new Connection { id = _clientIdSequencer.Next(), tcpClient = tcpClient };
             lock (_connections)
             {
                 _connections.Add(connection.id, connection);

@@ -44,7 +44,7 @@ namespace XFlag.Alter3Simulator
             var logFileName = $"Logs/{timestamp}.log";
             _logger = new Logger(Debug.unityLogger.And(new FileLogger(logFileName)));
 
-            _server = new ConnectionManager
+            _server = new ConnectionManager(new IncrementalSequencer())
             {
                 Logger = _logger
             };

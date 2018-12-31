@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace XFlag.Alter3Simulator
 {
@@ -24,6 +25,12 @@ namespace XFlag.Alter3Simulator
 
         [SerializeField]
         private LampView _serverStatusLamp = null;
+
+        [SerializeField]
+        private Button _startButton = null;
+
+        [SerializeField]
+        private Button _stopButton = null;
 
         private ILogger _logger;
 
@@ -50,6 +57,9 @@ namespace XFlag.Alter3Simulator
             _server.OnConnected += OnClientConnected;
             _server.OnDisconnected += OnClientDisconnected;
             _server.OnReceived += OnReceived;
+
+            _startButton.onClick.AddListener(StartListen);
+            _stopButton.onClick.AddListener(StopListen);
         }
 
         private void OnDestroy()

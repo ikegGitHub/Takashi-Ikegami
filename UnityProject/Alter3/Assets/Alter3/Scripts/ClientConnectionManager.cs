@@ -38,15 +38,9 @@ namespace XFlag.Alter3Simulator
 
         public void Stop()
         {
-            Disconnect();
-        }
-
-        private void Disconnect()
-        {
             if (_tcpClient.Connected)
             {
                 _tcpClient.Close();
-                _onDisconnected(this);
             }
         }
 
@@ -63,8 +57,8 @@ namespace XFlag.Alter3Simulator
             }
             finally
             {
-                Disconnect();
                 Logger?.Log($"[{Id}] client connection finished.");
+                _onDisconnected(this);
             }
         }
 
@@ -97,6 +91,7 @@ namespace XFlag.Alter3Simulator
 
                     if (requestContext.IsClose)
                     {
+                        _tcpClient.Close();
                         break;
                     }
                 }

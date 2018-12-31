@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace XFlag.Alter3Simulator
+namespace XFlag.Alter3Simulator.Network
 {
     public class ConnectionManager
     {

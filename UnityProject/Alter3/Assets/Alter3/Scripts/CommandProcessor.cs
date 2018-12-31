@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using XFlag.Alter3Simulator.Network;
 
 namespace XFlag.Alter3Simulator
 {
@@ -18,17 +19,18 @@ namespace XFlag.Alter3Simulator
 
         public void ProcessCommand()
         {
+            _requestContext.ResponseLines = MakeResponse();
+        }
+
+        private IEnumerable<string> MakeResponse()
+        {
             try
             {
-                var command = _commandParser.ParseCommandLine(_requestContext.ReceivedString);
-                foreach (var responseLine in command.AcceptVisitor(this))
-                {
-                    _requestContext.AppendResponseLine(responseLine);
-                }
+                return _commandParser.ParseCommandLine(_requestContext.ReceivedString).AcceptVisitor(this);
             }
             catch (Exception e)
             {
-                _requestContext.AppendResponseLine(Response.MakeErrorResponse(e.Message));
+                return Response.MakeErrorResponse(e.Message);
             }
         }
 
@@ -146,23 +148,11 @@ namespace XFlag.Alter3Simulator
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(MoveAxisCommand command)
         {
-            if (!_coreSystem.IsRobotConnected)
-            {
-                yield return Response.MakeErrorResponse("Not connected to robot");
-                yield break;
-            }
-
             yield return Response.OK;
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(MoveAxesCommand command)
         {
-            if (!_coreSystem.IsRobotConnected)
-            {
-                yield return Response.MakeErrorResponse("Not connected to robot");
-                yield break;
-            }
-
             yield return Response.OK;
         }
 

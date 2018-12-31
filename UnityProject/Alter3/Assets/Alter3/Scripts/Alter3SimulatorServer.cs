@@ -6,6 +6,7 @@ using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using XFlag.Alter3Simulator.Network;
 
 namespace XFlag.Alter3Simulator
 {

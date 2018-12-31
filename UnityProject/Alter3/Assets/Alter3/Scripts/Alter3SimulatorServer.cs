@@ -37,7 +37,6 @@ namespace XFlag.Alter3Simulator
         private IDictionary<string, string> _config;
         private CoreSystem _coreSystem = new CoreSystem(50);
         private ConnectionManager _server;
-        private CommandParser _commandParser = new CommandParser();
 
         private SynchronizationContext _context;
 
@@ -67,7 +66,7 @@ namespace XFlag.Alter3Simulator
             _server.StopServer();
         }
 
-        public void StartListen()
+        private void StartListen()
         {
             var port = ushort.Parse(_config["port_num_User"]);
             _server.StartServerAsync(_listenAddress, port);
@@ -75,7 +74,7 @@ namespace XFlag.Alter3Simulator
             _serverStatusLamp.IsOn = true;
         }
 
-        public void StopListen()
+        private void StopListen()
         {
             _server.StopServer();
             _serverStatusText.text = "server stopped";
@@ -104,19 +103,7 @@ namespace XFlag.Alter3Simulator
 
         private void OnReceived(RequestContext context)
         {
-            var processor = new CommandProcessor(_coreSystem, context);
-            try
-            {
-                var command = _commandParser.ParseCommandLine(context.ReceivedString);
-                foreach (var responseLine in command.AcceptVisitor(processor))
-                {
-                    context.AppendResponseLine(responseLine);
-                }
-            }
-            catch (Exception e)
-            {
-                context.AppendResponseLine(Response.MakeErrorResponse(e.Message));
-            }
+            new CommandProcessor(_coreSystem, context).ProcessCommand();
         }
 
         private ILogger CreateLogger()

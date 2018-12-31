@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace XFlag.Alter3Simulator
@@ -6,12 +7,29 @@ namespace XFlag.Alter3Simulator
     public class CommandProcessor : ICommandVisitor<IEnumerable<string>>
     {
         private CoreSystem _coreSystem;
+        private CommandParser _commandParser = new CommandParser();
         private RequestContext _requestContext;
 
         public CommandProcessor(CoreSystem coreSystem, RequestContext requestContext)
         {
             _coreSystem = coreSystem;
             _requestContext = requestContext;
+        }
+
+        public void ProcessCommand()
+        {
+            try
+            {
+                var command = _commandParser.ParseCommandLine(_requestContext.ReceivedString);
+                foreach (var responseLine in command.AcceptVisitor(this))
+                {
+                    _requestContext.AppendResponseLine(responseLine);
+                }
+            }
+            catch (Exception e)
+            {
+                _requestContext.AppendResponseLine(Response.MakeErrorResponse(e.Message));
+            }
         }
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(HelpCommand command)

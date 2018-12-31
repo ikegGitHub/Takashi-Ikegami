@@ -104,10 +104,6 @@ namespace XFlag.Alter3Simulator
                 {
                     context.AppendResponseLine(responseLine);
                 }
-                if (command is QuitCommand)
-                {
-                    context.IsClose = true;
-                }
             }
             catch (Exception e)
             {

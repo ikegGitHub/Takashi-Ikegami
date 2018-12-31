@@ -50,6 +50,7 @@ namespace XFlag.Alter3Simulator
 
         IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(QuitCommand command)
         {
+            _requestContext.IsClose = true;
             yield return Response.OK;
         }
 

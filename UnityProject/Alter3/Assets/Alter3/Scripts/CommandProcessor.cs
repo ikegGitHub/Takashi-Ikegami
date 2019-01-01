@@ -5,7 +5,7 @@ using XFlag.Alter3Simulator.Network;
 
 namespace XFlag.Alter3Simulator
 {
-    public class CommandProcessor : ICommandVisitor<IEnumerable<string>>
+    public class CommandProcessor : CommandVisitorBase<IEnumerable<string>>
     {
         private CoreSystem _coreSystem;
         private CommandParser _commandParser = new CommandParser();
@@ -34,86 +34,76 @@ namespace XFlag.Alter3Simulator
             }
         }
 
-        IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(HelpCommand command)
-        {
-            yield return Response.OK;
-        }
-
-        IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(RecordMotionCommand command)
+        public override IEnumerable<string> Visit(RecordMotionCommand command)
         {
             _coreSystem.IsRecording = !command.IsStop;
             yield return Response.OK;
         }
 
-        IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(IsRecordingMotionCommand command)
+        public override IEnumerable<string> Visit(IsRecordingMotionCommand command)
         {
             yield return _coreSystem.IsRecording ? StatusText.Recording : StatusText.NotRecording;
             yield return Response.OK;
         }
 
-        IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(RobotInfoCommand command)
+        public override IEnumerable<string> Visit(RobotInfoCommand command)
         {
             yield return "DummyRobot 0 0";
             yield return Response.OK;
         }
 
-        IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(ResetPoseCommand command)
+        public override IEnumerable<string> Visit(ResetPoseCommand command)
         {
             yield return Response.OK;
         }
 
-        IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(HelloCommand command)
+        public override IEnumerable<string> Visit(HelloCommand command)
         {
             _coreSystem.SetClientName(_requestContext.ClientId, command.ClientName);
             yield return Response.OK;
         }
 
-        IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(QuitCommand command)
+        public override IEnumerable<string> Visit(QuitCommand command)
         {
             _requestContext.IsClose = true;
             yield return Response.OK;
         }
 
-        IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(NoopCommand command)
-        {
-            yield return Response.OK;
-        }
-
-        IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(IsConnectedCommand command)
+        public override IEnumerable<string> Visit(IsConnectedCommand command)
         {
             yield return _coreSystem.IsRobotConnected ? StatusText.Connected : StatusText.NotConnected;
             yield return Response.OK;
         }
 
-        IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(ConnectRobotCommand command)
+        public override IEnumerable<string> Visit(ConnectRobotCommand command)
         {
             _coreSystem.IsRobotConnected = true;
             yield return Response.OK;
         }
 
-        IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(DisconnectRobotCommand command)
+        public override IEnumerable<string> Visit(DisconnectRobotCommand command)
         {
             _coreSystem.IsRobotConnected = false;
             yield return Response.OK;
         }
 
-        IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(PrintQueueCommand command)
+        public override IEnumerable<string> Visit(PrintQueueCommand command)
         {
             yield return Response.OK;
         }
 
-        IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(ClearQueueCommand command)
+        public override IEnumerable<string> Visit(ClearQueueCommand command)
         {
             yield return Response.OK;
         }
 
-        IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(WhoAmICommand command)
+        public override IEnumerable<string> Visit(WhoAmICommand command)
         {
             yield return _coreSystem.GetClient(_requestContext.ClientId).ToString();
             yield return Response.OK;
         }
 
-        IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(ClientsInfoCommand command)
+        public override IEnumerable<string> Visit(ClientsInfoCommand command)
         {
             foreach (var client in _coreSystem.Clients)
             {
@@ -122,7 +112,7 @@ namespace XFlag.Alter3Simulator
             yield return Response.OK;
         }
 
-        IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(GetAxisCommand command)
+        public override IEnumerable<string> Visit(GetAxisCommand command)
         {
             if (command.AxisNumber == 0)
             {
@@ -136,32 +126,32 @@ namespace XFlag.Alter3Simulator
             yield return Response.OK;
         }
 
-        IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(AppendAxisCommand command)
+        public override IEnumerable<string> Visit(AppendAxisCommand command)
         {
             yield return Response.OK;
         }
 
-        IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(AddAxisCommand command)
+        public override IEnumerable<string> Visit(AddAxisCommand command)
         {
             yield return Response.OK;
         }
 
-        IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(MoveAxisCommand command)
+        public override IEnumerable<string> Visit(MoveAxisCommand command)
         {
             yield return Response.OK;
         }
 
-        IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(MoveAxesCommand command)
+        public override IEnumerable<string> Visit(MoveAxesCommand command)
         {
             yield return Response.OK;
         }
 
-        IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(PlayMotionCommand command)
+        public override IEnumerable<string> Visit(PlayMotionCommand command)
         {
             yield return Response.OK;
         }
 
-        IEnumerable<string> ICommandVisitor<IEnumerable<string>>.Visit(CalibCommand command)
+        protected internal override IEnumerable<string> Default(ICommand command)
         {
             yield return Response.OK;
         }

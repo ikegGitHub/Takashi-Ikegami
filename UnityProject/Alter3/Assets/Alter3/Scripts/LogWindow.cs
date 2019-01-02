@@ -44,6 +44,11 @@ namespace XFlag.Alter3Simulator
 
         private void AppendLogLine(string text, Color color)
         {
+            if (!Application.isPlaying)
+            {
+                return;
+            }
+
             var logText = Instantiate(_logTextPrefab, _logTextRoot, false);
             logText.text = text;
             logText.color = color;
@@ -51,12 +56,19 @@ namespace XFlag.Alter3Simulator
 
             if (_logCount >= _logLineLimit)
             {
-                _logTexts.RemoveFirst();
+                RemoveOldestLogText();
             }
             else
             {
                 ++_logCount;
             }
+        }
+
+        private void RemoveOldestLogText()
+        {
+            var first = _logTexts.First.Value;
+            _logTexts.RemoveFirst();
+            Destroy(first.gameObject);
         }
 
         private Color GetLogColor(LogType logType)

@@ -30,6 +30,9 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private ServerButtonView _serverButtonView = null;
 
+        [SerializeField]
+        private LogWindow _logWindow = null;
+
         private ILogger _logger;
 
         private IDictionary<string, string> _config;
@@ -37,6 +40,8 @@ namespace XFlag.Alter3Simulator
         private ConnectionManager _server;
 
         private SynchronizationContext _context;
+
+        private float _keyDownTime;
 
         private void Awake()
         {
@@ -57,6 +62,26 @@ namespace XFlag.Alter3Simulator
 
             _serverButtonView.OnClick.AddListener(OnServerButtonClick);
             _serverButtonView.IsStart = true;
+        }
+
+        private void Update()
+        {
+            // Lボタンを長押しでログウィンドウ表示
+            if (!_logWindow.IsShown && Input.GetKey(KeyCode.L))
+            {
+                if (_keyDownTime >= 3.0f)
+                {
+                    _logWindow.Show();
+                }
+                else
+                {
+                    _keyDownTime += Time.deltaTime;
+                }
+            }
+            else
+            {
+                _keyDownTime = 0;
+            }
         }
 
         private void OnDestroy()
@@ -120,7 +145,7 @@ namespace XFlag.Alter3Simulator
         {
             var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
             var logFileName = $"Logs/{timestamp}.log";
-            return new Logger(Debug.unityLogger.And(new FileLogger(logFileName)));
+            return new Logger(Debug.unityLogger.And(_logWindow).And(new FileLogger(logFileName)));
         }
     }
 }

@@ -28,9 +28,6 @@ namespace XFlag.Alter3Simulator
         private LampView _serverStatusLamp = null;
 
         [SerializeField]
-        private ServerButtonView _serverButtonView = null;
-
-        [SerializeField]
         private LogWindow _logWindow = null;
 
         private ILogger _logger;
@@ -60,8 +57,7 @@ namespace XFlag.Alter3Simulator
             _server.OnDisconnected += OnClientDisconnected;
             _server.OnReceived += OnReceived;
 
-            _serverButtonView.OnClick.AddListener(OnServerButtonClick);
-            _serverButtonView.IsStart = true;
+            _serverStatusLamp.OnClick += eventData => OnServerButtonClick();
         }
 
         private void Update()
@@ -100,7 +96,6 @@ namespace XFlag.Alter3Simulator
                 StartServer();
             }
             _serverStatusLamp.IsOn = _server.IsStarted;
-            _serverButtonView.IsStart = !_server.IsStarted;
         }
 
         private void StartServer()

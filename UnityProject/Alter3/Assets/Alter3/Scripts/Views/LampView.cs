@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace XFlag.Alter3Simulator
 {
     [DisallowMultipleComponent, RequireComponent(typeof(Image))]
-    public class LampView : MonoBehaviour
+    public class LampView : MonoBehaviour, IPointerClickHandler
     {
         [SerializeField]
         private Sprite _offSprite = null;
@@ -14,6 +16,8 @@ namespace XFlag.Alter3Simulator
 
         private Image _image;
         private bool _isOn;
+
+        public event Action<PointerEventData> OnClick = delegate { };
 
         public bool IsOn
         {
@@ -32,6 +36,11 @@ namespace XFlag.Alter3Simulator
         {
             _image = GetComponent<Image>();
             IsOn = false;
+        }
+
+        void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
+        {
+            OnClick(eventData);
         }
     }
 }

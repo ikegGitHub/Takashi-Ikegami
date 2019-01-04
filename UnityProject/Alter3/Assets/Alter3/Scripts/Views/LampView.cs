@@ -7,10 +7,10 @@ namespace XFlag.Alter3Simulator
     public class LampView : MonoBehaviour
     {
         [SerializeField]
-        private Color _onColor = Color.green;
+        private Sprite _offSprite = null;
 
         [SerializeField]
-        private Color _offColor = Color.red;
+        private Sprite _onSprite = null;
 
         private Image _image;
         private bool _isOn;
@@ -24,7 +24,7 @@ namespace XFlag.Alter3Simulator
             set
             {
                 _isOn = value;
-                _image.color = _isOn ? _onColor : _offColor;
+                _image.sprite = _isOn ? _onSprite : _offSprite;
             }
         }
 

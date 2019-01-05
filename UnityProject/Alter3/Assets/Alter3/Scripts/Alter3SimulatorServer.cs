@@ -87,15 +87,26 @@ namespace XFlag.Alter3Simulator
 
         private void OnServerButtonClick()
         {
-            if (_server.IsStarted)
+            _serverStatusLamp.IsError = false;
+
+            try
             {
-                StopServer();
+                if (_server.IsStarted)
+                {
+                    StopServer();
+                }
+                else
+                {
+                    StartServer();
+                }
+                _serverStatusLamp.IsOn = _server.IsStarted;
             }
-            else
+            catch (Exception e)
             {
-                StartServer();
+                _logger.LogException(e);
+                _serverStatusText.text = e.Message;
+                _serverStatusLamp.IsError = true;
             }
-            _serverStatusLamp.IsOn = _server.IsStarted;
         }
 
         private void StartServer()

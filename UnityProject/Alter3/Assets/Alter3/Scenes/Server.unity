@@ -350,6 +350,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _offSprite: {fileID: 21300000, guid: bcabf0d2ae2fa4bccad56163ed40b883, type: 3}
   _onSprite: {fileID: 21300000, guid: c2e5b6f1eb02f470ea28119a81d4706a, type: 3}
+  _errorSprite: {fileID: 21300000, guid: a01f2642b8a9b4cccbc2ee5f0ce8ecc8, type: 3}
 --- !u!114 &256997160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1951,7 +1952,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 120, y: -10}
-  m_SizeDelta: {x: 600, y: 100}
+  m_SizeDelta: {x: 900, y: 100}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2130161122
 MonoBehaviour:

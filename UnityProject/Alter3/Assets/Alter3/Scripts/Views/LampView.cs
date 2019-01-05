@@ -14,8 +14,12 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private Sprite _onSprite = null;
 
+        [SerializeField]
+        private Sprite _errorSprite = null;
+
         private Image _image;
         private bool _isOn;
+        private bool _isError;
 
         public event Action<PointerEventData> OnClick = delegate { };
 
@@ -28,7 +32,20 @@ namespace XFlag.Alter3Simulator
             set
             {
                 _isOn = value;
-                _image.sprite = _isOn ? _onSprite : _offSprite;
+                UpdateSprite();
+            }
+        }
+
+        public bool IsError
+        {
+            get
+            {
+                return _isError;
+            }
+            set
+            {
+                _isError = value;
+                UpdateSprite();
             }
         }
 
@@ -36,6 +53,19 @@ namespace XFlag.Alter3Simulator
         {
             _image = GetComponent<Image>();
             IsOn = false;
+            IsError = false;
+        }
+
+        private void UpdateSprite()
+        {
+            if (_isError)
+            {
+                _image.sprite = _errorSprite;
+            }
+            else
+            {
+                _image.sprite = _isOn ? _onSprite : _offSprite;
+            }
         }
 
         void IPointerClickHandler.OnPointerClick(PointerEventData eventData)

@@ -21,11 +21,9 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private DragAreaView _dragAreView = null;
 
-        private float _distance = 1;
-        private float _yAngle = 0;
-        private float _xAngle = 0;
-
-        private bool _isMouseDown;
+        private float _distance;
+        private float _yAngle;
+        private float _xAngle;
         private Vector2 _lastMousePosition;
 
         public void Reset()

@@ -24,7 +24,6 @@ namespace XFlag.Alter3Simulator
         private float _distance;
         private float _yAngle;
         private float _xAngle;
-        private Vector2 _lastMousePosition;
 
         public void Reset()
         {

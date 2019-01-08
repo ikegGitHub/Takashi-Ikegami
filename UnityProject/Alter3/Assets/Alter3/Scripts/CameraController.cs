@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace XFlag.Alter3Simulator
 {
@@ -17,12 +18,15 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private float _distanceMax = 10.0f;
 
+        [SerializeField]
+        private DragAreaView _dragAreView = null;
+
         private float _distance = 1;
         private float _yAngle = 0;
         private float _xAngle = 0;
 
         private bool _isMouseDown;
-        private Vector3 _lastMousePosition;
+        private Vector2 _lastMousePosition;
 
         public void Reset()
         {
@@ -36,7 +40,14 @@ namespace XFlag.Alter3Simulator
 
         private void Awake()
         {
+            _dragAreView.OnDrag += OnDrag;
+
             Reset();
+        }
+
+        private void OnDestroy()
+        {
+            _dragAreView.OnDrag -= OnDrag;
         }
 
         private void Update()
@@ -46,31 +57,14 @@ namespace XFlag.Alter3Simulator
 
             _cameraTransform.LookAt(_lookAtTransform, Vector3.up);
 
-            if (_isMouseDown)
-            {
-                if (Input.GetMouseButtonUp(0))
-                {
-                    _isMouseDown = false;
-                }
-                else
-                {
-                    var mousePosition = Input.mousePosition;
-                    var delta = mousePosition - _lastMousePosition;
-                    _yAngle = Mathf.Repeat(_yAngle + delta.x * 0.1f, 360);
-                    _xAngle = Mathf.Repeat(_xAngle - delta.y * 0.1f, 360);
-                    _lastMousePosition = mousePosition;
-                }
-            }
-            else
-            {
-                if (Input.GetMouseButtonDown(0))
-                {
-                    _lastMousePosition = Input.mousePosition;
-                    _isMouseDown = true;
-                }
-            }
-
             _distance = Mathf.Clamp(_distance + Input.mouseScrollDelta.y * 0.1f, _distanceMin, _distanceMax);
+        }
+
+        private void OnDrag(PointerEventData eventData)
+        {
+            var delta = eventData.delta;
+            _yAngle = Mathf.Repeat(_yAngle + delta.x * 0.1f, 360);
+            _xAngle = Mathf.Repeat(_xAngle - delta.y * 0.1f, 360);
         }
     }
 }

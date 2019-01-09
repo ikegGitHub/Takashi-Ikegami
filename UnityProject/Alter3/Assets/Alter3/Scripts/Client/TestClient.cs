@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using System.Net.Sockets;
 using System.Text;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace XFlag.Alter3Simulator
 {
@@ -12,16 +12,16 @@ namespace XFlag.Alter3Simulator
         private static readonly Encoding Encoding = new UTF8Encoding(false, false);
 
         [SerializeField]
-        private InputField _addressInput = null;
+        private TMP_InputField _addressInput = null;
 
         [SerializeField]
-        private InputField _portInput = null;
+        private TMP_InputField _portInput = null;
 
         [SerializeField]
-        private InputField _commandInput = null;
+        private TMP_InputField _commandInput = null;
 
         [SerializeField]
-        private Text _outputTextPrefab = null;
+        private TMP_Text _outputTextPrefab = null;
 
         [SerializeField]
         private Transform _outputTextRoot = null;
@@ -63,14 +63,14 @@ namespace XFlag.Alter3Simulator
             }
         }
 
-        public void Submit()
+        public void Submit(string command)
         {
             if (_client == null)
             {
                 AppendLine("not connected");
+                return;
             }
 
-            var command = _commandInput.text;
             _commandInput.text = "";
             _commandInput.ActivateInputField();
 
@@ -94,6 +94,12 @@ namespace XFlag.Alter3Simulator
         {
             var lineText = Instantiate(_outputTextPrefab, _outputTextRoot, false);
             lineText.text = line;
+            lineText.gameObject.SetActive(true);
+        }
+
+        private void Awake()
+        {
+            _commandInput.onSubmit.AddListener(Submit);
         }
 
         private void OnDestroy()

@@ -1,0 +1,11 @@
+{
+    "name": "XFlag.Alter3SimulatorTestClient",
+    "references": [
+        "Unity.TextMeshPro",
+        "XFlag.Alter3Simulator"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

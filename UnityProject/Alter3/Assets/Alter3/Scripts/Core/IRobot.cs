@@ -5,5 +5,7 @@
     /// </summary>
     public interface IRobot
     {
+        void MoveAxis(AxisParam axisParam);
+        void MoveAxes(AxisParam[] axisParams);
     }
 }

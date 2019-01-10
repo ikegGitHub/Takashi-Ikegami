@@ -138,11 +138,13 @@ namespace XFlag.Alter3Simulator
 
         public override IEnumerable<string> Visit(MoveAxisCommand command)
         {
+            _coreSystem.Robot.MoveAxis(command.Param);
             yield return Response.OK;
         }
 
         public override IEnumerable<string> Visit(MoveAxesCommand command)
         {
+            _coreSystem.Robot.MoveAxes(command.Params);
             yield return Response.OK;
         }
 

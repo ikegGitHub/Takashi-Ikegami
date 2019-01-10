@@ -30,6 +30,9 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private LogWindow _logWindow = null;
 
+        [SerializeField]
+        private RobotSimulatorBaseController    _robot = null;
+
         private ILogger _logger;
 
         private IDictionary<string, string> _config;
@@ -48,6 +51,8 @@ namespace XFlag.Alter3Simulator
 
             _logger = CreateLogger();
 
+            _coreSystem.Robot = _robot;
+
             _server = new ConnectionManager(new IncrementalSequencer())
             {
                 Logger = _logger
@@ -56,6 +61,7 @@ namespace XFlag.Alter3Simulator
             _server.OnConnected += OnClientConnected;
             _server.OnDisconnected += OnClientDisconnected;
             _server.OnReceived += OnReceived;
+           
 
             _serverStatusLamp.OnClick += eventData => OnServerButtonClick();
         }

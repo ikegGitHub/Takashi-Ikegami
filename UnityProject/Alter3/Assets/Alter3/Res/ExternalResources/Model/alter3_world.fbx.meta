@@ -1,45 +1,45 @@
 fileFormatVersion: 2
-guid: d3101100bb5063344b302915134c92a7
+guid: 42ff5ff60a9fce74585a361a0d81faf4
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
-    100002: chin1
-    100004: chin2
-    100006: Face
-    100008: Face 1
-    100010: Foundation
-    100012: Head
-    100014: Hip
-    100016: Hips
+    100002: Face
+    100004: Face 1
+    100006: Foundation
+    100008: Head
+    100010: Hip
+    100012: Hips
+    100014: jaw
+    100016: jaw_End
     100018: joints
     100020: LeftArm
     100022: LeftArm 1
     100024: LeftArm 2
     100026: LeftEye
     100028: LeftEye 1
-    100030: LeftEyebrow1
-    100032: LeftEyebrows2
+    100030: LeftEyebrow
+    100032: LeftEyebrow_End
     100034: LeftForeArm
     100036: LeftForeArm 1
     100038: LeftHand
     100040: LeftHand 1
-    100042: LeftHandIndex1
-    100044: LeftHandIndex2
-    100046: LeftHandMiddle1
-    100048: LeftHandMiddle2
-    100050: LeftHandRingPinky1
-    100052: LeftHandRingPinky2
-    100054: LeftHandThumb1
-    100056: LeftHandThumb2
-    100058: LeftLowerEyelid1
-    100060: LeftLowerEyelid2
-    100062: LeftMouth1
-    100064: LeftMouth2
+    100042: LeftHandIndex
+    100044: LeftHandIndex_End
+    100046: LeftHandMiddle
+    100048: LeftHandMiddle_End
+    100050: LeftHandRingPinky
+    100052: LeftHandRingPinky_End
+    100054: LeftHandThumb
+    100056: LeftHandThumb_End
+    100058: LeftLowerEyelid
+    100060: LeftLowerEyelid_End
+    100062: LeftMouth
+    100064: LeftMouth_End
     100066: LeftShoulder
     100068: LeftShoulder 1
-    100070: LeftUpperEyelid1
-    100072: LeftUpperEyelid2
+    100070: LeftUpperEyelid
+    100072: LeftUpperEyelid_End
     100074: Leg1
     100076: Leg1 1
     100078: Leg2
@@ -53,27 +53,27 @@ ModelImporter:
     100094: RightArm 2
     100096: RightEye
     100098: RightEye 1
-    100100: RightEyebrow1
-    100102: RightEyebrows2
+    100100: RightEyebrow
+    100102: RightEyebrow_End
     100104: RightForeArm
     100106: RightForeArm 1
     100108: RightHand
-    100110: RightHandIndex1
-    100112: RightHandIndex2
-    100114: RightHandMiddle1
-    100116: RightHandMiddle2
-    100118: RightHandRingPinky1
-    100120: RightHandRingPinky2
-    100122: RightHandThumb1
-    100124: RightHandThumb2
-    100126: RightLowerEyelid1
-    100128: RightLowerEyelid2
-    100130: RightMouth1
-    100132: RightMouth2
+    100110: RightHandIndex
+    100112: RightHandIndex_End
+    100114: RightHandMiddle
+    100116: RightHandMiddle_End
+    100118: RightHandRingPinky
+    100120: RightHandRingPinky_End
+    100122: RightHandThumb
+    100124: RightHandThumb_End
+    100126: RightLowerEyelid
+    100128: RightLowerEyelid_End
+    100130: RightMouth
+    100132: RightMouth_End
     100134: RightShoulder
     100136: RightShoulder 1
-    100138: RightUpperEyelid1
-    100140: RightUpperEyelid2
+    100138: RightUpperEyelid
+    100140: RightUpperEyelid_End
     100142: RioghtHand
     100144: root
     100146: Spine1
@@ -88,77 +88,43 @@ ModelImporter:
     100164: Spine5 1
     100166: Spine5 2
     100168: UpperBody
-    100170: jaw
-    100172: jaw_End
-    100174: LeftEyebrow
-    100176: LeftEyebrow_End
-    100178: LeftHandIndex
-    100180: LeftHandIndex_End
-    100182: LeftHandMiddle
-    100184: LeftHandMiddle_End
-    100186: LeftHandRingPinky
-    100188: LeftHandRingPinky_End
-    100190: LeftHandThumb
-    100192: LeftHandThumb_End
-    100194: LeftLowerEyelid
-    100196: LeftLowerEyelid_End
-    100198: LeftMouth
-    100200: LeftMouth_End
-    100202: LeftUpperEyelid
-    100204: LeftUpperEyelid_End
-    100206: RightEyebrow
-    100208: RightEyebrow_End
-    100210: RightHandIndex
-    100212: RightHandIndex_End
-    100214: RightHandMiddle
-    100216: RightHandMiddle_End
-    100218: RightHandRingPinky
-    100220: RightHandRingPinky_End
-    100222: RightHandThumb
-    100224: RightHandThumb_End
-    100226: RightLowerEyelid
-    100228: RightLowerEyelid_End
-    100230: RightMouth
-    100232: RightMouth_End
-    100234: RightUpperEyelid
-    100236: RightUpperEyelid_End
     400000: //RootNode
-    400002: chin1
-    400004: chin2
-    400006: Face
-    400008: Face 1
-    400010: Foundation
-    400012: Head
-    400014: Hip
-    400016: Hips
+    400002: Face
+    400004: Face 1
+    400006: Foundation
+    400008: Head
+    400010: Hip
+    400012: Hips
+    400014: jaw
+    400016: jaw_End
     400018: joints
     400020: LeftArm
     400022: LeftArm 1
     400024: LeftArm 2
     400026: LeftEye
     400028: LeftEye 1
-    400030: LeftEyebrow1
-    400032: LeftEyebrows2
+    400030: LeftEyebrow
+    400032: LeftEyebrow_End
     400034: LeftForeArm
     400036: LeftForeArm 1
     400038: LeftHand
     400040: LeftHand 1
-    400042: LeftHandIndex1
-    400044: LeftHandIndex2
-    400046: LeftHandMiddle1
-    400048: LeftHandMiddle2
-    400050: LeftHandRingPinky1
-    400052: LeftHandRingPinky2
-    400054: LeftHandThumb1
-    400056: LeftHandThumb2
-    400058: LeftLowerEyelid1
-    400060: LeftLowerEyelid2
-    400062: LeftMouth1
-    400064: LeftMouth2
+    400042: LeftHandIndex
+    400044: LeftHandIndex_End
+    400046: LeftHandMiddle
+    400048: LeftHandMiddle_End
+    400050: LeftHandRingPinky
+    400052: LeftHandRingPinky_End
+    400054: LeftHandThumb
+    400056: LeftHandThumb_End
+    400058: LeftLowerEyelid
+    400060: LeftLowerEyelid_End
+    400062: LeftMouth
+    400064: LeftMouth_End
     400066: LeftShoulder
     400068: LeftShoulder 1
-    400070: LeftUpperEyelid1
-    400072: LeftUpperEyelid2
+    400070: LeftUpperEyelid
+    400072: LeftUpperEyelid_End
     400074: Leg1
     400076: Leg1 1
     400078: Leg2
@@ -172,27 +138,27 @@ ModelImporter:
     400094: RightArm 2
     400096: RightEye
     400098: RightEye 1
-    400100: RightEyebrow1
-    400102: RightEyebrows2
+    400100: RightEyebrow
+    400102: RightEyebrow_End
     400104: RightForeArm
     400106: RightForeArm 1
     400108: RightHand
-    400110: RightHandIndex1
-    400112: RightHandIndex2
-    400114: RightHandMiddle1
-    400116: RightHandMiddle2
-    400118: RightHandRingPinky1
-    400120: RightHandRingPinky2
-    400122: RightHandThumb1
-    400124: RightHandThumb2
-    400126: RightLowerEyelid1
-    400128: RightLowerEyelid2
-    400130: RightMouth1
-    400132: RightMouth2
+    400110: RightHandIndex
+    400112: RightHandIndex_End
+    400114: RightHandMiddle
+    400116: RightHandMiddle_End
+    400118: RightHandRingPinky
+    400120: RightHandRingPinky_End
+    400122: RightHandThumb
+    400124: RightHandThumb_End
+    400126: RightLowerEyelid
+    400128: RightLowerEyelid_End
+    400130: RightMouth
+    400132: RightMouth_End
     400134: RightShoulder
     400136: RightShoulder 1
-    400138: RightUpperEyelid1
-    400140: RightUpperEyelid2
+    400138: RightUpperEyelid
+    400140: RightUpperEyelid_End
     400142: RioghtHand
     400144: root
     400146: Spine1
@@ -207,44 +173,10 @@ ModelImporter:
     400164: Spine5 1
     400166: Spine5 2
     400168: UpperBody
-    400170: jaw
-    400172: jaw_End
-    400174: LeftEyebrow
-    400176: LeftEyebrow_End
-    400178: LeftHandIndex
-    400180: LeftHandIndex_End
-    400182: LeftHandMiddle
-    400184: LeftHandMiddle_End
-    400186: LeftHandRingPinky
-    400188: LeftHandRingPinky_End
-    400190: LeftHandThumb
-    400192: LeftHandThumb_End
-    400194: LeftLowerEyelid
-    400196: LeftLowerEyelid_End
-    400198: LeftMouth
-    400200: LeftMouth_End
-    400202: LeftUpperEyelid
-    400204: LeftUpperEyelid_End
-    400206: RightEyebrow
-    400208: RightEyebrow_End
-    400210: RightHandIndex
-    400212: RightHandIndex_End
-    400214: RightHandMiddle
-    400216: RightHandMiddle_End
-    400218: RightHandRingPinky
-    400220: RightHandRingPinky_End
-    400222: RightHandThumb
-    400224: RightHandThumb_End
-    400226: RightLowerEyelid
-    400228: RightLowerEyelid_End
-    400230: RightMouth
-    400232: RightMouth_End
-    400234: RightUpperEyelid
-    400236: RightUpperEyelid_End
     2100000: lambert2
-    4300000: Foundation
-    4300002: Leg2
-    4300004: Leg1
+    4300000: Leg2
+    4300002: Leg1
+    4300004: Foundation
     4300006: Hip
     4300008: Spine1
     4300010: Spine2
@@ -285,7 +217,6 @@ ModelImporter:
     13700036: Spine3
     13700038: Spine4
     13700040: Spine5
-    2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
     importMaterials: 1

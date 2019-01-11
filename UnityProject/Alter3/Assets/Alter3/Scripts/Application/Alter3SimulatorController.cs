@@ -7,7 +7,7 @@ namespace XFlag.Alter3Simulator
 
     public class Alter3SimulatorController : RobotSimulatorBaseController
     {
-
+ 
         protected override void Awake()
         {
             base.Awake();
@@ -22,8 +22,12 @@ namespace XFlag.Alter3Simulator
         // Update is called once per frame
         protected override void Update()
         {
+            base.Update();
+
 
         }
+
+
     }
 }
 

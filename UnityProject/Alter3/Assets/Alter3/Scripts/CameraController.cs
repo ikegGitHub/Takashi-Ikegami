@@ -60,8 +60,8 @@ namespace XFlag.Alter3Simulator
         private void OnDrag(PointerEventData eventData)
         {
             var delta = eventData.delta;
-            _yAngle = Mathf.Repeat(_yAngle + delta.x * 0.1f, 360);
-            _xAngle = Mathf.Repeat(_xAngle - delta.y * 0.1f, 360);
+            _yAngle = Mathf.Repeat(_yAngle + delta.x * 0.15f, 360);
+            _xAngle = Mathf.Repeat(_xAngle + delta.y * 0.15f, 360);
         }
     }
 }

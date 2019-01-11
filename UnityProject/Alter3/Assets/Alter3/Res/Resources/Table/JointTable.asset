@@ -1,0 +1,251 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f28fe87267e00b4da103053c35299ef, type: 3}
+  m_Name: JointTable
+  m_EditorClassIdentifier: 
+  list:
+  - id: 1
+    Name: "\u4E0A\u77BC\u958B\u9589 "
+    JointItems:
+    - JointName: LeftUpperEyelid
+      Axis: {x: 0, y: 1, z: 0}
+    - JointName: RightUpperEyelid
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 2
+    Name: "\u773C\u5DE6\u53F3 "
+    JointItems:
+    - JointName: LeftEye
+      Axis: {x: 0, y: 1, z: 0}
+    - JointName: RightEye
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 3
+    Name: "\u773C\u7403\u5BC4\u305B"
+    JointItems:
+    - JointName: LeftEye
+      Axis: {x: 0, y: 1, z: 0}
+    - JointName: RightEye
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 4
+    Name: "\u773C\u4E0A\u4E0B"
+    JointItems:
+    - JointName: LeftEye
+      Axis: {x: 0, y: 1, z: 0}
+    - JointName: RightEye
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 5
+    Name: "\u982C\u5F15\u304D"
+    JointItems:
+    - JointName: LeftMouth
+      Axis: {x: 0, y: 1, z: 0}
+    - JointName: RightMouth
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 6
+    Name: "\u53E3\u5F15\u304D"
+    JointItems:
+    - JointName: LeftMouth
+      Axis: {x: 0, y: 1, z: 0}
+    - JointName: RightMouth
+      Axis: {x: 0, y: 1, z: 0}
+    - JointName: jaw(chin)
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 7
+    Name: "\u53E3\u3059\u307C\u3081"
+    JointItems:
+    - JointName: LeftMouth
+      Axis: {x: 0, y: 1, z: 0}
+    - JointName: RightMouth
+      Axis: {x: 0, y: 1, z: 0}
+    - JointName: jaw(chin)
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 8
+    Name: "\u53E3\u958B\u9589"
+    JointItems:
+    - JointName: jaw(chin)
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 9
+    Name: "\u9996\u50BE\u3052\u5DE6"
+    JointItems:
+    - JointName: Head
+      Axis: {x: 0, y: 0, z: 1}
+  - id: 10
+    Name: "\u9996\u50BE\u3052\u53F3"
+    JointItems:
+    - JointName: Head
+      Axis: {x: 0, y: 0, z: 1}
+  - id: 11
+    Name: "\u9996\u65CB\u56DE"
+    JointItems:
+    - JointName: neck
+      Axis: {x: 1, y: 0, z: 0}
+  - id: 12
+    Name: "\u99962\u524D\u5F8C"
+    JointItems:
+    - JointName: neck
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 13
+    Name: "\u8179\u90E8\u5DE6\u53F3\u50BE\u3052"
+    JointItems:
+    - JointName: Spine4
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 14
+    Name: "\u8179\u90E8\u524D\u5F8C"
+    JointItems:
+    - JointName: Spine2
+      Axis: {x: 0, y: 1, z: 0}
+    - JointName: Spine3
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 15
+    Name: "\u8170\u65CB\u56DE"
+    JointItems:
+    - JointName: Spine1
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 16
+    Name: "\u5DE6\u80A9\u7532\u9AA8\u4E0A\u4E0B"
+    JointItems:
+    - JointName: LeftShoulder
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 17
+    Name: "\u5DE6\u80A9\u7532\u9AA8\u524D\u5F8C"
+    JointItems:
+    - JointName: LeftShoulder
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 18
+    Name: "\u5DE6\u8107\u958B\u9589"
+    JointItems:
+    - JointName: LeftArm 2
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 19
+    Name: "\u5DE6\u8155\u524D\u5F8C"
+    JointItems:
+    - JointName: LeftShoulder 1
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 20
+    Name: "\u5DE6\u4E0A\u8155\u65CB\u56DE"
+    JointItems:
+    - JointName: LeftArm
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 21
+    Name: "\u5DE6\u8098\u5C48\u4F38"
+    JointItems:
+    - JointName: LeftForeArm
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 22
+    Name: "\u5DE6\u524D\u8155\u3072\u306D\u308A"
+    JointItems:
+    - JointName: LeftHand
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 23
+    Name: "\u5DE6\u624B\u9996\u5C48\u4F38"
+    JointItems:
+    - JointName: LeftHand
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 24
+    Name: "\u5DE6\u624B\u9996\u5C48\u4F38"
+    JointItems:
+    - JointName: LeftHand
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 25
+    Name: "\u5DE6\u6307\u52D5\u4F5C1"
+    JointItems:
+    - JointName: LeftHandThumb
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 26
+    Name: "\u5DE6\u6307\u52D5\u4F5C2"
+    JointItems:
+    - JointName: LeftHandIndex
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 27
+    Name: "\u5DE6\u6307\u52D5\u4F5C3"
+    JointItems:
+    - JointName: LeftHandMiddle
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 28
+    Name: "\u5DE6\u6307\u52D5\u4F5C4"
+    JointItems:
+    - JointName: LeftHandRingPinky
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 29
+    Name: "\u53F3\u80A9\u7532\u9AA8\u4E0A\u4E0B"
+    JointItems:
+    - JointName: RightShoulder
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 30
+    Name: "\u53F3\u80A9\u7532\u9AA8\u524D\u5F8C"
+    JointItems:
+    - JointName: RightShoulder
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 31
+    Name: "\u53F3\u8107\u958B\u9589"
+    JointItems:
+    - JointName: RightArm
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 32
+    Name: "\u53F3\u8155\u524D\u5F8C"
+    JointItems:
+    - JointName: RightShoulder
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 33
+    Name: "\u53F3\u4E0A\u8155\u65CB\u56DE"
+    JointItems:
+    - JointName: RightArm
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 34
+    Name: "\u53F3\u8098\u5C48\u4F38"
+    JointItems:
+    - JointName: RightForeArm
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 35
+    Name: "\u53F3\u524D\u8155\u3072\u306D\u308A"
+    JointItems:
+    - JointName: RightHand
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 36
+    Name: "\u53F3\u624B\u9996\u5C48\u4F38"
+    JointItems:
+    - JointName: RightHand
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 37
+    Name: "\u53F3\u624B\u9996\u5C48\u4F38"
+    JointItems:
+    - JointName: RightHand
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 38
+    Name: "\u53F3\u6307\u52D5\u4F5C1"
+    JointItems:
+    - JointName: RightHandThumb
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 39
+    Name: "\u53F3\u6307\u52D5\u4F5C2"
+    JointItems:
+    - JointName: RightHandIndex
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 40
+    Name: "\u53F3\u6307\u52D5\u4F5C3"
+    JointItems:
+    - JointName: RightHandMiddle
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 41
+    Name: "\u53F3\u6307\u52D5\u4F5C4"
+    JointItems:
+    - JointName: RightHandRingPinky
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 42
+    Name: "\u8170\u4E0A\u4E0B"
+    JointItems:
+    - JointName: Leg2
+      Axis: {x: 0, y: 1, z: 0}
+    - JointName: Hips
+      Axis: {x: 0, y: 1, z: 0}
+  - id: 43
+    Name: "\u5168\u4F53\u65CB\u56DE"
+    JointItems:
+    - JointName: Leg1
+      Axis: {x: 1, y: 0, z: 0}

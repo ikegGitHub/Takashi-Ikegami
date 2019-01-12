@@ -26,6 +26,12 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private Transform _outputTextRoot = null;
 
+        [SerializeField]
+        private AxisControllerView _axisControllerPrefab = null;
+
+        [SerializeField]
+        private Transform _axisControllerRoot = null;
+
         private TcpClient _client;
         private TextWriter _writer;
         private TextReader _reader;
@@ -97,9 +103,25 @@ namespace XFlag.Alter3Simulator
             lineText.gameObject.SetActive(true);
         }
 
+        private void SendMoveAxisCommand(int axisNumber, float value)
+        {
+            Submit($"MOVEAXIS {axisNumber} {value}");
+        }
+
+        private void InitializeAxisControllers(int axisCount)
+        {
+            for (var i = 1; i <= axisCount; i++)
+            {
+                var axisController = Instantiate(_axisControllerPrefab, _axisControllerRoot, false);
+                axisController.OnValueChanged += value => SendMoveAxisCommand(i, value);
+                axisController.LabelText = i.ToString();
+            }
+        }
+
         private void Awake()
         {
             _commandInput.onSubmit.AddListener(Submit);
+            InitializeAxisControllers(50);
         }
 
         private void OnDestroy()

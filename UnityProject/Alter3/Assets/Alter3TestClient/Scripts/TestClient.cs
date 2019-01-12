@@ -126,8 +126,9 @@ namespace XFlag.Alter3Simulator
         {
             for (var i = 1; i <= axisCount; i++)
             {
+                var axisNumber = i;
                 var axisController = Instantiate(_axisControllerPrefab, _axisControllerRoot, false);
-                axisController.OnValueChanged += value => SendMoveAxisCommand(i, value);
+                axisController.OnValueChanged += value => SendMoveAxisCommand(axisNumber, value);
                 axisController.LabelText = i.ToString();
 
                 // 範囲は仮

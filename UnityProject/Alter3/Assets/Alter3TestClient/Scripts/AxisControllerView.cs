@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,8 @@ namespace XFlag.Alter3Simulator
 
         [SerializeField]
         private TMP_InputField _valueInput = null;
+
+        public event Action<float> OnValueChanged = delegate { };
 
         public string LabelText
         {
@@ -80,6 +83,7 @@ namespace XFlag.Alter3Simulator
         private void OnSliderValueChanged(float value)
         {
             ApplyValueToText();
+            OnValueChanged(value);
         }
 
         private void OnValueInputEndEdit(string text)

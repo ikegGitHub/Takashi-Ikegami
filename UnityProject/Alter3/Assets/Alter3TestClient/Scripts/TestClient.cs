@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Net.Sockets;
 using System.Text;
 using TMPro;
@@ -26,9 +27,17 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private Transform _outputTextRoot = null;
 
+        [SerializeField]
+        private AxisControllerView _axisControllerPrefab = null;
+
+        [SerializeField]
+        private Transform _axisControllerRoot = null;
+
         private TcpClient _client;
         private TextWriter _writer;
         private TextReader _reader;
+        private LinkedList<GameObject> _logLines = new LinkedList<GameObject>();
+        private int _logCount;
 
         public void Connect()
         {
@@ -94,12 +103,44 @@ namespace XFlag.Alter3Simulator
         {
             var lineText = Instantiate(_outputTextPrefab, _outputTextRoot, false);
             lineText.text = line;
-            lineText.gameObject.SetActive(true);
+
+            _logLines.AddLast(lineText.gameObject);
+            if (_logCount < 100)
+            {
+                ++_logCount;
+            }
+            else
+            {
+                var oldestObject = _logLines.First.Value;
+                _logLines.RemoveFirst();
+                Destroy(oldestObject);
+            }
+        }
+
+        private void SendMoveAxisCommand(int axisNumber, float value)
+        {
+            Submit($"MOVEAXIS {axisNumber} {value}");
+        }
+
+        private void InitializeAxisControllers(int axisCount)
+        {
+            for (var i = 1; i <= axisCount; i++)
+            {
+                var axisNumber = i;
+                var axisController = Instantiate(_axisControllerPrefab, _axisControllerRoot, false);
+                axisController.OnValueChanged += value => SendMoveAxisCommand(axisNumber, value);
+                axisController.LabelText = i.ToString();
+
+                // 範囲は仮
+                axisController.MinValue = 0;
+                axisController.MaxValue = 255;
+            }
         }
 
         private void Awake()
         {
             _commandInput.onSubmit.AddListener(Submit);
+            InitializeAxisControllers(50);
         }
 
         private void OnDestroy()

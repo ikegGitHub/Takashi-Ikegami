@@ -13,7 +13,7 @@ namespace XFlag.Alter3Simulator.Network
 
         public IPEndPoint EndPoint { get; }
 
-        public IEnumerable<string> ResponseLines { get; set; }
+        public string[] ResponseLines { get; set; }
 
         public RequestContext(uint clientId, IPEndPoint endPoint, string receivedString)
         {

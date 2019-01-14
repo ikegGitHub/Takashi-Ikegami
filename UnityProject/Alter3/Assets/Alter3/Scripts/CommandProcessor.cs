@@ -22,11 +22,11 @@ namespace XFlag.Alter3Simulator
             _requestContext.ResponseLines = MakeResponse();
         }
 
-        private IEnumerable<string> MakeResponse()
+        private string[] MakeResponse()
         {
             try
             {
-                return _commandParser.ParseCommandLine(_requestContext.ReceivedString).AcceptVisitor(this);
+                return _commandParser.ParseCommandLine(_requestContext.ReceivedString).AcceptVisitor(this).ToArray();
             }
             catch (Exception e)
             {

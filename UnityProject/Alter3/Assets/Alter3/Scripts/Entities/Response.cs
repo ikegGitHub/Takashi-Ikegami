@@ -6,9 +6,9 @@ namespace XFlag.Alter3Simulator
     {
         public const string OK = "OK";
 
-        public static IEnumerable<string> MakeErrorResponse(string message)
+        public static string[] MakeErrorResponse(string message)
         {
-            yield return $"ERROR: {message}";
+            return new string[] { $"ERROR: {message}" };
         }
     }
 }

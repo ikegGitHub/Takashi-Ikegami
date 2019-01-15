@@ -249,3 +249,10 @@ MonoBehaviour:
     JointItems:
     - JointName: Leg1
       Axis: {x: 1, y: 0, z: 0}
+  - id: 44
+    Name: "\u4E0B\u77BC(\u4E0A\u65B9\u5411\u306E\u307F)"
+    JointItems:
+    - JointName: LeftLowerEyelid
+      Axis: {x: 1, y: 0, z: 0}
+    - JointName: RightLowerEyelid
+      Axis: {x: 1, y: 0, z: 0}

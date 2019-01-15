@@ -17,6 +17,9 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private TMP_InputField _valueInput = null;
 
+        [SerializeField]
+        private Text _jointNameText = null;
+
         public event Action<float> OnValueChanged = delegate { };
 
         public string LabelText
@@ -28,6 +31,17 @@ namespace XFlag.Alter3Simulator
             set
             {
                 _label.text = value;
+            }
+        }
+
+        public string JointNameText
+        {
+            get
+            {
+                return _jointNameText.text;
+            }
+            set {
+                _jointNameText.text = value;
             }
         }
 

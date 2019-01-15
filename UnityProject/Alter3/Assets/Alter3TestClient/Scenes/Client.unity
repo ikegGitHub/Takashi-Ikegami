@@ -764,6 +764,7 @@ MonoBehaviour:
   _axisControllerPrefab: {fileID: 114534926009833034, guid: 00e9373a626a643cb9bc65af0111a380,
     type: 2}
   _axisControllerRoot: {fileID: 827693502}
+  _jointTable: {fileID: 11400000, guid: 6b885a40f8abb9a4ca530f117a3eb42c, type: 2}
 --- !u!4 &507712060
 Transform:
   m_ObjectHideFlags: 0

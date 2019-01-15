@@ -33,6 +33,10 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private Transform _axisControllerRoot = null;
 
+        [SerializeField]
+        JointTable              _jointTable = null;
+
+
         private TcpClient _client;
         private TextWriter _writer;
         private TextReader _reader;
@@ -130,6 +134,8 @@ namespace XFlag.Alter3Simulator
                 var axisController = Instantiate(_axisControllerPrefab, _axisControllerRoot, false);
                 axisController.OnValueChanged += value => SendMoveAxisCommand(axisNumber, value);
                 axisController.LabelText = i.ToString();
+                var entity = _jointTable.GetEntity(i);
+                axisController.JointNameText = entity.Name;
 
                 // 範囲は仮
                 axisController.MinValue = 0;
@@ -140,7 +146,7 @@ namespace XFlag.Alter3Simulator
         private void Awake()
         {
             _commandInput.onSubmit.AddListener(Submit);
-            InitializeAxisControllers(50);
+            InitializeAxisControllers(44);
         }
 
         private void OnDestroy()

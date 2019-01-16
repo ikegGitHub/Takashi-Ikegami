@@ -6,54 +6,54 @@ using UnityEngine.UI;
 
 namespace XFlag.Alter3Simulator
 {
-	[DisallowMultipleComponent]
-	public class ApplicationManager : SingletonMonoBehaviour<ApplicationManager>
-	{
+    [DisallowMultipleComponent]
+    public class ApplicationManager : SingletonMonoBehaviour<ApplicationManager>
+    {
 
         [RuntimeInitializeOnLoadMethod]
-		static void OnRuntimeMethodLoad()
-		{
+        static void OnRuntimeMethodLoad()
+        {
 #if UNITY_EDITOR || UNITY_STANDALONE
-            Screen.SetResolution(1280,720, false, 60);
+            Screen.SetResolution(1280, 720, false, 60);
 #else
 			Screen.SetResolution(1280, 720, false, 60);
 #endif
             //Don't Vsync 必要?
             Application.targetFrameRate = 60;
-		}
+        }
 
 
-		public override void Awake ()
-		{
-			base.Awake();
-			DontDestroyOnLoad(gameObject);
+        public override void Awake()
+        {
+            base.Awake();
+            DontDestroyOnLoad(gameObject);
 
         }
         public override void OnDestroy()
-		{
-			base.OnDestroy();
-		}
+        {
+            base.OnDestroy();
+        }
 
 
 
-		void OnEnable()
-		{
-		}
+        void OnEnable()
+        {
+        }
 
-		void OnDisable()
-		{
-		}
+        void OnDisable()
+        {
+        }
 
-		void OnApplicationPause(bool isPause)
-		{
-		}
+        void OnApplicationPause(bool isPause)
+        {
+        }
 
-		void OnApplicationQuit()
-		{
-		}
-
-
+        void OnApplicationQuit()
+        {
+        }
 
 
-	}
+
+
+    }
 }

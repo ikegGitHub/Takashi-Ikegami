@@ -21,7 +21,7 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         protected GameObject jointRoot = null;
         [SerializeField]
-        protected Dictionary<string,JointParameter> dictionary = new Dictionary<string,JointParameter>();
+        protected Dictionary<string, JointParameter> dictionary = new Dictionary<string, JointParameter>();
 
         [SerializeField]
         protected JointController jointController = null;
@@ -43,7 +43,7 @@ namespace XFlag.Alter3Simulator
         {
 
         }
-        float ang = 0;
+        //        float ang = 0;
 
         // Update is called once per frame
         protected virtual void Update()
@@ -69,7 +69,7 @@ namespace XFlag.Alter3Simulator
         }
 
 
-        protected Transform   FindJoint(string name)
+        protected Transform FindJoint(string name)
         {
             var trans = dictionary[name].Transform;
             return trans;
@@ -89,13 +89,14 @@ namespace XFlag.Alter3Simulator
             {
                 var param = FindJointParameter(item.JointName);
                 param.Transform.localRotation = Quaternion.AngleAxis(ang, item.Axis);
+                //                param.Transform.localRotation = Quaternion.AngleAxis(ang, param.AxisVector);
             }
 
         }
 
 
 
-#region IRobot
+        #region IRobot
         public void MoveAxis(AxisParam axisParam)
         {
 
@@ -118,7 +119,7 @@ namespace XFlag.Alter3Simulator
 
 
 
-#endregion
+        #endregion
 
 
 

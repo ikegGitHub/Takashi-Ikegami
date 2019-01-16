@@ -120,12 +120,12 @@ MonoBehaviour:
   - id: 18
     Name: "\u5DE6\u8107\u958B\u9589"
     JointItems:
-    - JointName: LeftArm 2
+    - JointName: LeftArm
       Axis: {x: 0, y: 1, z: 0}
   - id: 19
     Name: "\u5DE6\u8155\u524D\u5F8C"
     JointItems:
-    - JointName: LeftShoulder 1
+    - JointName: LeftShoulder
       Axis: {x: 0, y: 1, z: 0}
   - id: 20
     Name: "\u5DE6\u4E0A\u8155\u65CB\u56DE"
@@ -248,7 +248,7 @@ MonoBehaviour:
     Name: "\u5168\u4F53\u65CB\u56DE"
     JointItems:
     - JointName: Leg1
-      Axis: {x: 1, y: 0, z: 0}
+      Axis: {x: 0, y: 1, z: 0}
   - id: 44
     Name: "\u4E0B\u77BC(\u4E0A\u65B9\u5411\u306E\u307F)"
     JointItems:

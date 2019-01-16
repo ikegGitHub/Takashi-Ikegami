@@ -5,7 +5,7 @@ using UnityEngine;
 namespace XFlag.Alter3Simulator
 {
     [System.Serializable]
-    public class JointParameter 
+    public class JointParameter
     {
         public string Name = "";
         public int AxisNum = 0;
@@ -13,7 +13,7 @@ namespace XFlag.Alter3Simulator
         public Vector3 Rotation = Vector3.zero;
         public Transform Transform = null;
         public Vector3 AxisVector = Vector3.zero;
-       
+
 
         /// <summary>
         /// 使用禁止

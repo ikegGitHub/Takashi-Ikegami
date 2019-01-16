@@ -79,17 +79,17 @@ MonoBehaviour:
     Name: "\u9996\u50BE\u3052\u53F3"
     JointItems:
     - JointName: Head
-      Axis: {x: 0, y: 0, z: 1}
+      Axis: {x: 0, y: 0, z: -1}
   - id: 11
     Name: "\u9996\u65CB\u56DE"
     JointItems:
     - JointName: neck
-      Axis: {x: 1, y: 0, z: 0}
+      Axis: {x: 0, y: 1, z: 0}
   - id: 12
     Name: "\u99962\u524D\u5F8C"
     JointItems:
     - JointName: neck
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: 1, y: 0, z: 0}
   - id: 13
     Name: "\u8179\u90E8\u5DE6\u53F3\u50BE\u3052"
     JointItems:
@@ -156,22 +156,22 @@ MonoBehaviour:
     Name: "\u5DE6\u6307\u52D5\u4F5C1"
     JointItems:
     - JointName: LeftHandThumb
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: 0, y: 0, z: 1}
   - id: 26
     Name: "\u5DE6\u6307\u52D5\u4F5C2"
     JointItems:
     - JointName: LeftHandIndex
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: 0, y: 0, z: 1}
   - id: 27
     Name: "\u5DE6\u6307\u52D5\u4F5C3"
     JointItems:
     - JointName: LeftHandMiddle
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: 0, y: 0, z: 1}
   - id: 28
     Name: "\u5DE6\u6307\u52D5\u4F5C4"
     JointItems:
     - JointName: LeftHandRingPinky
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: 0, y: 0, z: 1}
   - id: 29
     Name: "\u53F3\u80A9\u7532\u9AA8\u4E0A\u4E0B"
     JointItems:
@@ -221,29 +221,29 @@ MonoBehaviour:
     Name: "\u53F3\u6307\u52D5\u4F5C1"
     JointItems:
     - JointName: RightHandThumb
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: 0, y: 0, z: 1}
   - id: 39
     Name: "\u53F3\u6307\u52D5\u4F5C2"
     JointItems:
     - JointName: RightHandIndex
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: 0, y: 0, z: 1}
   - id: 40
     Name: "\u53F3\u6307\u52D5\u4F5C3"
     JointItems:
     - JointName: RightHandMiddle
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: 0, y: 0, z: 1}
   - id: 41
     Name: "\u53F3\u6307\u52D5\u4F5C4"
     JointItems:
     - JointName: RightHandRingPinky
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: 0, y: 0, z: 1}
   - id: 42
     Name: "\u8170\u4E0A\u4E0B"
     JointItems:
     - JointName: Leg2
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: 1, y: 0, z: 0}
     - JointName: Hips
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: -1, y: 0, z: 0}
   - id: 43
     Name: "\u5168\u4F53\u65CB\u56DE"
     JointItems:

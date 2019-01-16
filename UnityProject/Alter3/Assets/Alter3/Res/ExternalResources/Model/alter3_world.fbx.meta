@@ -88,6 +88,36 @@ ModelImporter:
     100164: Spine5 1
     100166: Spine5 2
     100168: UpperBody
+    100170: all
+    100172: imagePlane1
+    100174: imagePlane2
+    100176: mdl_Face
+    100178: mdl_Face_GP
+    100180: mdl_Foundation
+    100182: mdl_Hip
+    100184: mdl_LeftArm
+    100186: mdl_LeftArm_GP
+    100188: mdl_LeftEye
+    100190: mdl_LeftForeArm
+    100192: mdl_LeftHand
+    100194: mdl_LeftShoulder
+    100196: mdl_Leg1
+    100198: mdl_Leg2
+    100200: mdl_LowerBody_GP
+    100202: mdl_Neck
+    100204: mdl_RightArm
+    100206: mdl_RightArm_GP
+    100208: mdl_RightEye
+    100210: mdl_RightForeArm
+    100212: mdl_RightShoulder
+    100214: mdl_RioghtHand
+    100216: mdl_Spine1
+    100218: mdl_Spine2
+    100220: mdl_Spine3
+    100222: mdl_Spine4
+    100224: mdl_Spine5
+    100226: mdl_UpperBody_GP
+    100228: sourceimages
     400000: //RootNode
     400002: Face
     400004: Face 1
@@ -173,7 +203,38 @@ ModelImporter:
     400164: Spine5 1
     400166: Spine5 2
     400168: UpperBody
+    400170: all
+    400172: imagePlane1
+    400174: imagePlane2
+    400176: mdl_Face
+    400178: mdl_Face_GP
+    400180: mdl_Foundation
+    400182: mdl_Hip
+    400184: mdl_LeftArm
+    400186: mdl_LeftArm_GP
+    400188: mdl_LeftEye
+    400190: mdl_LeftForeArm
+    400192: mdl_LeftHand
+    400194: mdl_LeftShoulder
+    400196: mdl_Leg1
+    400198: mdl_Leg2
+    400200: mdl_LowerBody_GP
+    400202: mdl_Neck
+    400204: mdl_RightArm
+    400206: mdl_RightArm_GP
+    400208: mdl_RightEye
+    400210: mdl_RightForeArm
+    400212: mdl_RightShoulder
+    400214: mdl_RioghtHand
+    400216: mdl_Spine1
+    400218: mdl_Spine2
+    400220: mdl_Spine3
+    400222: mdl_Spine4
+    400224: mdl_Spine5
+    400226: mdl_UpperBody_GP
+    400228: sourceimages
     2100000: lambert2
+    2100002: lambert1
     4300000: Leg2
     4300002: Leg1
     4300004: Foundation
@@ -195,6 +256,27 @@ ModelImporter:
     4300036: Face
     4300038: LeftEye
     4300040: RightEye
+    4300042: mdl_Leg2
+    4300044: mdl_Leg1
+    4300046: mdl_Foundation
+    4300048: mdl_Hip
+    4300050: mdl_Spine1
+    4300052: mdl_Spine2
+    4300054: mdl_Spine3
+    4300056: mdl_Spine4
+    4300058: mdl_Spine5
+    4300060: mdl_LeftShoulder
+    4300062: mdl_LeftArm
+    4300064: mdl_LeftForeArm
+    4300066: mdl_LeftHand
+    4300068: mdl_RightForeArm
+    4300070: mdl_RightArm
+    4300072: mdl_RightShoulder
+    4300074: mdl_RioghtHand
+    4300076: mdl_Neck
+    4300078: mdl_Face
+    4300080: mdl_LeftEye
+    4300082: mdl_RightEye
     9500000: //RootNode
     13700000: Face 1
     13700002: Foundation
@@ -217,6 +299,27 @@ ModelImporter:
     13700036: Spine3
     13700038: Spine4
     13700040: Spine5
+    13700042: mdl_Face
+    13700044: mdl_Foundation
+    13700046: mdl_Hip
+    13700048: mdl_LeftArm
+    13700050: mdl_LeftEye
+    13700052: mdl_LeftForeArm
+    13700054: mdl_LeftHand
+    13700056: mdl_LeftShoulder
+    13700058: mdl_Leg1
+    13700060: mdl_Leg2
+    13700062: mdl_Neck
+    13700064: mdl_RightArm
+    13700066: mdl_RightEye
+    13700068: mdl_RightForeArm
+    13700070: mdl_RightShoulder
+    13700072: mdl_RioghtHand
+    13700074: mdl_Spine1
+    13700076: mdl_Spine2
+    13700078: mdl_Spine3
+    13700080: mdl_Spine4
+    13700082: mdl_Spine5
   externalObjects: {}
   materials:
     importMaterials: 1

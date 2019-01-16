@@ -16,7 +16,7 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         JointTable jointTable = null;
 
-        public JointItem   [] GetItem(int axisNum)
+        public JointItem[] GetItem(int axisNum)
         {
             var entity = jointTable?.GetEntity(axisNum);
             return entity.JointItems;

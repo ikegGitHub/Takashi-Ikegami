@@ -20,6 +20,9 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private Text _jointNameText = null;
 
+        [SerializeField]
+        private Text _contentsText = null;
+
         public event Action<float> OnValueChanged = delegate { };
 
         public string LabelText
@@ -40,8 +43,20 @@ namespace XFlag.Alter3Simulator
             {
                 return _jointNameText.text;
             }
-            set {
+            set
+            {
                 _jointNameText.text = value;
+            }
+        }
+        public string ContentsText
+        {
+            get
+            {
+                return _contentsText.text;
+            }
+            set
+            {
+                _contentsText.text = value;
             }
         }
 
@@ -91,7 +106,7 @@ namespace XFlag.Alter3Simulator
 
         private void ApplyValueToText()
         {
-             _valueInput.text = _slider.value.ToString("F02");
+            _valueInput.text = _slider.value.ToString("F02");
         }
 
         private void OnSliderValueChanged(float value)

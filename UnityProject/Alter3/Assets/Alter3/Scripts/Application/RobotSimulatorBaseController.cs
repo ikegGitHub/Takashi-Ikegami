@@ -81,15 +81,45 @@ namespace XFlag.Alter3Simulator
             return param;
         }
 
-        protected void UpdateJoint(int axisNum, float ang)
+        protected void UpdateJoint(int axisNum, float value)
         {
             var jointItem = jointController.GetItem(axisNum);
 
             foreach (var item in jointItem)
             {
                 var param = FindJointParameter(item.JointName);
-                param.Transform.localRotation = Quaternion.AngleAxis(ang, item.Axis);
-                //                param.Transform.localRotation = Quaternion.AngleAxis(ang, param.AxisVector);
+                var t = (float)value / 255;
+                var ang = Mathf.Lerp(item.rangeMin, item.rangeMax, t);
+                var newRotation = item.Axis * ang;
+                float ax = 0;
+                float ay = 0;
+                float az = 0;
+                if (newRotation.x != 0)
+                {
+                    ax = newRotation.x;
+                }
+                else
+                {
+                    ax = param.CurrentRotation.x;
+                }
+                if (newRotation.y != 0)
+                {
+                    ay = newRotation.y;
+                }
+                else
+                {
+                    ay = param.CurrentRotation.y;
+                }
+                if (newRotation.z != 0)
+                {
+                    az = newRotation.z;
+                }
+                else
+                {
+                    az = param.CurrentRotation.z;
+                }
+                param.CurrentRotation = new Vector3(ax, ay, az);
+                param.Transform.localRotation = Quaternion.Euler(param.CurrentRotation);    // Quaternion.AngleAxis(ang, item.Axis);
             }
 
         }

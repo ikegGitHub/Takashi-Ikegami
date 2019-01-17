@@ -9,8 +9,9 @@ namespace XFlag.Alter3Simulator
     {
         public string Name = "";
         public int AxisNum = 0;
-        public Vector3 Position = Vector3.zero;
-        public Vector3 Rotation = Vector3.zero;
+        public Vector3 DefaultPosition = Vector3.zero;
+        public Vector3 DefaultRotation = Vector3.zero;
+        public Vector3 CurrentRotation = Vector3.zero;
         public Transform Transform = null;
         public Vector3 AxisVector = Vector3.zero;
 
@@ -27,9 +28,10 @@ namespace XFlag.Alter3Simulator
         {
             Transform = trans;
             Name = trans.name;
-            Position = trans.localPosition;
-            Rotation = trans.localRotation.eulerAngles;
-            AxisVector = Quaternion.Euler(Rotation) * Vector3.right;
+            DefaultPosition = trans.localPosition;
+            DefaultRotation = trans.localRotation.eulerAngles;
+            CurrentRotation = DefaultRotation;
+            AxisVector = Quaternion.Euler(DefaultRotation) * Vector3.right;
         }
     }
 }

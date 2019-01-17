@@ -14,245 +14,401 @@ MonoBehaviour:
   list:
   - id: 1
     Name: "\u4E0A\u77BC\u958B\u9589 "
+    Content: "\u30DE\u30D6\u30BF\u306E\u958B\u53E3\u5EA6\u3092\u5236\u5FA1"
     JointItems:
     - JointName: LeftUpperEyelid
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
     - JointName: RightUpperEyelid
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 2
     Name: "\u773C\u5DE6\u53F3 "
+    Content: "\u773C\u7403\u5DE6\u53F3\uFF08\u5DE6\u53F335\xB0\u632F\u308A\u5206\u3051\uFF09"
     JointItems:
     - JointName: LeftEye
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
     - JointName: RightEye
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 3
     Name: "\u773C\u7403\u5BC4\u305B"
+    Content: "\u9060\u8FD1\u306E\u773C\u7403\u7126\u70B9\u52D5\u4F5C"
     JointItems:
     - JointName: LeftEye
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
     - JointName: RightEye
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 4
     Name: "\u773C\u4E0A\u4E0B"
+    Content: "\u773C\u7403\u4E0A\u4E0B\uFF08\u4E0A\u4E0B14\xB0\u632F\u308A\u5206\u3051\uFF09"
     JointItems:
     - JointName: LeftEye
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
     - JointName: RightEye
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 5
     Name: "\u982C\u5F15\u304D"
+    Content: "\u53E3\u89D2\u3084\u982C\u306E\u8089\u306E\u52D5\u304D"
     JointItems:
     - JointName: LeftMouth
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: 0, y: -1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
     - JointName: RightMouth
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 6
     Name: "\u53E3\u5F15\u304D"
+    Content: "\u300E\u3044\u300F\u306E\u52D5\u304D"
     JointItems:
     - JointName: LeftMouth
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: 0, y: -1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
     - JointName: RightMouth
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
     - JointName: jaw(chin)
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 7
     Name: "\u53E3\u3059\u307C\u3081"
+    Content: "\u300E\u3046\u300F\u306E\u53E3\u306E\u52D5\u304D"
     JointItems:
     - JointName: LeftMouth
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: 0, y: -1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
     - JointName: RightMouth
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
     - JointName: jaw(chin)
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 8
     Name: "\u53E3\u958B\u9589"
+    Content: "\u30A2\u30B4\u5168\u4F53\u306E\u52D5\u4F5C"
     JointItems:
     - JointName: jaw(chin)
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 9
-    Name: "\u9996\u50BE\u3052\u5DE6"
+    Name: "\u9996\u50BE\u3052\u5DE6\u53F3"
+    Content: "\u9996\u306E\u5DE6\u53F3\u50BE\u3052"
     JointItems:
     - JointName: Head
       Axis: {x: 0, y: 0, z: 1}
+      rangeMin: -180
+      rangeMax: 180
   - id: 10
-    Name: "\u9996\u50BE\u3052\u53F3"
+    Name: "\u9996\u50BE\u3052\u524D\u5F8C"
+    Content: "\u9996\u306E\u524D\u5F8C"
     JointItems:
     - JointName: Head
-      Axis: {x: 0, y: 0, z: -1}
+      Axis: {x: 1, y: 0, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 11
     Name: "\u9996\u65CB\u56DE"
+    Content: "\u9996\u306E\u524D\u5F8C"
     JointItems:
     - JointName: neck
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 12
     Name: "\u99962\u524D\u5F8C"
+    Content: "\u9996\u4ED8\u3051\u6839\u5C48\u6298\u52D5\u4F5C"
     JointItems:
     - JointName: neck
       Axis: {x: 1, y: 0, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 13
     Name: "\u8179\u90E8\u5DE6\u53F3\u50BE\u3052"
+    Content: "\u8170\u304B\u3089\u4E0A\u3092\u5DE6\u53F3\u306B\u5E73\u884C\u79FB\u52D5"
     JointItems:
     - JointName: Spine4
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 14
     Name: "\u8179\u90E8\u524D\u5F8C"
+    Content: "\u304A\u8F9E\u5100\u52D5\u4F5C"
     JointItems:
     - JointName: Spine2
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: 1, y: 0, z: 0}
+      rangeMin: -180
+      rangeMax: 180
     - JointName: Spine3
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: 1, y: 0, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 15
     Name: "\u8170\u65CB\u56DE"
+    Content: "\u8170\u3072\u306D\u308A"
     JointItems:
     - JointName: Spine1
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 16
     Name: "\u5DE6\u80A9\u7532\u9AA8\u4E0A\u4E0B"
+    Content: "\u547C\u5438\u52D5\u4F5C"
     JointItems:
     - JointName: LeftShoulder
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: 1, y: 0, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 17
     Name: "\u5DE6\u80A9\u7532\u9AA8\u524D\u5F8C"
+    Content: "\u80A9\u7532\u9AA8\u306E\u30B9\u30E9\u30A4\u30C9\u52D5\u4F5C"
     JointItems:
     - JointName: LeftShoulder
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 18
     Name: "\u5DE6\u8107\u958B\u9589"
+    Content: "\u8107\u3092\u958B\u304F\u52D5\u304D"
     JointItems:
     - JointName: LeftArm
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: 0, y: 0, z: 1}
+      rangeMin: -180
+      rangeMax: 180
   - id: 19
     Name: "\u5DE6\u8155\u524D\u5F8C"
+    Content: "\u524D\u306B\u306A\u3089\u3048\u306E\u52D5\u304D"
     JointItems:
     - JointName: LeftShoulder
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 20
     Name: "\u5DE6\u4E0A\u8155\u65CB\u56DE"
+    Content: "\u4E0A\u8155\u306E\u3072\u306D\u308A\u52D5\u4F5C"
     JointItems:
     - JointName: LeftArm
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 21
     Name: "\u5DE6\u8098\u5C48\u4F38"
+    Content: "\u8098\u306E\u5C48\u4F38"
     JointItems:
     - JointName: LeftForeArm
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 22
     Name: "\u5DE6\u524D\u8155\u3072\u306D\u308A"
+    Content: "\u624B\u9996\u306E\u3072\u306D\u308A\u52D5\u4F5C"
     JointItems:
     - JointName: LeftHand
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 23
     Name: "\u5DE6\u624B\u9996\u5C48\u4F38"
+    Content: "\u5C0F\u6307\u5074\u306E\u4F38\u7E2E"
     JointItems:
     - JointName: LeftHand
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 24
     Name: "\u5DE6\u624B\u9996\u5C48\u4F38"
+    Content: "\u89AA\u6307\u5074\u306E\u4F38\u7E2E"
     JointItems:
     - JointName: LeftHand
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 25
     Name: "\u5DE6\u6307\u52D5\u4F5C1"
+    Content: "\u89AA\u6307\u52D5\u4F5C"
     JointItems:
     - JointName: LeftHandThumb
       Axis: {x: 0, y: 0, z: 1}
+      rangeMin: -180
+      rangeMax: 180
   - id: 26
     Name: "\u5DE6\u6307\u52D5\u4F5C2"
+    Content: "\u4EBA\u5DEE\u3057\u6307\u52D5\u4F5C"
     JointItems:
     - JointName: LeftHandIndex
       Axis: {x: 0, y: 0, z: 1}
+      rangeMin: -180
+      rangeMax: 180
   - id: 27
     Name: "\u5DE6\u6307\u52D5\u4F5C3"
+    Content: "\u4E2D\u6307\u52D5\u4F5C"
     JointItems:
     - JointName: LeftHandMiddle
       Axis: {x: 0, y: 0, z: 1}
+      rangeMin: -180
+      rangeMax: 180
   - id: 28
     Name: "\u5DE6\u6307\u52D5\u4F5C4"
+    Content: "\u85AC\u6307\u30FB\u5C0F\u6307\u52D5\u4F5C\uFF08\u9023\u52D5\uFF09"
     JointItems:
     - JointName: LeftHandRingPinky
       Axis: {x: 0, y: 0, z: 1}
+      rangeMin: -180
+      rangeMax: 180
   - id: 29
     Name: "\u53F3\u80A9\u7532\u9AA8\u4E0A\u4E0B"
+    Content: "\u547C\u5438\u52D5\u4F5C"
     JointItems:
     - JointName: RightShoulder
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 30
     Name: "\u53F3\u80A9\u7532\u9AA8\u524D\u5F8C"
+    Content: "\u80A9\u7532\u9AA8\u306E\u30B9\u30E9\u30A4\u30C9\u52D5\u4F5C"
     JointItems:
     - JointName: RightShoulder
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 31
     Name: "\u53F3\u8107\u958B\u9589"
+    Content: "\u8107\u3092\u958B\u304F\u52D5\u304D"
     JointItems:
     - JointName: RightArm
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: 0, y: 0, z: 1}
+      rangeMin: -180
+      rangeMax: 180
   - id: 32
     Name: "\u53F3\u8155\u524D\u5F8C"
+    Content: 
     JointItems:
     - JointName: RightShoulder
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 33
     Name: "\u53F3\u4E0A\u8155\u65CB\u56DE"
+    Content: "\u4E0A\u8155\u306E\u3072\u306D\u308A\u52D5\u4F5C"
     JointItems:
     - JointName: RightArm
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 34
     Name: "\u53F3\u8098\u5C48\u4F38"
+    Content: "\u8098\u306E\u5C48\u4F38"
     JointItems:
     - JointName: RightForeArm
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 35
     Name: "\u53F3\u524D\u8155\u3072\u306D\u308A"
+    Content: "\u624B\u9996\u306E\u3072\u306D\u308A\u52D5\u4F5C"
     JointItems:
     - JointName: RightHand
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 36
     Name: "\u53F3\u624B\u9996\u5C48\u4F38"
+    Content: "\u5C0F\u6307\u5074\u306E\u4F38\u7E2E"
     JointItems:
     - JointName: RightHand
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 37
     Name: "\u53F3\u624B\u9996\u5C48\u4F38"
+    Content: "\u89AA\u6307\u5074\u306E\u4F38\u7E2E"
     JointItems:
     - JointName: RightHand
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 38
     Name: "\u53F3\u6307\u52D5\u4F5C1"
+    Content: "\u89AA\u6307\u52D5\u4F5C"
     JointItems:
     - JointName: RightHandThumb
       Axis: {x: 0, y: 0, z: 1}
+      rangeMin: -180
+      rangeMax: 180
   - id: 39
     Name: "\u53F3\u6307\u52D5\u4F5C2"
+    Content: "\u4EBA\u5DEE\u3057\u6307\u52D5\u4F5C"
     JointItems:
     - JointName: RightHandIndex
       Axis: {x: 0, y: 0, z: 1}
+      rangeMin: -180
+      rangeMax: 180
   - id: 40
     Name: "\u53F3\u6307\u52D5\u4F5C3"
+    Content: "\u4E2D\u6307\u52D5\u4F5C"
     JointItems:
     - JointName: RightHandMiddle
       Axis: {x: 0, y: 0, z: 1}
+      rangeMin: -180
+      rangeMax: 180
   - id: 41
     Name: "\u53F3\u6307\u52D5\u4F5C4"
+    Content: "\u85AC\u6307\u30FB\u5C0F\u6307\u52D5\u4F5C\uFF08\u9023\u52D5\uFF09"
     JointItems:
     - JointName: RightHandRingPinky
       Axis: {x: 0, y: 0, z: 1}
+      rangeMin: -180
+      rangeMax: 180
   - id: 42
     Name: "\u8170\u4E0A\u4E0B"
+    Content: "\u7ACB\u3061\u4E0A\u304C\u308A"
     JointItems:
     - JointName: Leg2
       Axis: {x: 1, y: 0, z: 0}
+      rangeMin: -180
+      rangeMax: 180
     - JointName: Hips
       Axis: {x: -1, y: 0, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 43
     Name: "\u5168\u4F53\u65CB\u56DE"
+    Content: "\u5DE6\u53F3\u5404\uFF11\uFF18\uFF10\xB0\u56DE\u8EE2"
     JointItems:
     - JointName: Leg1
       Axis: {x: 0, y: 1, z: 0}
+      rangeMin: -180
+      rangeMax: 180
   - id: 44
     Name: "\u4E0B\u77BC(\u4E0A\u65B9\u5411\u306E\u307F)"
+    Content: 
     JointItems:
     - JointName: LeftLowerEyelid
       Axis: {x: 1, y: 0, z: 0}
+      rangeMin: -180
+      rangeMax: 180
     - JointName: RightLowerEyelid
       Axis: {x: 1, y: 0, z: 0}
+      rangeMin: -180
+      rangeMax: 180

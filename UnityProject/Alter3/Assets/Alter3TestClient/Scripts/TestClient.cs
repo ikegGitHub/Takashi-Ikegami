@@ -136,10 +136,12 @@ namespace XFlag.Alter3Simulator
                 axisController.LabelText = i.ToString();
                 var entity = _jointTable.GetEntity(i);
                 axisController.JointNameText = entity.Name;
+                axisController.ContentsText = entity.Content;
 
                 // 範囲は仮
                 axisController.MinValue = 0;
                 axisController.MaxValue = 255;
+                axisController.Value = 128;
             }
         }
 

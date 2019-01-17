@@ -149,7 +149,7 @@ MonoBehaviour:
     Content: "\u8170\u304B\u3089\u4E0A\u3092\u5DE6\u53F3\u306B\u5E73\u884C\u79FB\u52D5"
     JointItems:
     - JointName: Spine4
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: 0, y: 0, z: 1}
       rangeMin: -180
       rangeMax: 180
   - id: 14
@@ -217,7 +217,7 @@ MonoBehaviour:
     Content: "\u8098\u306E\u5C48\u4F38"
     JointItems:
     - JointName: LeftForeArm
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: 0, y: 0, z: 1}
       rangeMin: -180
       rangeMax: 180
   - id: 22
@@ -321,7 +321,7 @@ MonoBehaviour:
     Content: "\u8098\u306E\u5C48\u4F38"
     JointItems:
     - JointName: RightForeArm
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: 0, y: 0, z: -1}
       rangeMin: -180
       rangeMax: 180
   - id: 35

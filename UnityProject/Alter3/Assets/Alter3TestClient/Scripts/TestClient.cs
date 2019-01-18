@@ -34,8 +34,7 @@ namespace XFlag.Alter3Simulator
         private Transform _axisControllerRoot = null;
 
         [SerializeField]
-        JointTable _jointTable = null;
-
+        private JointTable _jointTable = null;
 
         private TcpClient _client;
         private TextWriter _writer;

@@ -4,7 +4,8 @@
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -17,11 +18,11 @@ MonoBehaviour:
     Content: "\u30DE\u30D6\u30BF\u306E\u958B\u53E3\u5EA6\u3092\u5236\u5FA1"
     JointItems:
     - JointName: LeftUpperEyelid
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: 1, y: 0, z: 0}
       rangeMin: -180
       rangeMax: 180
     - JointName: RightUpperEyelid
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: 1, y: 0, z: 0}
       rangeMin: -180
       rangeMax: 180
   - id: 2
@@ -45,7 +46,7 @@ MonoBehaviour:
       rangeMin: -180
       rangeMax: 180
     - JointName: RightEye
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: 0, y: -1, z: 0}
       rangeMin: -180
       rangeMax: 180
   - id: 4
@@ -53,13 +54,13 @@ MonoBehaviour:
     Content: "\u773C\u7403\u4E0A\u4E0B\uFF08\u4E0A\u4E0B14\xB0\u632F\u308A\u5206\u3051\uFF09"
     JointItems:
     - JointName: LeftEye
-      Axis: {x: 0, y: 1, z: 0}
-      rangeMin: -180
-      rangeMax: 180
+      Axis: {x: 1, y: 0, z: 0}
+      rangeMin: -14
+      rangeMax: 14
     - JointName: RightEye
-      Axis: {x: 0, y: 1, z: 0}
-      rangeMin: -180
-      rangeMax: 180
+      Axis: {x: 1, y: 0, z: 0}
+      rangeMin: -14
+      rangeMax: 14
   - id: 5
     Name: "\u982C\u5F15\u304D"
     Content: "\u53E3\u89D2\u3084\u982C\u306E\u8089\u306E\u52D5\u304D"
@@ -78,16 +79,16 @@ MonoBehaviour:
     JointItems:
     - JointName: LeftMouth
       Axis: {x: 0, y: -1, z: 0}
-      rangeMin: -180
-      rangeMax: 180
+      rangeMin: 0
+      rangeMax: 30
     - JointName: RightMouth
       Axis: {x: 0, y: 1, z: 0}
-      rangeMin: -180
-      rangeMax: 180
-    - JointName: jaw(chin)
-      Axis: {x: 0, y: 1, z: 0}
-      rangeMin: -180
-      rangeMax: 180
+      rangeMin: 0
+      rangeMax: 30
+    - JointName: jaw
+      Axis: {x: 1, y: 1, z: 0}
+      rangeMin: 0
+      rangeMax: 30
   - id: 7
     Name: "\u53E3\u3059\u307C\u3081"
     Content: "\u300E\u3046\u300F\u306E\u53E3\u306E\u52D5\u304D"
@@ -100,18 +101,18 @@ MonoBehaviour:
       Axis: {x: 0, y: 1, z: 0}
       rangeMin: -180
       rangeMax: 180
-    - JointName: jaw(chin)
-      Axis: {x: 0, y: 1, z: 0}
+    - JointName: jaw
+      Axis: {x: 1, y: 0, z: 0}
       rangeMin: -180
       rangeMax: 180
   - id: 8
     Name: "\u53E3\u958B\u9589"
     Content: "\u30A2\u30B4\u5168\u4F53\u306E\u52D5\u4F5C"
     JointItems:
-    - JointName: jaw(chin)
-      Axis: {x: 0, y: 1, z: 0}
-      rangeMin: -180
-      rangeMax: 180
+    - JointName: jaw
+      Axis: {x: 1, y: 0, z: 0}
+      rangeMin: 0
+      rangeMax: 20
   - id: 9
     Name: "\u9996\u50BE\u3052\u5DE6\u53F3"
     Content: "\u9996\u306E\u5DE6\u53F3\u50BE\u3052"
@@ -150,6 +151,10 @@ MonoBehaviour:
     JointItems:
     - JointName: Spine4
       Axis: {x: 0, y: 0, z: 1}
+      rangeMin: -180
+      rangeMax: 180
+    - JointName: Spine5
+      Axis: {x: 0, y: 0, z: -1}
       rangeMin: -180
       rangeMax: 180
   - id: 14
@@ -201,7 +206,7 @@ MonoBehaviour:
     Content: "\u524D\u306B\u306A\u3089\u3048\u306E\u52D5\u304D"
     JointItems:
     - JointName: LeftShoulder
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: 1, y: 0, z: 0}
       rangeMin: -180
       rangeMax: 180
   - id: 20
@@ -217,7 +222,7 @@ MonoBehaviour:
     Content: "\u8098\u306E\u5C48\u4F38"
     JointItems:
     - JointName: LeftForeArm
-      Axis: {x: 0, y: 0, z: 1}
+      Axis: {x: 1, y: 0, z: 0}
       rangeMin: -180
       rangeMax: 180
   - id: 22

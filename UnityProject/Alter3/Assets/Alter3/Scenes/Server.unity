@@ -1434,7 +1434,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cameraTransform: {fileID: 534669905}
   _lookAtTransform: {fileID: 671863328}
-  _distanceMin: 0.5
+  _distanceMin: 0.2
   _distanceMax: 10
   _dragAreView: {fileID: 903041466}
 --- !u!4 &936692376

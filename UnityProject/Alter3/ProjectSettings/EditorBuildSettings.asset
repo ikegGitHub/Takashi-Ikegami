@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Alter3/Scenes/Splash.unity
+    guid: cfba620c640550c46a3d2fbe395d12ea
+  - enabled: 1
     path: Assets/Alter3/Scenes/Server.unity
     guid: bcc54552f083d834aaa585cec5623eb3
   - enabled: 1

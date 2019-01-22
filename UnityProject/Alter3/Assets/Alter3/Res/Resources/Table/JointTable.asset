@@ -86,7 +86,7 @@ MonoBehaviour:
       rangeMin: 0
       rangeMax: 30
     - JointName: jaw
-      Axis: {x: 1, y: 1, z: 0}
+      Axis: {x: 1, y: 0, z: 0}
       rangeMin: 0
       rangeMax: 30
   - id: 7

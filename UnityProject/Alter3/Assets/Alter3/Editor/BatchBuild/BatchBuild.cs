@@ -7,6 +7,9 @@ namespace XFlag.Alter3SimulatorEditor
 {
     public static class BatchBuild
     {
+        private static readonly string[] SimulatorScenes = { "Splash", "Server" };
+        private static readonly string[] TestClientScenes = { "Client" };
+
         [MenuItem("Window/Alter3/Build (Win64)/All")]
         private static void BuildAll_Win64()
         {
@@ -24,34 +27,33 @@ namespace XFlag.Alter3SimulatorEditor
         [MenuItem("Window/Alter3/Build (Win64)/Test Client")]
         private static void BuildTestClient_Win64()
         {
-            BuildSingleScene("Client", "TestClient", BuildTarget.StandaloneWindows64, BuildOptions.None);
+            BuildSingleScene(TestClientScenes, "TestClient", BuildTarget.StandaloneWindows64, BuildOptions.None);
         }
 
         [MenuItem("Window/Alter3/Build (OSX)/Test Client")]
         private static void BuildTestClient_OSX()
         {
-            BuildSingleScene("Client", "TestClient", BuildTarget.StandaloneOSX, BuildOptions.None);
+            BuildSingleScene(TestClientScenes, "TestClient", BuildTarget.StandaloneOSX, BuildOptions.None);
         }
 
         [MenuItem("Window/Alter3/Build (Win64)/Server")]
         private static void BuildServer_Win64()
         {
-            BuildSingleScene("Server", "Alter3Simulator", BuildTarget.StandaloneWindows64, BuildOptions.None);
+            BuildSingleScene(SimulatorScenes, "Alter3Simulator", BuildTarget.StandaloneWindows64, BuildOptions.None);
         }
 
         [MenuItem("Window/Alter3/Build (OSX)/Server")]
         private static void BuildServer_OSX()
         {
-            BuildSingleScene("Server", "Alter3Simulator", BuildTarget.StandaloneOSX, BuildOptions.None);
+            BuildSingleScene(SimulatorScenes, "Alter3Simulator", BuildTarget.StandaloneOSX, BuildOptions.None);
         }
 
-        private static void BuildSingleScene(string sceneName, string outputName, BuildTarget target, BuildOptions options)
+        private static void BuildSingleScene(string[] sceneNames, string outputName, BuildTarget target, BuildOptions options)
         {
             Debug.Log($"Starting build {outputName}");
-            var scene = EditorBuildSettings.scenes.First(s => Path.GetFileNameWithoutExtension(s.path) == sceneName);
             var buildPlayerOptions = new BuildPlayerOptions
             {
-                scenes = new[] { scene.path },
+                scenes = GetScenePaths(sceneNames),
                 targetGroup = BuildTargetGroup.Standalone,
                 target = target,
                 locationPathName = $"Builds/{target}/{outputName}/{outputName}{GetExtension(target)}",
@@ -59,6 +61,14 @@ namespace XFlag.Alter3SimulatorEditor
             };
             var buildReport = BuildPipeline.BuildPlayer(buildPlayerOptions);
             Debug.Log($"Build {buildReport.summary.result}");
+        }
+
+        private static string[] GetScenePaths(string[] names)
+        {
+            return EditorBuildSettings.scenes
+                .Where(scene => names.Contains(Path.GetFileNameWithoutExtension(scene.path)))
+                .Select(scene => scene.path)
+                .ToArray();
         }
 
         private static string GetExtension(BuildTarget target)

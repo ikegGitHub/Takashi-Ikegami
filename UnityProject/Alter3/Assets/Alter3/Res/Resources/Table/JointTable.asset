@@ -31,24 +31,24 @@ MonoBehaviour:
     JointItems:
     - JointName: LeftEye
       Axis: {x: 0, y: 1, z: 0}
-      rangeMin: -180
-      rangeMax: 180
+      rangeMin: -35
+      rangeMax: 35
     - JointName: RightEye
       Axis: {x: 0, y: 1, z: 0}
-      rangeMin: -180
-      rangeMax: 180
+      rangeMin: -35
+      rangeMax: 35
   - id: 3
     Name: "\u773C\u7403\u5BC4\u305B"
     Content: "\u9060\u8FD1\u306E\u773C\u7403\u7126\u70B9\u52D5\u4F5C"
     JointItems:
     - JointName: LeftEye
       Axis: {x: 0, y: 1, z: 0}
-      rangeMin: -180
-      rangeMax: 180
+      rangeMin: -35
+      rangeMax: 35
     - JointName: RightEye
       Axis: {x: 0, y: -1, z: 0}
-      rangeMin: -180
-      rangeMax: 180
+      rangeMin: -35
+      rangeMax: 35
   - id: 4
     Name: "\u773C\u4E0A\u4E0B"
     Content: "\u773C\u7403\u4E0A\u4E0B\uFF08\u4E0A\u4E0B14\xB0\u632F\u308A\u5206\u3051\uFF09"
@@ -66,11 +66,11 @@ MonoBehaviour:
     Content: "\u53E3\u89D2\u3084\u982C\u306E\u8089\u306E\u52D5\u304D"
     JointItems:
     - JointName: LeftMouth
-      Axis: {x: 0, y: -1, z: 0}
+      Axis: {x: -0.5, y: -1, z: 0}
       rangeMin: -180
       rangeMax: 180
     - JointName: RightMouth
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: -0.5, y: 1, z: 0}
       rangeMin: -180
       rangeMax: 180
   - id: 6

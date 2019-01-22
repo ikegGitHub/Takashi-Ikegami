@@ -119,5 +119,11 @@ namespace XFlag.Alter3Simulator
         {
             Value = float.Parse(text);
         }
+
+        public void OnClickAxisNumber()
+        {
+            _slider.value = 128;
+            OnValueChanged(_slider.value);
+        }
     }
 }

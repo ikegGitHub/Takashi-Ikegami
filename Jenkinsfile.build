@@ -1,0 +1,42 @@
+#!/usr/bin/env groovy
+
+pipeline {
+  agent any
+
+  parameters {
+    string(name: 'BUILD_BRANCH', defaultValue: '', description: 'ビルドするブランチ名を入力します。')
+    string(name: 'PROJECT_PATH', defaultValue: '', description: 'Unityプロジェクトのルートディレクトリのパスを指定します。')
+    string(name: 'EXECUTE_METHOD', defaultValue: 'XFlag.Alter3SimulatorEditor.BatchBuild.BuildAll_OSX', description: 'バッチビルドで実行するメソッド名を指定します。')
+  }
+
+  environment {
+    UNITY_PATH = "/Applications/Unity/Hub/Editor/2018.3.2f1/Unity.app/Contents/MacOS/Unity"
+    UNITY_USER = "yuki.shinobu+unity01@mixi.co.jp"
+  }
+
+  stages {
+    stage("Checkout Build Branch") {
+      steps {
+        sh """git clean -fd
+              git fetch origin ${params.BUILD_BRANCH}
+              git checkout -B ${params.BUILD_BRANCH} origin/${params.BUILD_BRANCH}
+              git reset --hard
+              git clean -fd
+              git pull origin ${params.BUILD_BRANCH}
+           """
+      }
+    }
+
+    stage("Unity Build") {
+      environment {
+        UNITY_PASSWORD = credentials("unity-password")
+        UNITY_SERIAL   = credentials("unity-serial")
+      }
+      steps {
+        script {
+          sh "${UNITY_PATH} -batchmode -quit -projectPath '${WORKSPACE}/${params.PROJECT_PATH}' -executeMethod '${params.EXECUTE_METHOD}' -username '${UNITY_USER}' -password '${UNITY_PASSWORD}' -serial ${UNITY_SERIAL} -logFile"
+        }
+      }
+    }
+  }
+}

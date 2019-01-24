@@ -32,7 +32,10 @@ namespace XFlag.Alter3Simulator
         private LogWindow _logWindow = null;
 
         [SerializeField]
-        private RobotSimulatorBaseController    _robot = null;
+        private RobotSimulatorBaseController _robot = null;
+
+        [SerializeField]
+        private InputField _logFileLocation = null;
 
         private ILogger _logger;
 
@@ -157,7 +160,8 @@ namespace XFlag.Alter3Simulator
         private ILogger CreateLogger()
         {
             var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
-            var logFileName = Path.Combine(Application.persistentDataPath, $"Logs/{timestamp}.log");
+            var logFileName = Path.Combine(Path.Combine(Application.persistentDataPath, "Logs"), $"{timestamp}.log");
+            _logFileLocation.text = logFileName;
             return new Logger(Debug.unityLogger.And(_logWindow).And(new FileLogger(logFileName)));
         }
     }

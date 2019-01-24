@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -61,7 +62,7 @@ namespace XFlag.Alter3Simulator
             _server.OnConnected += OnClientConnected;
             _server.OnDisconnected += OnClientDisconnected;
             _server.OnReceived += OnReceived;
-           
+
 
             _serverStatusLamp.OnClick += eventData => OnServerButtonClick();
         }
@@ -156,7 +157,7 @@ namespace XFlag.Alter3Simulator
         private ILogger CreateLogger()
         {
             var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
-            var logFileName = $"Logs/{timestamp}.log";
+            var logFileName = Path.Combine(Application.persistentDataPath, $"Logs/{timestamp}.log");
             return new Logger(Debug.unityLogger.And(_logWindow).And(new FileLogger(logFileName)));
         }
     }

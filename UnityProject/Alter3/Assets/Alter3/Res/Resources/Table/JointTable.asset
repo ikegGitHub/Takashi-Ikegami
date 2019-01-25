@@ -238,7 +238,7 @@ MonoBehaviour:
     Content: "\u5C0F\u6307\u5074\u306E\u4F38\u7E2E"
     JointItems:
     - JointName: LeftHand
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: 1, y: 0, z: 0}
       rangeMin: -180
       rangeMax: 180
   - id: 24
@@ -246,7 +246,7 @@ MonoBehaviour:
     Content: "\u89AA\u6307\u5074\u306E\u4F38\u7E2E"
     JointItems:
     - JointName: LeftHand
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: 1, y: 0, z: 0}
       rangeMin: -180
       rangeMax: 180
   - id: 25
@@ -342,7 +342,7 @@ MonoBehaviour:
     Content: "\u5C0F\u6307\u5074\u306E\u4F38\u7E2E"
     JointItems:
     - JointName: RightHand
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: 1, y: 0, z: 0}
       rangeMin: -180
       rangeMax: 180
   - id: 37
@@ -350,7 +350,7 @@ MonoBehaviour:
     Content: "\u89AA\u6307\u5074\u306E\u4F38\u7E2E"
     JointItems:
     - JointName: RightHand
-      Axis: {x: 0, y: 1, z: 0}
+      Axis: {x: 1, y: 0, z: 0}
       rangeMin: -180
       rangeMax: 180
   - id: 38

@@ -26,6 +26,17 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         protected JointController jointController = null;
 
+        protected Alter3EveCameraController eyeCameraLeft = null;
+        public Alter3EveCameraController EyeCameraLeft
+        {
+            get { return this.eyeCameraLeft; }
+        }
+        protected Alter3EveCameraController eyeCameraRight = null;
+        public Alter3EveCameraController EyeCameraRight
+        {
+            get { return this.eyeCameraRight; }
+        }
+
 
         protected virtual void Awake()
         {
@@ -144,7 +155,10 @@ namespace XFlag.Alter3Simulator
 
         public void MoveAxes(AxisParam[] axisParams)
         {
-
+            foreach (var axisParam in axisParams)
+            {
+                MoveAxis(axisParam);
+            }
         }
 
 

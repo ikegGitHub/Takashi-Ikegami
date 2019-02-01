@@ -37,6 +37,13 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private InputField _logFileLocation = null;
 
+        [SerializeField]
+        private RawImage _LeftEyeRawImage = null;
+
+        [SerializeField]
+        private RawImage _RightEyeRawImage = null;
+
+
         private ILogger _logger;
 
         private IDictionary<string, string> _config;
@@ -88,6 +95,9 @@ namespace XFlag.Alter3Simulator
             {
                 _keyDownTime = 0;
             }
+
+            _LeftEyeRawImage.texture = _robot.EyeCameraLeft.RenderTexture;
+            _RightEyeRawImage.texture = _robot.EyeCameraRight.RenderTexture;
         }
 
         private void OnDestroy()

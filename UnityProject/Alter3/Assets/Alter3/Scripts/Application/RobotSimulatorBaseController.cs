@@ -46,6 +46,10 @@ namespace XFlag.Alter3Simulator
 
                 var param = new JointParameter(joint);
                 dictionary.Add(joint.name, param);
+
+                var rigidBody = joint.gameObject.AddComponent<Rigidbody>();
+                rigidBody.useGravity = false;
+
             }
 
         }
@@ -55,10 +59,167 @@ namespace XFlag.Alter3Simulator
 
         }
         //        float ang = 0;
+        int indexJoint15 = 0;
+        void UpdateJoint15()
+        {
+            float[] valueArray = new float[]{
+                 101,
+                 153,
+                 200,
+                 216,
+                 236,
+                 252,
+                 254,
+                 249,
+                 176,
+                 87,
+                 51,
+                 46,
+                 46,
+                 82,
+                 150,
+                 166,
+                 171,
+                 176,
+                 197,
+                 218,
+                 69,
+                 43,
+                 0,
+                 0,
+                 5,
+                 47,
+                 78,
+                 88,
+                 99,
+                 109,
+                 114,
+                 120,
+                 130,
+                 135,
+                 141,
+                 146,
+                 161,
+                 172,
+                 177,
+                 182,
+                 187,
+                 182,
+                 167,
+                 156,
+                 146,
+                 141,
+                 130,
+             };
+            UpdateJoint(15, valueArray[indexJoint15]);
+            indexJoint15++;
+            if (indexJoint15 >= valueArray.Length)
+            {
+                indexJoint15 = 0;
+            }
+
+
+        }
+
+        int indexJoint16 = 0;
+        void UpdateJoint16()
+        {
+            float[] valueArray = new float[]
+            {
+                170,
+                175,
+                191,
+                206,
+                201,
+                191,
+                180,
+                149,
+                87,
+                66,
+                61,
+                56,
+                61,
+                71,
+                87,
+                92,
+                102,
+                108,
+                118,
+                134,
+                149,
+                154,
+                154,
+                149,
+                139,
+                128,
+                118,
+                113,
+                108,
+                102,
+                97,
+                87,
+                82,
+                87,
+                102,
+                118,
+                134,
+                139,
+                149,
+                154,
+                165,
+                180,
+                175,
+                165,
+                154,
+                144,
+                139,
+                128,
+                123,
+                118,
+                113,
+                108,
+                102,
+                97,
+                92,
+                76,
+                61,
+                56,
+                61,
+                71,
+                87,
+                97,
+                108,
+                123,
+                144,
+                149,
+                149,
+                144,
+                134,
+                123,
+            };
+
+            UpdateJoint(16, valueArray[indexJoint16]);
+            indexJoint16++;
+            if (indexJoint16 >= valueArray.Length)
+            {
+                indexJoint16 = 0;
+            }
+
+
+        }
+
 
         // Update is called once per frame
         protected virtual void Update()
         {
+            //            UpdateJoint(16, 123);
+
+            //            UpdateJoint15();
+            //           UpdateJoint16();
+
+
+
+
 #if false
             //            UpdateJoint(19, ang);
             //            UpdateJoint(18, ang);
@@ -72,6 +233,8 @@ namespace XFlag.Alter3Simulator
                 ang -= 360f;
             }
 #endif
+
+
         }
 
         protected virtual void OnDestroy()

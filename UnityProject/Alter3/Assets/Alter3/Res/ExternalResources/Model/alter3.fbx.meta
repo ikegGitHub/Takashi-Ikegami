@@ -152,6 +152,7 @@ ModelImporter:
     100292: mdl_Spine5
     100294: mdl_UpperBody_GP
     100296: sourceimages
+    100298: mdl_RightHand
     400000: //RootNode
     400002: chin1
     400004: chin2
@@ -301,8 +302,12 @@ ModelImporter:
     400292: mdl_Spine5
     400294: mdl_UpperBody_GP
     400296: sourceimages
+    400298: mdl_RightHand
     2100000: lambert2
     2100002: lambert1
+    2100004: body
+    2100006: mouth
+    2100008: eye
     4300000: Foundation
     4300002: Leg2
     4300004: Leg1
@@ -345,6 +350,7 @@ ModelImporter:
     4300078: mdl_Face
     4300080: mdl_LeftEye
     4300082: mdl_RightEye
+    4300084: mdl_RightHand
     9500000: //RootNode
     13700000: Face 1
     13700002: Foundation
@@ -388,6 +394,7 @@ ModelImporter:
     13700078: mdl_Spine3
     13700080: mdl_Spine4
     13700082: mdl_Spine5
+    13700084: mdl_RightHand
     2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
@@ -423,6 +430,7 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -447,6 +455,9 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
   importAnimation: 1
   copyAvatar: 0
   humanDescription:

@@ -10,11 +10,16 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         protected GameObject eyeCameraPrefab = null;
 
+        [SerializeField]
+        protected GameObject rigidBodyPredab = null;
+
         protected enum EyePos
         {
             Left,
             Right,
         }
+
+        protected List<Alter3RigidBodyController> rigidlists = new List<Alter3RigidBodyController>();
 
 
 
@@ -24,6 +29,9 @@ namespace XFlag.Alter3Simulator
             base.Awake();
             CreateEyeCamera("LeftEye", EyePos.Left);
             CreateEyeCamera("RightEye", EyePos.Right);
+
+            CreateRigdBody("LeftHand");
+            CreateRigdBody("RightHand");
         }
         // Use this for initialization
         protected override void Start()
@@ -60,10 +68,24 @@ namespace XFlag.Alter3Simulator
                 eyeCameraLeft.gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
             }
 
-
-
         }
 
+        protected void CreateRigdBody(string jointName)
+        {
+            var param = FindJointParameter(jointName);
+            var controller = Instantiate(rigidBodyPredab).GetComponent<Alter3RigidBodyController>();
+            controller.gameObject.transform.SetParent(param.Transform, false);
+            controller.gameObject.transform.localPosition = new Vector3(0f,-0.1f,0f);
+            controller.gameObject.transform.rotation = Quaternion.identity;
+            controller.Name = jointName;
+            controller.OnEvent += OnEventRigidBody;
+            rigidlists.Add(controller);
+        }
+
+        void OnEventRigidBody(Alter3RigidBodyController controller)
+        {
+
+        }
 
     }
 }

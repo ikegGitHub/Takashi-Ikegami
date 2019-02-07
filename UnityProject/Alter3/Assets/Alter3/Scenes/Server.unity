@@ -113,26 +113,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &73552884 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7649612822970172339, guid: dd76c948f07851549aea54f738af8481,
-    type: 3}
-  m_PrefabInstance: {fileID: 762914642}
-  m_PrefabAsset: {fileID: 0}
---- !u!136 &73552887
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 73552884}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.02527212
-  m_Height: 0.2495414
-  m_Direction: 1
-  m_Center: {x: 0.1728347, y: 1.085375, z: 0.1347967}
 --- !u!114 &167934760 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3883498528537793861, guid: 86aad4c5e600480469464a5693e36686,
@@ -550,6 +530,26 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.0909
       objectReference: {fileID: 0}
+    - target: {fileID: 1356245688405454299, guid: dd76c948f07851549aea54f738af8481,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8ee908d0c2144c84a956d6414e60e19c, type: 2}
+    - target: {fileID: 1356245688405454301, guid: dd76c948f07851549aea54f738af8481,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8ee908d0c2144c84a956d6414e60e19c, type: 2}
+    - target: {fileID: 1356245688405454331, guid: dd76c948f07851549aea54f738af8481,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: dfad788b13283d44d9a1986f7382bbf4, type: 2}
+    - target: {fileID: 1356245688405454303, guid: dd76c948f07851549aea54f738af8481,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8ee908d0c2144c84a956d6414e60e19c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd76c948f07851549aea54f738af8481, type: 3}
 --- !u!114 &903041466 stripped
@@ -897,6 +897,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: CanvasServer
       objectReference: {fileID: 0}
+    - target: {fileID: 3883498530191015019, guid: 86aad4c5e600480469464a5693e36686,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3883498530191015019, guid: 86aad4c5e600480469464a5693e36686,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3883498530358854543, guid: 86aad4c5e600480469464a5693e36686,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3883498530358854543, guid: 86aad4c5e600480469464a5693e36686,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1501667481699015923, guid: 86aad4c5e600480469464a5693e36686,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1001,26 +1021,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3883498530358854543, guid: 86aad4c5e600480469464a5693e36686,
-        type: 3}
-      propertyPath: m_havePropertiesChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3883498530358854543, guid: 86aad4c5e600480469464a5693e36686,
-        type: 3}
-      propertyPath: m_isInputParsingRequired
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3883498530191015019, guid: 86aad4c5e600480469464a5693e36686,
-        type: 3}
-      propertyPath: m_havePropertiesChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3883498530191015019, guid: 86aad4c5e600480469464a5693e36686,
-        type: 3}
-      propertyPath: m_isInputParsingRequired
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3883498529656078666, guid: 86aad4c5e600480469464a5693e36686,
         type: 3}

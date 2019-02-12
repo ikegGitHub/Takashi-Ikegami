@@ -153,6 +153,7 @@ ModelImporter:
     100294: mdl_UpperBody_GP
     100296: sourceimages
     100298: mdl_RightHand
+    100300: Spine6
     400000: //RootNode
     400002: chin1
     400004: chin2
@@ -303,6 +304,7 @@ ModelImporter:
     400294: mdl_UpperBody_GP
     400296: sourceimages
     400298: mdl_RightHand
+    400300: Spine6
     2100000: lambert2
     2100002: lambert1
     2100004: body

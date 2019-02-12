@@ -20,7 +20,10 @@ namespace XFlag.Alter3Simulator
     {
         [SerializeField]
         protected GameObject jointRoot = null;
+
         [SerializeField]
+        protected GameObject modelRoot = null;
+
         protected Dictionary<string, JointParameter> dictionary = new Dictionary<string, JointParameter>();
 
         [SerializeField]
@@ -40,17 +43,8 @@ namespace XFlag.Alter3Simulator
 
         protected virtual void Awake()
         {
-            var joints = jointRoot.GetComponentsInChildren<Transform>();
-            foreach (var joint in joints)
-            {
-
-                var param = new JointParameter(joint);
-                dictionary.Add(joint.name, param);
-
-                var rigidBody = joint.gameObject.AddComponent<Rigidbody>();
-                rigidBody.useGravity = false;
-
-            }
+            CreateJointParameter();
+            CreateCollision();
 
         }
         // Use this for initialization
@@ -212,9 +206,10 @@ namespace XFlag.Alter3Simulator
         // Update is called once per frame
         protected virtual void Update()
         {
+            UpdateJointParameter();
             //            UpdateJoint(16, 123);
 
-            //            UpdateJoint15();
+//            UpdateJoint15();
             //           UpdateJoint16();
 
 
@@ -242,6 +237,32 @@ namespace XFlag.Alter3Simulator
 
         }
 
+        void CreateJointParameter()
+        {
+            var joints = jointRoot.GetComponentsInChildren<Transform>();
+            foreach (var joint in joints)
+            {
+
+                var param = new JointParameter(joint);
+                dictionary.Add(joint.name, param);
+
+                //                var rigidBody = joint.gameObject.AddComponent<Rigidbody>();
+                //                rigidBody.useGravity = false;
+
+            }
+        }
+
+        void CreateCollision()
+        {
+            var transforms = modelRoot.GetComponentsInChildren<Transform>();
+            foreach (var transform in transforms)
+            {
+                transform.gameObject.AddComponent<CapsuleCollider>();
+                transform.gameObject.AddComponent<CollisionEventController>();
+            }
+
+        }
+
 
         protected Transform FindJoint(string name)
         {
@@ -255,15 +276,49 @@ namespace XFlag.Alter3Simulator
             return param;
         }
 
+        protected void UpdateJointParameter()
+        {
+            List<string> keyList = new List<string>(dictionary.Keys);
+            foreach(var key in keyList)
+            {
+                var param = dictionary[key];
+
+//                var a = param.StartRotation;
+
+//                var diff = param.CurrentRotation - param.NextRotation;
+
+
+
+
+                param.CurrentRotation = Vector3.Lerp(param.CurrentRotation,param.NextRotation,Time.deltaTime);
+                param.Transform.localRotation = Quaternion.Euler(param.CurrentRotation); 
+
+            }
+
+        }
+        
+        ///回転方向が時計回りか
+        ///
+        private bool IsRotateClockwise(float current, float next)
+        {
+            return next>current ? !( next  - current > 180f)
+                          :    current - next  > 180f;
+        }
         protected void UpdateJoint(int axisNum, float value)
         {
+            
             var jointItem = jointController.GetItem(axisNum);
 
             foreach (var item in jointItem)
             {
                 var param = FindJointParameter(item.JointName);
+
+                param.BeforeValue = param.CurrentValue;
+                param.CurrentValue = value;
+
                 var t = (float)value / 255;
                 var ang = Mathf.Lerp(item.rangeMin, item.rangeMax, t);
+                param.StartRotation = param.CurrentRotation;
                 var newRotation = item.Axis * ang;
                 float ax = 0;
                 float ay = 0;
@@ -292,8 +347,9 @@ namespace XFlag.Alter3Simulator
                 {
                     az = param.CurrentRotation.z;
                 }
-                param.CurrentRotation = new Vector3(ax, ay, az);
-                param.Transform.localRotation = Quaternion.Euler(param.CurrentRotation);    // Quaternion.AngleAxis(ang, item.Axis);
+                param.NextRotation = new Vector3(ax, ay, az);
+//                param.CurrentRotation = new Vector3(ax, ay, az);
+//                param.Transform.localRotation = Quaternion.Euler(param.CurrentRotation);    // Quaternion.AngleAxis(ang, item.Axis);
             }
 
         }

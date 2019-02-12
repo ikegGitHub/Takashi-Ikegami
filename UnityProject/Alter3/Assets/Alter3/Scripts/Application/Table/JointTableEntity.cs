@@ -12,5 +12,7 @@ namespace XFlag.Alter3Simulator
         public string Content;          //動作内容(プログラムでは使用しない)
         [Header("Joint定義")]
         public JointItem[] JointItems;
+
+        
     }
 }

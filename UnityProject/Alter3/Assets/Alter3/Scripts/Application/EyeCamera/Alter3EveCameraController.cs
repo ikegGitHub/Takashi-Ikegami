@@ -23,6 +23,8 @@ namespace XFlag.Alter3Simulator
         protected int resolutionX = 1024;
         [SerializeField]
         protected int resolutionY = 1024;
+        [SerializeField]
+        protected float fov = 60f;
 
         [SerializeField]
         protected Camera camera = null;

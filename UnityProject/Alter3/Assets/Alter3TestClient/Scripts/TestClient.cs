@@ -53,7 +53,7 @@ namespace XFlag.Alter3Simulator
         {
             if (_client != null)
             {
-                AppendLine($"already connected ({_client.Client.RemoteEndPoint})");
+                AppendLineError($"already connected ({_client.Client.RemoteEndPoint})");
                 return;
             }
 
@@ -64,11 +64,11 @@ namespace XFlag.Alter3Simulator
                 _writer = new StreamWriter(stream, Encoding);
                 _reader = new StreamReader(stream, Encoding);
 
-                AppendLine("connected");
+                AppendLineSuccess("connected");
             }
             catch (SocketException)
             {
-                AppendLine("failed to connect");
+                AppendLineError("failed to connect");
             }
         }
 
@@ -87,20 +87,20 @@ namespace XFlag.Alter3Simulator
         {
             if (_client == null)
             {
-                AppendLine("not connected");
+                AppendLineError("not connected");
                 return;
             }
             if (!_client.Connected)
             {
                 Disconnect();
-                AppendLine("connection lost");
+                AppendLineError("connection lost");
                 return;
             }
 
             _commandInput.text = "";
             _commandInput.ActivateInputField();
 
-            AppendLine($"(req) {command}");
+            AppendLineLog($"(req) {command}");
             _writer.WriteLine(command);
             _writer.Flush();
 
@@ -108,7 +108,7 @@ namespace XFlag.Alter3Simulator
             while ((line = _reader.ReadLine()) != null)
             {
                 line = line.Trim();
-                AppendLine($"(res) {line}");
+                AppendLineLog($"(res) {line}");
                 if (line == "OK" || line.StartsWith("ERROR: "))
                 {
                     break;
@@ -116,10 +116,17 @@ namespace XFlag.Alter3Simulator
             }
         }
 
-        private void AppendLine(string line)
+        private void AppendLineLog(string line) => AppendLine(line, Color.white);
+
+        private void AppendLineSuccess(string line) => AppendLine(line, Color.green);
+
+        private void AppendLineError(string line) => AppendLine(line, Color.red);
+
+        private void AppendLine(string line, Color color)
         {
             var lineText = Instantiate(_outputTextPrefab, _outputTextRoot, false);
             lineText.text = line;
+            lineText.color = color;
 
             _logLines.AddLast(lineText.gameObject);
             if (_logCount < 100)

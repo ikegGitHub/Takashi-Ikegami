@@ -6,42 +6,62 @@ namespace XFlag.Alter3Simulator
     [DisallowMultipleComponent]
     public class CameraController : MonoBehaviour
     {
+        private const float Agility = 0.8f;
+        private const float NormalSpeed = 0.2f;
+        private const float SlowSpeed = 0.05f;
+
         [SerializeField]
-        private DragAreaView _dragAreView = null;
+        private DragAreaView _dragAreaView = null;
+
+        private Vector3 _targetPosition;
+        private Quaternion _targetRotation;
+
+        private bool IsShiftKeyDown => Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+
+        private float Speed => IsShiftKeyDown ? SlowSpeed : NormalSpeed;
 
         private void Awake()
         {
-            _dragAreView.OnDrag += OnDrag;
-            _dragAreView.OnScroll += OnScroll;
+            _dragAreaView.OnDrag += OnDrag;
+            _dragAreaView.OnScroll += OnScroll;
+
+            _targetPosition = transform.localPosition;
+            _targetRotation = transform.localRotation;
         }
 
         private void OnDestroy()
         {
-            _dragAreView.OnDrag -= OnDrag;
-            _dragAreView.OnScroll -= OnScroll;
+            _dragAreaView.OnDrag -= OnDrag;
+            _dragAreaView.OnScroll -= OnScroll;
+        }
+
+        private void Update()
+        {
+            transform.localPosition += Agility * (_targetPosition - transform.localPosition);
+            transform.localRotation = Quaternion.Slerp(transform.localRotation, _targetRotation, Agility);
         }
 
         private void OnDrag(PointerEventData eventData)
         {
             var delta = eventData.delta;
+
             if (eventData.button == PointerEventData.InputButton.Middle)
             {
-                float transSpeed = 0.2f;
-                var delta2 = new Vector2(delta.x, -delta.y);
-                transform.Translate(delta2 * Time.deltaTime * transSpeed);
+                var delta2 = -transform.right * delta.x - transform.up * delta.y;
+                _targetPosition += delta2 * Time.deltaTime * Speed;
             }
             else
             {
-                var angles = transform.localEulerAngles;
-                angles.y = Mathf.Repeat(angles.y + delta.x * 0.15f, 360);
-                angles.x = Mathf.Repeat(angles.x + delta.y * 0.15f, 360);
-                transform.localEulerAngles = angles;
+                var angles = _targetRotation.eulerAngles;
+                angles.y += delta.x * Speed;
+                angles.x += -delta.y * Speed;
+                _targetRotation.eulerAngles = angles;
             }
         }
 
         private void OnScroll(PointerEventData eventData)
         {
-            transform.Translate(0, 0, eventData.scrollDelta.y);
+            _targetPosition += transform.forward * eventData.scrollDelta.y * Speed;
         }
     }
 }

@@ -35,7 +35,7 @@ namespace XFlag.Alter3Simulator
         private RobotSimulatorBaseController _robot = null;
 
         [SerializeField]
-        private InputField _logFileLocation = null;
+        private TMP_InputField _logFileLocation = null;
 
         [SerializeField]
         private RawImage _LeftEyeRawImage = null;

@@ -7,48 +7,64 @@ namespace XFlag.Alter3SimulatorEditor
 {
     public static class BatchBuild
     {
+        private const BuildOptions DefaultBuildOptions = BuildOptions.ShowBuiltPlayer;
+
         private static readonly string[] SimulatorScenes = { "Splash", "Server" };
         private static readonly string[] TestClientScenes = { "Client" };
 
-        [MenuItem("Window/Alter3/Build (Win64)/All")]
+        [MenuItem("Window/Alter3/Build (Win64)/All", priority = 0)]
         private static void BuildAll_Win64()
         {
             BuildServer_Win64();
+            BuildHeadlessServer_Win64();
             BuildTestClient_Win64();
         }
 
-        [MenuItem("Window/Alter3/Build (OSX)/All")]
+        [MenuItem("Window/Alter3/Build (OSX)/All", priority = 0)]
         private static void BuildAll_OSX()
         {
             BuildServer_OSX();
+            BuildHeadlessServer_OSX();
             BuildTestClient_OSX();
         }
 
-        [MenuItem("Window/Alter3/Build (Win64)/Test Client")]
+        [MenuItem("Window/Alter3/Build (Win64)/Test Client", priority = 11)]
         private static void BuildTestClient_Win64()
         {
-            BuildSingleScene(TestClientScenes, "TestClient", BuildTarget.StandaloneWindows64, BuildOptions.None);
+            BuildScenes(TestClientScenes, "TestClient", BuildTarget.StandaloneWindows64);
         }
 
-        [MenuItem("Window/Alter3/Build (OSX)/Test Client")]
+        [MenuItem("Window/Alter3/Build (OSX)/Test Client", priority = 11)]
         private static void BuildTestClient_OSX()
         {
-            BuildSingleScene(TestClientScenes, "TestClient", BuildTarget.StandaloneOSX, BuildOptions.None);
+            BuildScenes(TestClientScenes, "TestClient", BuildTarget.StandaloneOSX);
         }
 
-        [MenuItem("Window/Alter3/Build (Win64)/Server")]
+        [MenuItem("Window/Alter3/Build (Win64)/Server", priority = 12)]
         private static void BuildServer_Win64()
         {
-            BuildSingleScene(SimulatorScenes, "Alter3Simulator", BuildTarget.StandaloneWindows64, BuildOptions.None);
+            BuildScenes(SimulatorScenes, "Alter3Simulator", BuildTarget.StandaloneWindows64);
         }
 
-        [MenuItem("Window/Alter3/Build (OSX)/Server")]
+        [MenuItem("Window/Alter3/Build (OSX)/Server", priority = 12)]
         private static void BuildServer_OSX()
         {
-            BuildSingleScene(SimulatorScenes, "Alter3Simulator", BuildTarget.StandaloneOSX, BuildOptions.None);
+            BuildScenes(SimulatorScenes, "Alter3Simulator", BuildTarget.StandaloneOSX);
         }
 
-        private static void BuildSingleScene(string[] sceneNames, string outputName, BuildTarget target, BuildOptions options)
+        [MenuItem("Window/Alter3/Build (Win64)/Server (Headless)", priority = 13)]
+        private static void BuildHeadlessServer_Win64()
+        {
+            BuildScenes(SimulatorScenes, "Alter3Simulator-Headless", BuildTarget.StandaloneWindows64, BuildOptions.EnableHeadlessMode);
+        }
+
+        [MenuItem("Window/Alter3/Build (OSX)/Server (Headless)", priority = 13)]
+        private static void BuildHeadlessServer_OSX()
+        {
+            BuildScenes(SimulatorScenes, "Alter3Simulator-Headless", BuildTarget.StandaloneOSX, BuildOptions.EnableHeadlessMode);
+        }
+
+        private static void BuildScenes(string[] sceneNames, string outputName, BuildTarget target, BuildOptions options = BuildOptions.None)
         {
             Debug.Log($"Starting build {outputName}");
             var buildPlayerOptions = new BuildPlayerOptions
@@ -57,10 +73,10 @@ namespace XFlag.Alter3SimulatorEditor
                 targetGroup = BuildTargetGroup.Standalone,
                 target = target,
                 locationPathName = $"Builds/{target}/{outputName}/{outputName}{GetExtension(target)}",
-                options = options
+                options = DefaultBuildOptions | options,
             };
             var buildReport = BuildPipeline.BuildPlayer(buildPlayerOptions);
-            Debug.Log($"Build {buildReport.summary.result}");
+            Debug.Log($"Build {outputName} {buildReport.summary.result}");
         }
 
         private static string[] GetScenePaths(string[] names)

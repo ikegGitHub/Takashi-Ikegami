@@ -77,6 +77,11 @@ namespace XFlag.Alter3Simulator
             _serverStatusLamp.OnClick += eventData => OnServerButtonClick();
         }
 
+        private void Start()
+        {
+            OnServerButtonClick();
+        }
+
         private void Update()
         {
             // Lボタンを長押しでログウィンドウ表示

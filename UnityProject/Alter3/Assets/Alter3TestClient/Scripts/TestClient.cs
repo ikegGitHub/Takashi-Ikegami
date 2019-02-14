@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using System.Text;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace XFlag.Alter3Simulator
 {
@@ -36,16 +37,23 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private JointTable _jointTable = null;
 
+        [SerializeField]
+        private Button _connectButton = null;
+
+        [SerializeField]
+        private Button _clearLogButton = null;
+
         private TcpClient _client;
         private TextWriter _writer;
         private TextReader _reader;
         private LinkedList<GameObject> _logLines = new LinkedList<GameObject>();
         private int _logCount;
 
-        public void Connect()
+        private void Connect()
         {
             if (_client != null)
             {
+                AppendLineError($"already connected ({_client.Client.RemoteEndPoint})");
                 return;
             }
 
@@ -56,11 +64,11 @@ namespace XFlag.Alter3Simulator
                 _writer = new StreamWriter(stream, Encoding);
                 _reader = new StreamReader(stream, Encoding);
 
-                AppendLine("connected");
+                AppendLineSuccess("connected");
             }
             catch (SocketException)
             {
-                AppendLine("failed to connect");
+                AppendLineError("failed to connect");
             }
         }
 
@@ -79,14 +87,20 @@ namespace XFlag.Alter3Simulator
         {
             if (_client == null)
             {
-                AppendLine("not connected");
+                AppendLineError("not connected");
+                return;
+            }
+            if (!_client.Connected)
+            {
+                Disconnect();
+                AppendLineError("connection lost");
                 return;
             }
 
             _commandInput.text = "";
             _commandInput.ActivateInputField();
 
-            AppendLine($"(req) {command}");
+            AppendLineLog($"(req) {command}");
             _writer.WriteLine(command);
             _writer.Flush();
 
@@ -94,7 +108,7 @@ namespace XFlag.Alter3Simulator
             while ((line = _reader.ReadLine()) != null)
             {
                 line = line.Trim();
-                AppendLine($"(res) {line}");
+                AppendLineLog($"(res) {line}");
                 if (line == "OK" || line.StartsWith("ERROR: "))
                 {
                     break;
@@ -102,10 +116,17 @@ namespace XFlag.Alter3Simulator
             }
         }
 
-        private void AppendLine(string line)
+        private void AppendLineLog(string line) => AppendLine(line, Color.white);
+
+        private void AppendLineSuccess(string line) => AppendLine(line, Color.green);
+
+        private void AppendLineError(string line) => AppendLine(line, Color.red);
+
+        private void AppendLine(string line, Color color)
         {
             var lineText = Instantiate(_outputTextPrefab, _outputTextRoot, false);
             lineText.text = line;
+            lineText.color = color;
 
             _logLines.AddLast(lineText.gameObject);
             if (_logCount < 100)
@@ -144,10 +165,23 @@ namespace XFlag.Alter3Simulator
             }
         }
 
+        private void ClearLog()
+        {
+            _logLines.Clear();
+            _logCount = 0;
+            foreach (Transform child in _outputTextRoot)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+
         private void Awake()
         {
             _commandInput.onSubmit.AddListener(Submit);
             InitializeAxisControllers(44);
+
+            _connectButton.onClick.AddListener(() => Connect());
+            _clearLogButton.onClick.AddListener(() => ClearLog());
         }
 
         private void OnDestroy()

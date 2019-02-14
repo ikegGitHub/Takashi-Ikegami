@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using System.Text;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace XFlag.Alter3Simulator
 {
@@ -36,16 +37,23 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private JointTable _jointTable = null;
 
+        [SerializeField]
+        private Button _connectButton = null;
+
+        [SerializeField]
+        private Button _clearLogButton = null;
+
         private TcpClient _client;
         private TextWriter _writer;
         private TextReader _reader;
         private LinkedList<GameObject> _logLines = new LinkedList<GameObject>();
         private int _logCount;
 
-        public void Connect()
+        private void Connect()
         {
             if (_client != null)
             {
+                AppendLine($"already connected ({_client.Client.RemoteEndPoint})");
                 return;
             }
 
@@ -80,6 +88,12 @@ namespace XFlag.Alter3Simulator
             if (_client == null)
             {
                 AppendLine("not connected");
+                return;
+            }
+            if (!_client.Connected)
+            {
+                Disconnect();
+                AppendLine("connection lost");
                 return;
             }
 
@@ -144,10 +158,23 @@ namespace XFlag.Alter3Simulator
             }
         }
 
+        private void ClearLog()
+        {
+            _logLines.Clear();
+            _logCount = 0;
+            foreach (Transform child in _outputTextRoot)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+
         private void Awake()
         {
             _commandInput.onSubmit.AddListener(Submit);
             InitializeAxisControllers(44);
+
+            _connectButton.onClick.AddListener(() => Connect());
+            _clearLogButton.onClick.AddListener(() => ClearLog());
         }
 
         private void OnDestroy()

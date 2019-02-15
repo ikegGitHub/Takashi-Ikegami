@@ -44,6 +44,9 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private RawImage _RightEyeRawImage = null;
 
+        [SerializeField]
+        private GameObject _faceCameraScreen = null;
+
         private ILogger _logger;
 
         private IDictionary<string, string> _config;
@@ -92,6 +95,17 @@ namespace XFlag.Alter3Simulator
                 if (_keyDownTime >= 3.0f)
                 {
                     _logWindow.Show();
+                }
+                else
+                {
+                    _keyDownTime += Time.deltaTime;
+                }
+            }
+            else if (!_faceCameraScreen.activeSelf && Input.GetKey(KeyCode.F))
+            {
+                if (_keyDownTime >= 3.0f)
+                {
+                    _faceCameraScreen.SetActive(true);
                 }
                 else
                 {

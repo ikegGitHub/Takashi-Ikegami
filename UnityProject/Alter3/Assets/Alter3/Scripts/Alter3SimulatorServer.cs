@@ -74,13 +74,13 @@ namespace XFlag.Alter3Simulator
             _server.OnReceived += OnReceived;
 
             _serverStatusLamp.OnClick += eventData => OnServerButtonClick();
-
-            _LeftEyeRawImage.texture = _robot.EyeCameraLeft.RenderTexture;
-            _RightEyeRawImage.texture = _robot.EyeCameraRight.RenderTexture;
         }
 
         private void Start()
         {
+            _LeftEyeRawImage.texture = _robot.EyeCameraLeft.RenderTexture;
+            _RightEyeRawImage.texture = _robot.EyeCameraRight.RenderTexture;
+
             OnServerButtonClick();
         }
 

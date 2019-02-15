@@ -151,8 +151,8 @@ MonoBehaviour:
     JointItems:
     - JointName: Spine4
       Axis: {x: 0, y: 0, z: 1}
-      rangeMin: -180
-      rangeMax: 180
+      rangeMin: -20
+      rangeMax: 20
     - JointName: Spine5
       Axis: {x: 0, y: 0, z: -1}
       rangeMin: -20
@@ -182,9 +182,9 @@ MonoBehaviour:
     Content: "\u547C\u5438\u52D5\u4F5C"
     JointItems:
     - JointName: LeftShoulder
-      Axis: {x: 1, y: 0, z: 0}
-      rangeMin: -60
-      rangeMax: 60
+      Axis: {x: 0, y: 0, z: 1}
+      rangeMin: -10
+      rangeMax: 10
   - id: 17
     Name: "\u5DE6\u80A9\u7532\u9AA8\u524D\u5F8C"
     Content: "\u80A9\u7532\u9AA8\u306E\u30B9\u30E9\u30A4\u30C9\u52D5\u4F5C"
@@ -286,9 +286,9 @@ MonoBehaviour:
     Content: "\u547C\u5438\u52D5\u4F5C"
     JointItems:
     - JointName: RightShoulder
-      Axis: {x: 1, y: 0, z: 0}
-      rangeMin: -60
-      rangeMax: 60
+      Axis: {x: 0, y: 0, z: 1}
+      rangeMin: -10
+      rangeMax: 10
   - id: 30
     Name: "\u53F3\u80A9\u7532\u9AA8\u524D\u5F8C"
     Content: "\u80A9\u7532\u9AA8\u306E\u30B9\u30E9\u30A4\u30C9\u52D5\u4F5C"
@@ -310,9 +310,9 @@ MonoBehaviour:
     Content: 
     JointItems:
     - JointName: RightShoulder
-      Axis: {x: 0, y: 0, z: 1}
+      Axis: {x: 1, y: 0, z: 0}
       rangeMin: 0
-      rangeMax: 180
+      rangeMax: -180
   - id: 33
     Name: "\u53F3\u4E0A\u8155\u65CB\u56DE"
     Content: "\u4E0A\u8155\u306E\u3072\u306D\u308A\u52D5\u4F5C"

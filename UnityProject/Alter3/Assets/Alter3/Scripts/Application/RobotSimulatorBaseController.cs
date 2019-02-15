@@ -286,15 +286,20 @@ namespace XFlag.Alter3Simulator
             {
                 var param = dictionary[key];
 
-                //                var a = param.StartRotation;
 
-                //                var diff = param.CurrentRotation - param.NextRotation;
+                var qx = Quaternion.AngleAxis(param.NextRotation.x, Vector3.right);
+                var qy = Quaternion.AngleAxis(param.NextRotation.y, Vector3.up);
+                var qz = Quaternion.AngleAxis(param.NextRotation.z, Vector3.forward);
+                var nextQuat = param.NextQuat;  // qy * qz * qx;
 
 
 
+                param.CurrentQuat = Quaternion.Lerp(param.CurrentQuat, nextQuat, Time.deltaTime * jointRotateScale);
+                //                param.CurrentRotation = Vector3.Lerp(param.CurrentRotation, param.NextRotation, Time.deltaTime * jointRotateScale);
+                //param.Transform.localRotation = Quaternion.Euler(param.CurrentRotation);
 
-                param.CurrentRotation = Vector3.Lerp(param.CurrentRotation, param.NextRotation, Time.deltaTime * jointRotateScale);
-                param.Transform.localRotation = Quaternion.Euler(param.CurrentRotation);
+
+                param.Transform.localRotation = param.CurrentQuat;
 
             }
 
@@ -319,38 +324,50 @@ namespace XFlag.Alter3Simulator
                 param.BeforeValue = param.CurrentValue;
                 param.CurrentValue = value;
 
-                var t = (float)value / 255;
+                var t = value / 255f;
                 var ang = Mathf.Lerp(item.rangeMin, item.rangeMax, t);
+                //                param.CurrentRotation = param.CurrentQuat.eulerAngles;
                 param.StartRotation = param.CurrentRotation;
                 var newRotation = item.Axis * ang;
                 float ax = 0;
                 float ay = 0;
                 float az = 0;
+                Quaternion qx = Quaternion.identity;
+                Quaternion qy = Quaternion.identity;
+                Quaternion qz = Quaternion.identity;
                 if (item.Axis.x != 0)
                 {
+                    qx = Quaternion.AngleAxis(newRotation.x, Vector3.right);
                     ax = newRotation.x;
                 }
                 else
                 {
+                    qx = Quaternion.AngleAxis(param.CurrentRotation.x, Vector3.right);
                     ax = param.CurrentRotation.x;
                 }
                 if (item.Axis.y != 0)
                 {
+                    qy = Quaternion.AngleAxis(newRotation.y, Vector3.up);
                     ay = newRotation.y;
                 }
                 else
                 {
+                    qy = Quaternion.AngleAxis(param.CurrentRotation.y, Vector3.up);
                     ay = param.CurrentRotation.y;
                 }
                 if (item.Axis.z != 0)
                 {
+                    qz = Quaternion.AngleAxis(newRotation.z, Vector3.forward);
                     az = newRotation.z;
                 }
                 else
                 {
+                    qz = Quaternion.AngleAxis(param.CurrentRotation.z, Vector3.forward);
                     az = param.CurrentRotation.z;
                 }
+                param.NextQuat = qz * qx * qy;
                 param.NextRotation = new Vector3(ax, ay, az);
+                param.CurrentRotation = param.NextRotation;
                 //                param.CurrentRotation = new Vector3(ax, ay, az);
                 //                param.Transform.localRotation = Quaternion.Euler(param.CurrentRotation);    // Quaternion.AngleAxis(ang, item.Axis);
             }

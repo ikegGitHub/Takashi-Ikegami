@@ -229,7 +229,7 @@ MonoBehaviour:
     Name: "\u5DE6\u524D\u8155\u3072\u306D\u308A"
     Content: "\u624B\u9996\u306E\u3072\u306D\u308A\u52D5\u4F5C"
     JointItems:
-    - JointName: LeftHand
+    - JointName: LeftForeArm
       Axis: {x: 0, y: 1, z: 0}
       rangeMin: -45
       rangeMax: 45
@@ -333,7 +333,7 @@ MonoBehaviour:
     Name: "\u53F3\u524D\u8155\u3072\u306D\u308A"
     Content: "\u624B\u9996\u306E\u3072\u306D\u308A\u52D5\u4F5C"
     JointItems:
-    - JointName: RightHand
+    - JointName: RightForeArm
       Axis: {x: 0, y: 1, z: 0}
       rangeMin: -45
       rangeMax: 45

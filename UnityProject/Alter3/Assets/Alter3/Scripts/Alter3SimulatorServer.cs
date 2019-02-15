@@ -11,6 +11,7 @@ using XFlag.Alter3Simulator.Network;
 
 namespace XFlag.Alter3Simulator
 {
+    [DisallowMultipleComponent]
     public class Alter3SimulatorServer : MonoBehaviour
     {
         [SerializeField]
@@ -43,7 +44,6 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private RawImage _RightEyeRawImage = null;
 
-
         private ILogger _logger;
 
         private IDictionary<string, string> _config;
@@ -73,12 +73,14 @@ namespace XFlag.Alter3Simulator
             _server.OnDisconnected += OnClientDisconnected;
             _server.OnReceived += OnReceived;
 
-
             _serverStatusLamp.OnClick += eventData => OnServerButtonClick();
         }
 
         private void Start()
         {
+            _LeftEyeRawImage.texture = _robot.EyeCameraLeft.RenderTexture;
+            _RightEyeRawImage.texture = _robot.EyeCameraRight.RenderTexture;
+
             OnServerButtonClick();
         }
 
@@ -100,9 +102,6 @@ namespace XFlag.Alter3Simulator
             {
                 _keyDownTime = 0;
             }
-
-            _LeftEyeRawImage.texture = _robot.EyeCameraLeft.RenderTexture;
-            _RightEyeRawImage.texture = _robot.EyeCameraRight.RenderTexture;
         }
 
         private void OnDestroy()

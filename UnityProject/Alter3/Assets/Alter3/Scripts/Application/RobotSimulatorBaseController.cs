@@ -29,6 +29,9 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         protected JointController jointController = null;
 
+        [SerializeField]
+        protected float jointRotateScale = 3;
+
         protected Alter3EveCameraController eyeCameraLeft = null;
         public Alter3EveCameraController EyeCameraLeft
         {
@@ -209,7 +212,7 @@ namespace XFlag.Alter3Simulator
             UpdateJointParameter();
             //            UpdateJoint(16, 123);
 
-//            UpdateJoint15();
+            //            UpdateJoint15();
             //           UpdateJoint16();
 
 
@@ -279,34 +282,34 @@ namespace XFlag.Alter3Simulator
         protected void UpdateJointParameter()
         {
             List<string> keyList = new List<string>(dictionary.Keys);
-            foreach(var key in keyList)
+            foreach (var key in keyList)
             {
                 var param = dictionary[key];
 
-//                var a = param.StartRotation;
+                //                var a = param.StartRotation;
 
-//                var diff = param.CurrentRotation - param.NextRotation;
-
-
+                //                var diff = param.CurrentRotation - param.NextRotation;
 
 
-                param.CurrentRotation = Vector3.Lerp(param.CurrentRotation,param.NextRotation,Time.deltaTime);
-                param.Transform.localRotation = Quaternion.Euler(param.CurrentRotation); 
+
+
+                param.CurrentRotation = Vector3.Lerp(param.CurrentRotation, param.NextRotation, Time.deltaTime * jointRotateScale);
+                param.Transform.localRotation = Quaternion.Euler(param.CurrentRotation);
 
             }
 
         }
-        
+
         ///回転方向が時計回りか
         ///
         private bool IsRotateClockwise(float current, float next)
         {
-            return next>current ? !( next  - current > 180f)
-                          :    current - next  > 180f;
+            return next > current ? !(next - current > 180f)
+                          : current - next > 180f;
         }
         protected void UpdateJoint(int axisNum, float value)
         {
-            
+
             var jointItem = jointController.GetItem(axisNum);
 
             foreach (var item in jointItem)
@@ -323,7 +326,7 @@ namespace XFlag.Alter3Simulator
                 float ax = 0;
                 float ay = 0;
                 float az = 0;
-                if (newRotation.x != 0)
+                if (item.Axis.x != 0)
                 {
                     ax = newRotation.x;
                 }
@@ -331,7 +334,7 @@ namespace XFlag.Alter3Simulator
                 {
                     ax = param.CurrentRotation.x;
                 }
-                if (newRotation.y != 0)
+                if (item.Axis.y != 0)
                 {
                     ay = newRotation.y;
                 }
@@ -339,7 +342,7 @@ namespace XFlag.Alter3Simulator
                 {
                     ay = param.CurrentRotation.y;
                 }
-                if (newRotation.z != 0)
+                if (item.Axis.z != 0)
                 {
                     az = newRotation.z;
                 }
@@ -348,8 +351,8 @@ namespace XFlag.Alter3Simulator
                     az = param.CurrentRotation.z;
                 }
                 param.NextRotation = new Vector3(ax, ay, az);
-//                param.CurrentRotation = new Vector3(ax, ay, az);
-//                param.Transform.localRotation = Quaternion.Euler(param.CurrentRotation);    // Quaternion.AngleAxis(ang, item.Axis);
+                //                param.CurrentRotation = new Vector3(ax, ay, az);
+                //                param.Transform.localRotation = Quaternion.Euler(param.CurrentRotation);    // Quaternion.AngleAxis(ang, item.Axis);
             }
 
         }

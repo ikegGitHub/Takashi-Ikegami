@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -12,7 +13,7 @@ namespace XFlag.Alter3SimulatorEditor
         private static readonly string[] SimulatorScenes = { "Splash", "Server" };
         private static readonly string[] TestClientScenes = { "Client" };
 
-        [MenuItem("Window/Alter3/Build (Win64)/All", priority = 0)]
+        [MenuItem("Alter3/ビルド/Win64/All", priority = 0)]
         private static void BuildAll_Win64()
         {
             BuildServer_Win64();
@@ -20,7 +21,7 @@ namespace XFlag.Alter3SimulatorEditor
             BuildTestClient_Win64();
         }
 
-        [MenuItem("Window/Alter3/Build (OSX)/All", priority = 0)]
+        [MenuItem("Alter3/ビルド/macOS/All", priority = 0)]
         private static void BuildAll_OSX()
         {
             BuildServer_OSX();
@@ -28,40 +29,79 @@ namespace XFlag.Alter3SimulatorEditor
             BuildTestClient_OSX();
         }
 
-        [MenuItem("Window/Alter3/Build (Win64)/Test Client", priority = 11)]
+        [MenuItem("Alter3/ビルド/Win64/Test Client", priority = 11)]
         private static void BuildTestClient_Win64()
         {
-            BuildScenes(TestClientScenes, "TestClient", BuildTarget.StandaloneWindows64);
+            BuildTestClient(BuildTarget.StandaloneWindows64);
         }
 
-        [MenuItem("Window/Alter3/Build (OSX)/Test Client", priority = 11)]
+        [MenuItem("Alter3/ビルド/macOS/Test Client", priority = 11)]
         private static void BuildTestClient_OSX()
         {
-            BuildScenes(TestClientScenes, "TestClient", BuildTarget.StandaloneOSX);
+            BuildTestClient(BuildTarget.StandaloneOSX);
         }
 
-        [MenuItem("Window/Alter3/Build (Win64)/Server", priority = 12)]
+        [MenuItem("Alter3/ビルド/Win64/Server", priority = 12)]
         private static void BuildServer_Win64()
         {
-            BuildScenes(SimulatorScenes, "Alter3Simulator", BuildTarget.StandaloneWindows64);
+            BuildSimulator(BuildTarget.StandaloneWindows64);
         }
 
-        [MenuItem("Window/Alter3/Build (OSX)/Server", priority = 12)]
+        [MenuItem("Alter3/ビルド/macOS/Server", priority = 12)]
         private static void BuildServer_OSX()
         {
-            BuildScenes(SimulatorScenes, "Alter3Simulator", BuildTarget.StandaloneOSX);
+            BuildSimulator(BuildTarget.StandaloneOSX);
         }
 
-        [MenuItem("Window/Alter3/Build (Win64)/Server (Headless)", priority = 13)]
+        [MenuItem("Alter3/ビルド/Win64/Server (Headless)", priority = 13)]
         private static void BuildHeadlessServer_Win64()
         {
-            BuildScenes(SimulatorScenes, "Alter3Simulator-Headless", BuildTarget.StandaloneWindows64, BuildOptions.EnableHeadlessMode);
+            BuildHeadlessSimulator(BuildTarget.StandaloneWindows64);
         }
 
-        [MenuItem("Window/Alter3/Build (OSX)/Server (Headless)", priority = 13)]
+        [MenuItem("Alter3/ビルド/macOS/Server (Headless)", priority = 13)]
         private static void BuildHeadlessServer_OSX()
         {
-            BuildScenes(SimulatorScenes, "Alter3Simulator-Headless", BuildTarget.StandaloneOSX, BuildOptions.EnableHeadlessMode);
+            BuildHeadlessSimulator(BuildTarget.StandaloneOSX);
+        }
+
+        private static void BuildTestClient(BuildTarget target)
+        {
+            PreserveSettings(() =>
+            {
+                PlayerSettings.fullScreenMode = FullScreenMode.Windowed;
+                PlayerSettings.displayResolutionDialog = ResolutionDialogSetting.Disabled;
+                BuildScenes(TestClientScenes, "TestClient", target);
+            });
+        }
+
+        private static void BuildSimulator(BuildTarget target)
+        {
+            PreserveSettings(() =>
+            {
+                PlayerSettings.displayResolutionDialog = ResolutionDialogSetting.Enabled;
+                BuildScenes(SimulatorScenes, "Alter3Simulator", target);
+            });
+        }
+
+        private static void BuildHeadlessSimulator(BuildTarget target)
+        {
+            BuildScenes(SimulatorScenes, "Alter3Simulator-Headless", target, BuildOptions.EnableHeadlessMode);
+        }
+
+        private static void PreserveSettings(Action action)
+        {
+            var savedFullScreenMode = PlayerSettings.fullScreenMode;
+            var savedResolutionDialogSetting = PlayerSettings.displayResolutionDialog;
+            try
+            {
+                action();
+            }
+            finally
+            {
+                PlayerSettings.fullScreenMode = savedFullScreenMode;
+                PlayerSettings.displayResolutionDialog = savedResolutionDialogSetting;
+            }
         }
 
         private static void BuildScenes(string[] sceneNames, string outputName, BuildTarget target, BuildOptions options = BuildOptions.None)

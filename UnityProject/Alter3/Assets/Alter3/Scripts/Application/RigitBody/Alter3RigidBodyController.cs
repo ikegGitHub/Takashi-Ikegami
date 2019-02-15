@@ -23,12 +23,25 @@ namespace XFlag.Alter3Simulator
         }
         public Action<Alter3RigidBodyController> OnEvent = null;
 
+        [SerializeField]
+        float colliderRadius = 0.1f;
+        protected SphereCollider sphereCollider = null;
         protected string name = null;
         public string Name
         {
             set { this.name = value; }
-            get { return this.name;}
+            get { return this.name; }
         }
+
+        void Awake()
+        {
+            sphereCollider = this.GetComponent<SphereCollider>();
+            if (sphereCollider != null)
+            {
+                sphereCollider.radius = colliderRadius;
+            }
+        }
+
 
         private void OnTriggerEnter(Collider other)
         {

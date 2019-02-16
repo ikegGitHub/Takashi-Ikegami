@@ -13,6 +13,13 @@ namespace XFlag.Alter3SimulatorEditor
         private static readonly string[] SimulatorScenes = { "Splash", "Server" };
         private static readonly string[] TestClientScenes = { "Client" };
 
+        [MenuItem("Alter3/ビルド/All", priority = 0)]
+        private static void BuildAll()
+        {
+            BuildAll_Win64();
+            BuildAll_OSX();
+        }
+
         [MenuItem("Alter3/ビルド/Win64/All", priority = 0)]
         private static void BuildAll_Win64()
         {

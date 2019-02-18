@@ -366,7 +366,13 @@ namespace XFlag.Alter3Simulator
         #region IRobot
         public void MoveAxis(AxisParam axisParam)
         {
-            Debug.Log("MoveAxis : " + axisParam.AxisNumber.ToString() + ": " + Time.realtimeSinceStartup.ToString());
+            if(axisParam.AxisNumber != 42)
+            {
+                return;
+            }
+
+            Debug.LogWarning("MoveAxis : " + axisParam.AxisNumber.ToString() + " value: " + axisParam.Value.ToString() + ": " + Time.realtimeSinceStartup.ToString());
+
             UpdateJoint(axisParam.AxisNumber, (float)axisParam.Value);
 
             /*

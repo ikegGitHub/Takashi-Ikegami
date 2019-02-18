@@ -287,9 +287,9 @@ namespace XFlag.Alter3Simulator
                 var param = dictionary[key];
 
 
-                var qx = Quaternion.AngleAxis(param.NextRotation.x, Vector3.right);
-                var qy = Quaternion.AngleAxis(param.NextRotation.y, Vector3.up);
-                var qz = Quaternion.AngleAxis(param.NextRotation.z, Vector3.forward);
+//                var qx = Quaternion.AngleAxis(param.NextRotation.x, Vector3.right);
+//                var qy = Quaternion.AngleAxis(param.NextRotation.y, Vector3.up);
+//                var qz = Quaternion.AngleAxis(param.NextRotation.z, Vector3.forward);
                 var nextQuat = param.NextQuat;  // qy * qz * qx;
 
 
@@ -353,7 +353,7 @@ namespace XFlag.Alter3Simulator
                 else
                 {
                     qy = Quaternion.AngleAxis(param.CurrentRotation.y, Vector3.up);
-                    ay = param.CurrentRotation.y;
+                   ay = param.CurrentRotation.y;
                 }
                 if (item.Axis.z != 0)
                 {
@@ -362,10 +362,12 @@ namespace XFlag.Alter3Simulator
                 }
                 else
                 {
-                    qz = Quaternion.AngleAxis(param.CurrentRotation.z, Vector3.forward);
-                    az = param.CurrentRotation.z;
+                   qz = Quaternion.AngleAxis(param.CurrentRotation.z, Vector3.forward);
+                  az = param.CurrentRotation.z;
                 }
-                param.NextQuat = qz * qx * qy;
+//                param.NextQuat = qz * qx * qy;
+                param.NextQuat = qx * qz * qy;
+//                param.NextQuat = qy * qz * qx;
                 param.NextRotation = new Vector3(ax, ay, az);
                 param.CurrentRotation = param.NextRotation;
                 //                param.CurrentRotation = new Vector3(ax, ay, az);

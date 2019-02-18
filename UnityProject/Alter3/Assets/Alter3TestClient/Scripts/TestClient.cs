@@ -11,6 +11,8 @@ namespace XFlag.Alter3Simulator
     [DisallowMultipleComponent]
     public class TestClient : MonoBehaviour
     {
+        private const int AxisCount = 44;
+
         private static readonly Encoding Encoding = new UTF8Encoding(false, false);
 
         [SerializeField]
@@ -38,10 +40,13 @@ namespace XFlag.Alter3Simulator
         private JointTable _jointTable = null;
 
         [SerializeField]
-        private Button _connectButton = null;
+        private ButtonView _connectButton = null;
 
         [SerializeField]
         private Button _clearLogButton = null;
+
+        [SerializeField]
+        private Button _sendAllButton = null;
 
         private TcpClient _client;
         private TextWriter _writer;
@@ -49,9 +54,25 @@ namespace XFlag.Alter3Simulator
         private LinkedList<GameObject> _logLines = new LinkedList<GameObject>();
         private int _logCount;
 
+        private List<AxisControllerView> _axisSliders = new List<AxisControllerView>(AxisCount);
+
+        private bool IsConnected => _client != null && _client.Connected;
+
+        private void ToggleConnect()
+        {
+            if (IsConnected)
+            {
+                Disconnect();
+            }
+            else
+            {
+                Connect();
+            }
+        }
+
         private void Connect()
         {
-            if (_client != null)
+            if (IsConnected)
             {
                 AppendLineError($"already connected ({_client.Client.RemoteEndPoint})");
                 return;
@@ -65,6 +86,7 @@ namespace XFlag.Alter3Simulator
                 _reader = new StreamReader(stream, Encoding);
 
                 AppendLineSuccess("connected");
+                _connectButton.ButtonText = "disconnect";
             }
             catch (SocketException)
             {
@@ -72,7 +94,7 @@ namespace XFlag.Alter3Simulator
             }
         }
 
-        public void Disconnect()
+        private void Disconnect()
         {
             if (_client != null)
             {
@@ -81,6 +103,7 @@ namespace XFlag.Alter3Simulator
                 _writer = null;
                 _reader = null;
             }
+            _connectButton.ButtonText = "connect";
         }
 
         public void Submit(string command)
@@ -162,6 +185,8 @@ namespace XFlag.Alter3Simulator
                 axisController.MinValue = 0;
                 axisController.MaxValue = 255;
                 axisController.Value = 128;
+
+                _axisSliders.Add(axisController);
             }
         }
 
@@ -175,13 +200,24 @@ namespace XFlag.Alter3Simulator
             }
         }
 
+        private void SendAll()
+        {
+            for (int i = 0; i < _axisSliders.Count; i++)
+            {
+                var axisNumber = i + 1;
+                var value = _axisSliders[i].Value;
+                SendMoveAxisCommand(axisNumber, value);
+            }
+        }
+
         private void Awake()
         {
             _commandInput.onSubmit.AddListener(Submit);
-            InitializeAxisControllers(44);
+            InitializeAxisControllers(AxisCount);
 
-            _connectButton.onClick.AddListener(() => Connect());
+            _connectButton.OnClick += ToggleConnect;
             _clearLogButton.onClick.AddListener(() => ClearLog());
+            _sendAllButton.onClick.AddListener(() => SendAll());
         }
 
         private void OnDestroy()

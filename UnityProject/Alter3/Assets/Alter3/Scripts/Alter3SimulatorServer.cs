@@ -190,7 +190,7 @@ namespace XFlag.Alter3Simulator
             var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
             var logFileName = Path.Combine(Path.Combine(Application.persistentDataPath, "Logs"), $"{timestamp}.log");
             _logFileLocation.text = logFileName;
-            return new Logger(Debug.unityLogger.And(_logWindow).And(new FileLogger(logFileName)));
+            return new Logger(Debug.unityLogger.And(new FileLogger(logFileName)));
         }
     }
 }

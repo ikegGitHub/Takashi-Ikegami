@@ -43,6 +43,13 @@ namespace XFlag.Alter3Simulator
             get { return this.eyeCameraRight; }
         }
 
+        public void ResetAxes()
+        {
+            foreach (var jointParameter in dictionary.Values)
+            {
+                jointParameter.NextQuat = Quaternion.Euler(jointParameter.DefaultRotation);
+            }
+        }
 
         protected virtual void Awake()
         {

@@ -11,6 +11,8 @@ namespace XFlag.Alter3Simulator
     [DisallowMultipleComponent]
     public class TestClient : MonoBehaviour
     {
+        private const int AxisCount = 44;
+
         private static readonly Encoding Encoding = new UTF8Encoding(false, false);
 
         [SerializeField]
@@ -43,11 +45,16 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private Button _clearLogButton = null;
 
+        [SerializeField]
+        private Button _sendAllButton = null;
+
         private TcpClient _client;
         private TextWriter _writer;
         private TextReader _reader;
         private LinkedList<GameObject> _logLines = new LinkedList<GameObject>();
         private int _logCount;
+
+        private List<AxisControllerView> _axisSliders = new List<AxisControllerView>(AxisCount);
 
         private void Connect()
         {
@@ -162,6 +169,8 @@ namespace XFlag.Alter3Simulator
                 axisController.MinValue = 0;
                 axisController.MaxValue = 255;
                 axisController.Value = 128;
+
+                _axisSliders.Add(axisController);
             }
         }
 
@@ -175,13 +184,24 @@ namespace XFlag.Alter3Simulator
             }
         }
 
+        private void SendAll()
+        {
+            for (int i = 0; i < _axisSliders.Count; i++)
+            {
+                var axisNumber = i + 1;
+                var value = _axisSliders[i].Value;
+                SendMoveAxisCommand(axisNumber, value);
+            }
+        }
+
         private void Awake()
         {
             _commandInput.onSubmit.AddListener(Submit);
-            InitializeAxisControllers(44);
+            InitializeAxisControllers(AxisCount);
 
             _connectButton.onClick.AddListener(() => Connect());
             _clearLogButton.onClick.AddListener(() => ClearLog());
+            _sendAllButton.onClick.AddListener(() => SendAll());
         }
 
         private void OnDestroy()

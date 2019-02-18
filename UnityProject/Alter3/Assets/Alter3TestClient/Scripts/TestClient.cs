@@ -40,7 +40,7 @@ namespace XFlag.Alter3Simulator
         private JointTable _jointTable = null;
 
         [SerializeField]
-        private Button _connectButton = null;
+        private ButtonView _connectButton = null;
 
         [SerializeField]
         private Button _clearLogButton = null;
@@ -199,7 +199,7 @@ namespace XFlag.Alter3Simulator
             _commandInput.onSubmit.AddListener(Submit);
             InitializeAxisControllers(AxisCount);
 
-            _connectButton.onClick.AddListener(() => Connect());
+            _connectButton.OnClick += Connect;
             _clearLogButton.onClick.AddListener(() => ClearLog());
             _sendAllButton.onClick.AddListener(() => SendAll());
         }

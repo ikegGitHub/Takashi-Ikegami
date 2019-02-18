@@ -2312,6 +2312,7 @@ GameObject:
   - component: {fileID: 1053652004}
   - component: {fileID: 1053652003}
   - component: {fileID: 1053652002}
+  - component: {fileID: 1053652005}
   m_Layer: 5
   m_Name: SendAllButton
   m_TagString: Untagged
@@ -2418,6 +2419,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1053652000}
   m_CullTransparentMesh: 0
+--- !u!114 &1053652005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1053652000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2285b30fd2c16fe40a7212e97f01e810, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _button: {fileID: 1053652002}
+  _buttonText: {fileID: 1469645870}
 --- !u!1 &1070961944
 GameObject:
   m_ObjectHideFlags: 0

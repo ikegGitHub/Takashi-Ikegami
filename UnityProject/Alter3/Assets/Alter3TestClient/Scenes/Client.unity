@@ -865,7 +865,7 @@ MonoBehaviour:
     type: 3}
   _axisControllerRoot: {fileID: 827693502}
   _jointTable: {fileID: 11400000, guid: 6b885a40f8abb9a4ca530f117a3eb42c, type: 2}
-  _connectButton: {fileID: 1871941187}
+  _connectButton: {fileID: 1871941190}
   _clearLogButton: {fileID: 848846279}
   _sendAllButton: {fileID: 1053652002}
 --- !u!4 &507712060
@@ -916,7 +916,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -185, y: -87.95001}
+  m_AnchoredPosition: {x: -185, y: -87.950195}
   m_SizeDelta: {x: -630, y: -324.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &733972882
@@ -2312,7 +2312,6 @@ GameObject:
   - component: {fileID: 1053652004}
   - component: {fileID: 1053652003}
   - component: {fileID: 1053652002}
-  - component: {fileID: 1053652005}
   m_Layer: 5
   m_Name: SendAllButton
   m_TagString: Untagged
@@ -2419,20 +2418,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1053652000}
   m_CullTransparentMesh: 0
---- !u!114 &1053652005
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1053652000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2285b30fd2c16fe40a7212e97f01e810, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _button: {fileID: 1053652002}
-  _buttonText: {fileID: 1469645870}
 --- !u!1 &1070961944
 GameObject:
   m_ObjectHideFlags: 0
@@ -3720,6 +3705,7 @@ GameObject:
   - component: {fileID: 1871941189}
   - component: {fileID: 1871941188}
   - component: {fileID: 1871941187}
+  - component: {fileID: 1871941190}
   m_Layer: 5
   m_Name: ConnectButton
   m_TagString: Untagged
@@ -3826,6 +3812,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1871941185}
   m_CullTransparentMesh: 0
+--- !u!114 &1871941190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1871941185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2285b30fd2c16fe40a7212e97f01e810, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _button: {fileID: 1871941187}
+  _buttonText: {fileID: 1034897357}
 --- !u!1 &2052936108
 GameObject:
   m_ObjectHideFlags: 0

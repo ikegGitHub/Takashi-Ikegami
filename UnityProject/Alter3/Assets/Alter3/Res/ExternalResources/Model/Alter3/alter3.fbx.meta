@@ -310,6 +310,7 @@ ModelImporter:
     2100004: body
     2100006: mouth
     2100008: eye
+    2100010: tooth
     4300000: Foundation
     4300002: Leg2
     4300004: Leg1

@@ -6,13 +6,15 @@ namespace XFlag.Alter3Simulator
     [DisallowMultipleComponent]
     public class CameraController : MonoBehaviour
     {
-        private const float Agility = 0.8f;
+        private const float Agility = 0.7f;
         private const float NormalSpeed = 0.2f;
         private const float SlowSpeed = 0.05f;
 
         [SerializeField]
         private DragAreaView _dragAreaView = null;
 
+        private Vector3 _initialPosition;
+        private Quaternion _initialRotation;
         private Vector3 _targetPosition;
         private Quaternion _targetRotation;
 
@@ -20,13 +22,21 @@ namespace XFlag.Alter3Simulator
 
         private float Speed => IsShiftKeyDown ? SlowSpeed : NormalSpeed;
 
+        public void ResetPosition()
+        {
+            _targetPosition = _initialPosition;
+            _targetRotation = _initialRotation;
+        }
+
         private void Awake()
         {
             _dragAreaView.OnDrag += OnDrag;
             _dragAreaView.OnScroll += OnScroll;
 
-            _targetPosition = transform.localPosition;
-            _targetRotation = transform.localRotation;
+            _initialPosition = transform.localPosition;
+            _initialRotation = transform.localRotation;
+            _targetPosition = _initialPosition;
+            _targetRotation = _initialRotation;
         }
 
         private void OnDestroy()

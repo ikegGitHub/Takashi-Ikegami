@@ -19,15 +19,12 @@ namespace XFlag.Alter3Simulator
         {
             Vector3 GetTangentVector(Vector3 normal)
             {
-                var l = normal.magnitude;
-                var v = Vector3.right;
-                var d = Vector3.Dot(normal, v) / l;
+                var d = Vector3.Dot(normal, Vector3.right) / normal.magnitude;
                 if (Mathf.Abs(d) == 1.0f)
                 {
-                    v = Vector3.forward;
-                    d = Vector3.Dot(normal, v) / l;
+                    return Vector3.forward;
                 }
-                return v - d * normal.normalized;
+                return Vector3.right - d * normal.normalized;
             }
 
             var selected = UnityEditor.Selection.activeGameObject;

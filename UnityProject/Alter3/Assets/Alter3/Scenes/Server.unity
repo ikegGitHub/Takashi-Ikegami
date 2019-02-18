@@ -612,6 +612,7 @@ MonoBehaviour:
   _LeftEyeRawImage: {fileID: 340458839}
   _RightEyeRawImage: {fileID: 965950575}
   _faceCameraScreen: {fileID: 3883498528638316143}
+  _cameraController: {fileID: 534669906}
 --- !u!4 &1532764322
 Transform:
   m_ObjectHideFlags: 0

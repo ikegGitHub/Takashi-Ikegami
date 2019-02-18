@@ -47,6 +47,9 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private GameObject _faceCameraScreen = null;
 
+        [SerializeField]
+        private CameraController _cameraController = null;
+
         private ILogger _logger;
 
         private IDictionary<string, string> _config;
@@ -111,6 +114,16 @@ namespace XFlag.Alter3Simulator
                 {
                     _keyDownTime += Time.deltaTime;
                 }
+            }
+            else if (Input.GetKeyDown(KeyCode.P))
+            {
+                // Pキーでカメラリセット
+                _cameraController.ResetPosition();
+            }
+            else if (Input.GetKeyDown(KeyCode.R))
+            {
+                // Rキーでロボットリセット
+                _robot.ResetAxes();
             }
             else
             {

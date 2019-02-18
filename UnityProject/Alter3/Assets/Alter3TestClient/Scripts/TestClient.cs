@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -51,9 +54,11 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private SelectValueSetFileView _selectPresetFileView = null;
 
+        private SynchronizationContext _syncContext;
+
         private TcpClient _client;
         private TextWriter _writer;
-        private TextReader _reader;
+        private Task _readTask;
         private LinkedList<GameObject> _logLines = new LinkedList<GameObject>();
         private int _logCount;
 
@@ -86,7 +91,7 @@ namespace XFlag.Alter3Simulator
                 _client = new TcpClient(_addressInput.text, int.Parse(_portInput.text));
                 var stream = _client.GetStream();
                 _writer = new StreamWriter(stream, Encoding);
-                _reader = new StreamReader(stream, Encoding);
+                Task.Factory.StartNew(async () => await ReadResponseAsync(_client), TaskCreationOptions.LongRunning);
 
                 AppendLineSuccess("connected");
                 _connectButton.ButtonText = "disconnect";
@@ -104,7 +109,6 @@ namespace XFlag.Alter3Simulator
                 _client.Close();
                 _client = null;
                 _writer = null;
-                _reader = null;
             }
             _connectButton.ButtonText = "connect";
         }
@@ -129,16 +133,24 @@ namespace XFlag.Alter3Simulator
             AppendLineLog($"(req) {command}");
             _writer.WriteLine(command);
             _writer.Flush();
+        }
 
-            string line;
-            while ((line = _reader.ReadLine()) != null)
+        private async Task ReadResponseAsync(TcpClient tcpClient)
+        {
+            try
             {
-                line = line.Trim();
-                AppendLineLog($"(res) {line}");
-                if (line == "OK" || line.StartsWith("ERROR: "))
+                using (var reader = new StreamReader(tcpClient.GetStream(), Encoding))
                 {
-                    break;
+                    string line;
+                    while ((line = await reader.ReadLineAsync()) != null)
+                    {
+                        line = line.Trim();
+                        AppendLineLog($"(res) {line}");
+                    }
                 }
+            }
+            catch (ObjectDisposedException)
+            {
             }
         }
 
@@ -149,6 +161,11 @@ namespace XFlag.Alter3Simulator
         private void AppendLineError(string line) => AppendLine(line, Color.red);
 
         private void AppendLine(string line, Color color)
+        {
+            _syncContext.Post(state => AppendLineInternal(line, color), null);
+        }
+
+        private void AppendLineInternal(string line, Color color)
         {
             var lineText = Instantiate(_outputTextPrefab, _outputTextRoot, false);
             lineText.text = line;
@@ -229,6 +246,8 @@ namespace XFlag.Alter3Simulator
 
         private void Awake()
         {
+            _syncContext = SynchronizationContext.Current;
+
             _commandInput.onSubmit.AddListener(Submit);
             InitializeAxisControllers(AxisCount);
 

@@ -99,12 +99,14 @@ namespace XFlag.Alter3Simulator.Network
                     var requestContext = new RequestContext(Id, RemoteEndPoint, line);
                     _onRequest(requestContext);
 
+#if false // レスポンスをこのスレッド上で返すとボトルネックになるためオミット
                     foreach (var responseLine in requestContext.ResponseLines)
                     {
                         Logger?.Log($"[{Id}](res) {responseLine}");
                         await writer.WriteLineAsync(responseLine);
                     }
                     await writer.FlushAsync();
+#endif
 
                     if (requestContext.IsClose)
                     {

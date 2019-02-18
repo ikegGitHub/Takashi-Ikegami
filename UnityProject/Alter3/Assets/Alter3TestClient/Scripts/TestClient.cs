@@ -48,6 +48,9 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private Button _sendAllButton = null;
 
+        [SerializeField]
+        private SelectValueSetFileView _selectPresetFileView = null;
+
         private TcpClient _client;
         private TextWriter _writer;
         private TextReader _reader;
@@ -210,6 +213,20 @@ namespace XFlag.Alter3Simulator
             }
         }
 
+        private void LoadPresetFile(string filePath)
+        {
+            using (var parser = new SimpleCsvParser(new StreamReader(filePath, Encoding.UTF8)))
+            {
+                var rows = parser.Parse();
+                foreach (var row in rows)
+                {
+                    var axisNumber = int.Parse(row[0]);
+                    var value = float.Parse(row[1]);
+                    _axisSliders[axisNumber - 1].Value = value;
+                }
+            }
+        }
+
         private void Awake()
         {
             _commandInput.onSubmit.AddListener(Submit);
@@ -218,6 +235,7 @@ namespace XFlag.Alter3Simulator
             _connectButton.OnClick += ToggleConnect;
             _clearLogButton.onClick.AddListener(() => ClearLog());
             _sendAllButton.onClick.AddListener(() => SendAll());
+            _selectPresetFileView.OnFileSelected += LoadPresetFile;
         }
 
         private void OnDestroy()

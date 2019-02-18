@@ -217,29 +217,9 @@ namespace XFlag.Alter3Simulator
         protected virtual void Update()
         {
             UpdateJointParameter();
-            //            UpdateJoint(16, 123);
 
             //            UpdateJoint15();
             //           UpdateJoint16();
-
-
-
-
-#if false
-            //            UpdateJoint(19, ang);
-            //            UpdateJoint(18, ang);
-            //             UpdateJoint(11,ang);
-            //            UpdateJoint(43, ang);
-
-
-            ang += 1;
-            if (ang > 360)
-            {
-                ang -= 360f;
-            }
-#endif
-
-
         }
 
         protected virtual void OnDestroy()
@@ -294,9 +274,9 @@ namespace XFlag.Alter3Simulator
                 var param = dictionary[key];
 
 
-//                var qx = Quaternion.AngleAxis(param.NextRotation.x, Vector3.right);
-//                var qy = Quaternion.AngleAxis(param.NextRotation.y, Vector3.up);
-//                var qz = Quaternion.AngleAxis(param.NextRotation.z, Vector3.forward);
+                //                var qx = Quaternion.AngleAxis(param.NextRotation.x, Vector3.right);
+                //                var qy = Quaternion.AngleAxis(param.NextRotation.y, Vector3.up);
+                //                var qz = Quaternion.AngleAxis(param.NextRotation.z, Vector3.forward);
                 var nextQuat = param.NextQuat;  // qy * qz * qx;
 
 
@@ -360,7 +340,7 @@ namespace XFlag.Alter3Simulator
                 else
                 {
                     qy = Quaternion.AngleAxis(param.CurrentRotation.y, Vector3.up);
-                   ay = param.CurrentRotation.y;
+                    ay = param.CurrentRotation.y;
                 }
                 if (item.Axis.z != 0)
                 {
@@ -369,16 +349,14 @@ namespace XFlag.Alter3Simulator
                 }
                 else
                 {
-                   qz = Quaternion.AngleAxis(param.CurrentRotation.z, Vector3.forward);
-                  az = param.CurrentRotation.z;
+                    qz = Quaternion.AngleAxis(param.CurrentRotation.z, Vector3.forward);
+                    az = param.CurrentRotation.z;
                 }
-//                param.NextQuat = qz * qx * qy;
+                //                param.NextQuat = qz * qx * qy;
                 param.NextQuat = qx * qz * qy;
-//                param.NextQuat = qy * qz * qx;
                 param.NextRotation = new Vector3(ax, ay, az);
                 param.CurrentRotation = param.NextRotation;
-                //                param.CurrentRotation = new Vector3(ax, ay, az);
-                //                param.Transform.localRotation = Quaternion.Euler(param.CurrentRotation);    // Quaternion.AngleAxis(ang, item.Axis);
+                param.Transform.localRotation = param.CurrentQuat;
             }
 
         }
@@ -388,7 +366,7 @@ namespace XFlag.Alter3Simulator
         #region IRobot
         public void MoveAxis(AxisParam axisParam)
         {
-
+            Debug.Log("MoveAxis : " + axisParam.AxisNumber.ToString() + ": " + Time.realtimeSinceStartup.ToString());
             UpdateJoint(axisParam.AxisNumber, (float)axisParam.Value);
 
             /*

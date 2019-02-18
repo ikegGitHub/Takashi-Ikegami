@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resolutionX: 1024
   resolutionY: 1024
+  fov: 60
   camera: {fileID: 8191315565105497319}
 --- !u!1 &7031424429301641329
 GameObject:

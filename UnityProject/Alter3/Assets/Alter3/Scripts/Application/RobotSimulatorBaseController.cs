@@ -62,164 +62,11 @@ namespace XFlag.Alter3Simulator
         {
 
         }
-        //        float ang = 0;
-        int indexJoint15 = 0;
-        void UpdateJoint15()
-        {
-            float[] valueArray = new float[]{
-                 101,
-                 153,
-                 200,
-                 216,
-                 236,
-                 252,
-                 254,
-                 249,
-                 176,
-                 87,
-                 51,
-                 46,
-                 46,
-                 82,
-                 150,
-                 166,
-                 171,
-                 176,
-                 197,
-                 218,
-                 69,
-                 43,
-                 0,
-                 0,
-                 5,
-                 47,
-                 78,
-                 88,
-                 99,
-                 109,
-                 114,
-                 120,
-                 130,
-                 135,
-                 141,
-                 146,
-                 161,
-                 172,
-                 177,
-                 182,
-                 187,
-                 182,
-                 167,
-                 156,
-                 146,
-                 141,
-                 130,
-             };
-            UpdateJoint(15, valueArray[indexJoint15]);
-            indexJoint15++;
-            if (indexJoint15 >= valueArray.Length)
-            {
-                indexJoint15 = 0;
-            }
-
-
-        }
-
-        int indexJoint16 = 0;
-        void UpdateJoint16()
-        {
-            float[] valueArray = new float[]
-            {
-                170,
-                175,
-                191,
-                206,
-                201,
-                191,
-                180,
-                149,
-                87,
-                66,
-                61,
-                56,
-                61,
-                71,
-                87,
-                92,
-                102,
-                108,
-                118,
-                134,
-                149,
-                154,
-                154,
-                149,
-                139,
-                128,
-                118,
-                113,
-                108,
-                102,
-                97,
-                87,
-                82,
-                87,
-                102,
-                118,
-                134,
-                139,
-                149,
-                154,
-                165,
-                180,
-                175,
-                165,
-                154,
-                144,
-                139,
-                128,
-                123,
-                118,
-                113,
-                108,
-                102,
-                97,
-                92,
-                76,
-                61,
-                56,
-                61,
-                71,
-                87,
-                97,
-                108,
-                123,
-                144,
-                149,
-                149,
-                144,
-                134,
-                123,
-            };
-
-            UpdateJoint(16, valueArray[indexJoint16]);
-            indexJoint16++;
-            if (indexJoint16 >= valueArray.Length)
-            {
-                indexJoint16 = 0;
-            }
-
-
-        }
-
 
         // Update is called once per frame
         protected virtual void Update()
         {
             UpdateJointParameter();
-
-            //            UpdateJoint15();
-            //           UpdateJoint16();
         }
 
         protected virtual void OnDestroy()
@@ -277,11 +124,17 @@ namespace XFlag.Alter3Simulator
                 //                var qx = Quaternion.AngleAxis(param.NextRotation.x, Vector3.right);
                 //                var qy = Quaternion.AngleAxis(param.NextRotation.y, Vector3.up);
                 //                var qz = Quaternion.AngleAxis(param.NextRotation.z, Vector3.forward);
-                var nextQuat = param.NextQuat;  // qy * qz * qx;
+                if(Quaternion.Angle(param.CurrentQuat,param.NextQuat) <= 1)
+                {
+                    param.CurrentQuat = param.NextQuat;
+                }
+                else
+                {
+                    param.CurrentQuat = Quaternion.Lerp(param.CurrentQuat, param.NextQuat, Time.deltaTime * jointRotateScale);
+                }
 
 
 
-                param.CurrentQuat = Quaternion.Lerp(param.CurrentQuat, nextQuat, Time.deltaTime * jointRotateScale);
                 //                param.CurrentRotation = Vector3.Lerp(param.CurrentRotation, param.NextRotation, Time.deltaTime * jointRotateScale);
                 //param.Transform.localRotation = Quaternion.Euler(param.CurrentRotation);
 
@@ -366,10 +219,6 @@ namespace XFlag.Alter3Simulator
         #region IRobot
         public void MoveAxis(AxisParam axisParam)
         {
-            if(axisParam.AxisNumber != 42)
-            {
-                return;
-            }
 
             Debug.LogWarning("MoveAxis : " + axisParam.AxisNumber.ToString() + " value: " + axisParam.Value.ToString() + ": " + Time.realtimeSinceStartup.ToString());
 

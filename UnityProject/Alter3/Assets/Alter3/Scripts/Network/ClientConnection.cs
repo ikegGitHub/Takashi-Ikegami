@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -16,6 +17,9 @@ namespace XFlag.Alter3Simulator.Network
 
         private Action<RequestContext> _onRequest;
         private Action<ClientConnection> _onDisconnected;
+
+        private BlockingCollection<string> _logQueue = new BlockingCollection<string>();
+        private Task _logTask;
 
         public uint Id { get; }
 
@@ -38,6 +42,7 @@ namespace XFlag.Alter3Simulator.Network
 
         public Task Start()
         {
+            _logTask = Task.Factory.StartNew(OutputLog, TaskCreationOptions.LongRunning);
             return StartClientAsync();
         }
 
@@ -82,7 +87,7 @@ namespace XFlag.Alter3Simulator.Network
                         break;
                     }
 
-                    Logger?.Log($"[{Id}](req) {line}");
+                    EnqueueLog(line);
 
                     var requestContext = new RequestContext(Id, RemoteEndPoint, line);
                     _onRequest(requestContext);
@@ -102,6 +107,20 @@ namespace XFlag.Alter3Simulator.Network
                         break;
                     }
                 }
+            }
+        }
+
+        private void EnqueueLog(string line)
+        {
+            _logQueue.Add(line);
+        }
+
+        private void OutputLog()
+        {
+            while (_tcpClient.Connected)
+            {
+                var line = _logQueue.Take();
+                Logger?.Log($"[{Id}](req) {line}");
             }
         }
     }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.IO;
-using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +22,7 @@ namespace XFlag.Alter3Simulator.Network
 
         public uint Id { get; }
 
-        public IPEndPoint RemoteEndPoint => (IPEndPoint)_tcpClient.Client.RemoteEndPoint;
+        public string RemoteEndPointString { get; private set; }
 
         public ILogger Logger { get; set; }
 
@@ -56,7 +55,8 @@ namespace XFlag.Alter3Simulator.Network
 
         private async Task StartClientAsync()
         {
-            Logger?.Log($"[{Id}] client connection started ({RemoteEndPoint}).");
+            RemoteEndPointString = _tcpClient.Client.RemoteEndPoint.ToString();
+            Logger?.Log($"[{Id}] client connection started ({RemoteEndPointString}).");
             try
             {
                 await WaitForRequestAsync();
@@ -89,7 +89,7 @@ namespace XFlag.Alter3Simulator.Network
 
                     EnqueueLog(line);
 
-                    var requestContext = new RequestContext(Id, RemoteEndPoint, line);
+                    var requestContext = new RequestContext(Id, RemoteEndPointString, line);
                     _onRequest(requestContext);
 
 #if false // レスポンスをこのスレッド上で返すとボトルネックになるためオミット

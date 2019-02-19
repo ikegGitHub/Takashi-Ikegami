@@ -14,7 +14,7 @@ namespace XFlag.Alter3Simulator
     [DisallowMultipleComponent]
     public class TestClient : MonoBehaviour
     {
-        private const int AxisCount = 44;
+        private const int AxisCount = 43;
 
         private static readonly Encoding Encoding = new UTF8Encoding(false, false);
 
@@ -204,7 +204,15 @@ namespace XFlag.Alter3Simulator
                 // 範囲は仮
                 axisController.MinValue = 0;
                 axisController.MaxValue = 255;
-                axisController.Value = 128;
+                //プリセット31のパラメータに合わせる
+                if (i < 32)
+                {
+                    axisController.Value = 125;
+                }
+                else
+                {
+                    axisController.Value = 127;
+                }
 
                 _axisSliders.Add(axisController);
             }

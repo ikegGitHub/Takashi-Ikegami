@@ -19,8 +19,8 @@ namespace XFlag.Alter3Simulator
         public Transform Transform = null;
         public Vector3 AxisVector = Vector3.zero;
         //        public Vector3 AddRotationSpeed = Vector3.zero;
-        public float CurrentValue = 128;
-        public float BeforeValue = 128;
+        //        public float CurrentValue = 128;
+        //        public float BeforeValue = 128;
         //        public float RotationTime = 3f;            //360度回転する時間
         //        public float MaxAccelerationSpeed = 30f;       //加速度（１秒間に加算する角度）
         //       public float RotationSpeed = 0;

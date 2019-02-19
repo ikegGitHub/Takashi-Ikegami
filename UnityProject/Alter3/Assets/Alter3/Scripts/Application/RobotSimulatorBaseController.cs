@@ -124,7 +124,7 @@ namespace XFlag.Alter3Simulator
                 //                var qx = Quaternion.AngleAxis(param.NextRotation.x, Vector3.right);
                 //                var qy = Quaternion.AngleAxis(param.NextRotation.y, Vector3.up);
                 //                var qz = Quaternion.AngleAxis(param.NextRotation.z, Vector3.forward);
-                if(Quaternion.Angle(param.CurrentQuat,param.NextQuat) <= 1)
+                if (Quaternion.Angle(param.CurrentQuat, param.NextQuat) <= 1)
                 {
                     param.CurrentQuat = param.NextQuat;
                 }
@@ -161,8 +161,8 @@ namespace XFlag.Alter3Simulator
             {
                 var param = FindJointParameter(item.JointName);
 
-                param.BeforeValue = param.CurrentValue;
-                param.CurrentValue = value;
+                //                param.BeforeValue = param.CurrentValue;
+                //               param.CurrentValue = value;
 
                 var t = value / 255f;
                 var ang = Mathf.Lerp(item.rangeMin, item.rangeMax, t);

@@ -92,28 +92,9 @@ namespace XFlag.Alter3Simulator
 
         private void Update()
         {
-            // Lボタンを長押しでログウィンドウ表示
-            if (!_logWindow.IsShown && Input.GetKey(KeyCode.L))
+            if (!_faceCameraScreen.activeSelf && Input.GetKey(KeyCode.F))
             {
-                if (_keyDownTime >= 3.0f)
-                {
-                    _logWindow.Show();
-                }
-                else
-                {
-                    _keyDownTime += Time.deltaTime;
-                }
-            }
-            else if (!_faceCameraScreen.activeSelf && Input.GetKey(KeyCode.F))
-            {
-                if (_keyDownTime >= 3.0f)
-                {
-                    _faceCameraScreen.SetActive(true);
-                }
-                else
-                {
-                    _keyDownTime += Time.deltaTime;
-                }
+                _faceCameraScreen.SetActive(true);
             }
             else if (Input.GetKeyDown(KeyCode.P))
             {

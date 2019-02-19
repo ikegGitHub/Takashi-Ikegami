@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 
 if [ -z "$UNITY_PATH" ]; then
   echo "ERROR: Please specify UNITY_PATH"

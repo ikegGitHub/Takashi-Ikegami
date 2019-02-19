@@ -1,35 +1,48 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 </head>
 <body>
-<h1>Alter3 Simulatorについて</h1>
+<h1>XFLAG Alter3 Simulator について</h1>
 
-<h2>内容</h2>
-<ul>
-<li>
-  <dt>Alter3Simulator.app</dt>
-  <dd>シミュレータソフトウェア本体です。</dd>
-</li>
-<li>
-  <dt>TestClient.app</dt>
-  <dd>簡易テストクライアントです。</dd>
-</li>
-</ul>
+<h2>パッケージ内容</h2>
+<dl>
+    <dt>Alter3Simulator.app</dt>
+    <dd>シミュレータソフトウェア本体です。</dd>
+    <dt>Alter3Simulator-Headless.app</dt>
+    <dd>シミュレータソフトウェア本体のヘッドレス版です。</dd>
+    <dt>TestClient.app</dt>
+    <dd>簡易テストクライアントです。</dd>
+</dl>
 
 <h2>シミュレータのサーバ機能の操作</h2>
 <ol>
-<li>画面左上のグレーの丸ボタンをクリックし、サーバを起動します。正常に動作を開始した場合、ボタンが緑色に発光し、server started と表示されます。</li>
-<li>クライアントソフトウェア側で、シミュレータに接続します。同一コンピュータ上で接続する場合は、localhost:11000にTCP接続してください。</li>
-<li>サーバを停止するには、画面左上のボタンを再度クリックしてサーバ機能を停止するか、ソフトウェアを終了します。</li>
-<li>実行中の通信のログは、ウィンドウ下部に表示されているファイルパスに出力されます。</li>
+<li>シミュレータを起動すると自動的にサーバ機能も稼働開始します。サーバ機能が正常に稼働している場合、画面上部に server started と表示されます。</li>
+<li>クライアントソフトウェア側で、シミュレータに接続します。同一コンピュータ上で接続する場合は、<code>localhost:11000</code> にTCP接続してください。</li>
+<li>サーバ機能を停止するには、左上のボタンをクリックしてサーバ機能を停止するか、ソフトウェアを終了します。</li>
+<li>
+    実行中の通信のログは、プラットフォームごとに以下の場所に出力されます。
+    <ul>
+        <li>Windows: <code>C:\Users\&lt;ユーザー名&gt;\AppData\LocalLow\XFLAG\Alter3\Logs</code> ※ドライブレターは環境により異なる場合があります。</li>
+        <li>macOS: <code>/Users/&lt;ユーザー名&gt;/Library/Application Support/XFLAG/Alter3/Logs</code></li>
+    </ul>
+    </li>
 </ol>
 
 <h2>シミュレータの画面操作</h2>
 <ul>
-<li>画面上でスクロールやドラッグを行うと、カメラの向き変更やズームイン、ズームアウトができます。</li>
-<li>キーボードのLキーを3秒以上長押しすることで、ログウィンドウを表示することができます。内容はログファイルに出力されるものと同一です。</li>
+    <li>
+        画面上でスクロールやドラッグを行うと、カメラの向き変更やズームイン、ズームアウトができます。
+        <ul>
+            <li>拡縮: マウスホイールのスクロールまたはトラックパッドの上下スワイプ</li>
+            <li>移動: マウスの左ドラッグまたはトラックパッドの1本指ドラッグ</li>
+            <li>回転: マウスの右ドラッグまたはトラックパッドの2本指ドラッグ</li>
+        </ul>
+    </li>
+    <li>キーボードの<strong>F</strong>キーを3秒以上長押しすることで、フェイスカメラの映像が画面右下に出現します。</li>
+    <li>キーボードの<strong>P</strong>キーを押すことで、カメラがシミュレータ起動時の状態に初期化されます。</li>
+    <li>キーボードの<strong>R</strong>キーを押すことで、ロボットのポーズがシミュレータ起動時の状態に初期化されます。</li>
 </ul>
 
 </body>

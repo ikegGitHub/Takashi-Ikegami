@@ -8,7 +8,17 @@ namespace XFlag.Alter3SimulatorEditor
 {
     public static class BatchBuild
     {
-        private const BuildOptions DefaultBuildOptions = BuildOptions.ShowBuiltPlayer;
+        private static BuildOptions DefaultBuildOptions
+        {
+            get
+            {
+                if (Environment.GetCommandLineArgs().Contains("-batchmode"))
+                {
+                    return BuildOptions.None;
+                }
+                return BuildOptions.ShowBuiltPlayer;
+            }
+        }
 
         private static readonly string[] SimulatorScenes = { "Splash", "Server" };
         private static readonly string[] TestClientScenes = { "Client" };
@@ -119,11 +129,21 @@ namespace XFlag.Alter3SimulatorEditor
                 scenes = GetScenePaths(sceneNames),
                 targetGroup = BuildTargetGroup.Standalone,
                 target = target,
-                locationPathName = $"Builds/{target}/{outputName}/{outputName}{GetExtension(target)}",
+                locationPathName = GetOutputLocationPathName(target, outputName),
                 options = DefaultBuildOptions | options,
             };
             var buildReport = BuildPipeline.BuildPlayer(buildPlayerOptions);
             Debug.Log($"Build {outputName} {buildReport.summary.result}");
+        }
+
+        private static string GetOutputLocationPathName(BuildTarget target, string outputName)
+        {
+            var location = Path.Combine("Builds", target.ToString());
+            if (IsOutputDirectory(target))
+            {
+                location = Path.Combine(location, outputName);
+            }
+            return Path.Combine(location, $"{outputName}{GetExtension(target)}");
         }
 
         private static string[] GetScenePaths(string[] names)
@@ -132,6 +152,11 @@ namespace XFlag.Alter3SimulatorEditor
                 .Where(scene => names.Contains(Path.GetFileNameWithoutExtension(scene.path)))
                 .Select(scene => scene.path)
                 .ToArray();
+        }
+
+        private static bool IsOutputDirectory(BuildTarget target)
+        {
+            return target != BuildTarget.StandaloneOSX;
         }
 
         private static string GetExtension(BuildTarget target)

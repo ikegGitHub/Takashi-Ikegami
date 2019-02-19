@@ -7,8 +7,9 @@ namespace XFlag.Alter3Simulator
 {
     public class CommandProcessor : CommandVisitorBase<IEnumerable<string>>
     {
+        private static readonly CommandParser _commandParser = new CommandParser();
+
         private CoreSystem _coreSystem;
-        private CommandParser _commandParser = new CommandParser();
         private RequestContext _requestContext;
 
         public CommandProcessor(CoreSystem coreSystem, RequestContext requestContext)

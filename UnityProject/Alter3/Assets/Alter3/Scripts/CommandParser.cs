@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace XFlag.Alter3Simulator
 {
     public class CommandParser
     {
-        private static readonly Regex SeparatorPattern = new Regex(@"\s+");
-
         private const int PriorityMax = 10000;
 
         public ICommand ParseCommandLine(string line)
         {
-            var args = SeparatorPattern.Split(line.Trim());
+            var args = Split(line);
             if (args.Length == 0)
             {
                 throw new ApplicationException("invalid command line");
@@ -212,6 +210,36 @@ namespace XFlag.Alter3Simulator
                 throw new ApplicationException($"DURATION must be >= 0: {duration}");
             }
             return duration;
+        }
+
+        private string[] Split(string line)
+        {
+            var args = new List<string>(8);
+
+            int pos = 0;
+
+            while (pos < line.Length && char.IsWhiteSpace(line[pos]))
+            {
+                ++pos;
+            }
+
+            while (pos < line.Length)
+            {
+                int i = pos + 1;
+                while (i < line.Length && !char.IsWhiteSpace(line[i]))
+                {
+                    ++i;
+                }
+                args.Add(line.Substring(pos, i - pos));
+
+                pos = i + 1;
+                while (pos < line.Length && char.IsWhiteSpace(line[pos]))
+                {
+                    ++pos;
+                }
+            }
+
+            return args.ToArray();
         }
     }
 }

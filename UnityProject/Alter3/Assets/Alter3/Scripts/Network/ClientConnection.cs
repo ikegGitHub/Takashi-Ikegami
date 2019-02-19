@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.IO;
-using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,9 +17,12 @@ namespace XFlag.Alter3Simulator.Network
         private Action<RequestContext> _onRequest;
         private Action<ClientConnection> _onDisconnected;
 
+        private BlockingCollection<string> _logQueue = new BlockingCollection<string>();
+        private Task _logTask;
+
         public uint Id { get; }
 
-        public IPEndPoint RemoteEndPoint => (IPEndPoint)_tcpClient.Client.RemoteEndPoint;
+        public string RemoteEndPointString { get; private set; }
 
         public ILogger Logger { get; set; }
 
@@ -29,27 +32,16 @@ namespace XFlag.Alter3Simulator.Network
             {
                 throw new ArgumentException("cannot be 0", nameof(id));
             }
-            if (tcpClient == null)
-            {
-                throw new ArgumentNullException(nameof(tcpClient));
-            }
-            if (onRequest == null)
-            {
-                throw new ArgumentNullException(nameof(onRequest));
-            }
-            if (onDisconnected == null)
-            {
-                throw new ArgumentNullException(nameof(onDisconnected));
-            }
 
             Id = id;
-            _tcpClient = tcpClient;
-            _onRequest = onRequest;
-            _onDisconnected = onDisconnected;
+            _tcpClient = tcpClient ?? throw new ArgumentNullException(nameof(tcpClient));
+            _onRequest = onRequest ?? throw new ArgumentNullException(nameof(onRequest));
+            _onDisconnected = onDisconnected ?? throw new ArgumentNullException(nameof(onDisconnected));
         }
 
         public Task Start()
         {
+            _logTask = Task.Factory.StartNew(OutputLog, TaskCreationOptions.LongRunning);
             return StartClientAsync();
         }
 
@@ -63,7 +55,8 @@ namespace XFlag.Alter3Simulator.Network
 
         private async Task StartClientAsync()
         {
-            Logger?.Log($"[{Id}] client connection started ({RemoteEndPoint}).");
+            RemoteEndPointString = _tcpClient.Client.RemoteEndPoint.ToString();
+            Logger?.Log($"[{Id}] client connection started ({RemoteEndPointString}).");
             try
             {
                 await WaitForRequestAsync();
@@ -94,9 +87,9 @@ namespace XFlag.Alter3Simulator.Network
                         break;
                     }
 
-                    Logger?.Log($"[{Id}](req) {line}");
+                    EnqueueLog(line);
 
-                    var requestContext = new RequestContext(Id, RemoteEndPoint, line);
+                    var requestContext = new RequestContext(Id, RemoteEndPointString, line);
                     _onRequest(requestContext);
 
 #if false // レスポンスをこのスレッド上で返すとボトルネックになるためオミット
@@ -114,6 +107,20 @@ namespace XFlag.Alter3Simulator.Network
                         break;
                     }
                 }
+            }
+        }
+
+        private void EnqueueLog(string line)
+        {
+            _logQueue.Add(line);
+        }
+
+        private void OutputLog()
+        {
+            while (_tcpClient.Connected)
+            {
+                var line = _logQueue.Take();
+                Logger?.Log($"[{Id}](req) {line}");
             }
         }
     }

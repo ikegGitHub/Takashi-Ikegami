@@ -37,7 +37,7 @@ namespace XFlag.Alter3Simulator
         {
             _minValue = minValue;
             _maxValue = maxValue;
-            _labelText.text = $"{axisNumber} - {label}";
+            _labelText.text = $"{axisNumber}\n{label}";
             Value = value;
         }
 

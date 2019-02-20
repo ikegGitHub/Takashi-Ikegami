@@ -209,7 +209,7 @@ namespace XFlag.Alter3Simulator
                 param.NextQuat = qx * qz * qy;
                 param.NextRotation = new Vector3(ax, ay, az);
                 param.CurrentRotation = param.NextRotation;
-                param.Transform.localRotation = param.CurrentQuat;
+                //                param.Transform.localRotation = param.CurrentQuat;
             }
 
         }

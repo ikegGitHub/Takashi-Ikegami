@@ -50,6 +50,9 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private CameraController _cameraController = null;
 
+        [SerializeField]
+        private AxisControlPanel _axisControlPanel = null;
+
         private ILogger _logger;
 
         private IDictionary<string, string> _config;
@@ -87,6 +90,8 @@ namespace XFlag.Alter3Simulator
             _LeftEyeRawImage.texture = _robot.EyeCameraLeft.RenderTexture;
             _RightEyeRawImage.texture = _robot.EyeCameraRight.RenderTexture;
 
+            _axisControlPanel.Initialize(_robot);
+
             OnServerButtonClick();
         }
 
@@ -105,6 +110,11 @@ namespace XFlag.Alter3Simulator
             {
                 // Rキーでロボットリセット
                 _robot.ResetAxes();
+            }
+            else if (!_axisControlPanel.gameObject.activeSelf && Input.GetKeyDown(KeyCode.Alpha9))
+            {
+                // 9キーで軸コントロールパネル表示
+                _axisControlPanel.gameObject.SetActive(true);
             }
             else
             {

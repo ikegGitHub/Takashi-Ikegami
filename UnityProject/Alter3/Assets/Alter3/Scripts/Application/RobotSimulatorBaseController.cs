@@ -43,12 +43,23 @@ namespace XFlag.Alter3Simulator
             get { return this.eyeCameraRight; }
         }
 
+        private readonly Dictionary<int, float> _axisValues = new Dictionary<int, float>();
+
         public void ResetAxes()
         {
             foreach (var jointParameter in dictionary.Values)
             {
                 jointParameter.NextQuat = Quaternion.Euler(jointParameter.DefaultRotation);
             }
+        }
+
+        public float GetAxisValue(int axisNumber)
+        {
+            if (_axisValues.TryGetValue(axisNumber, out float value))
+            {
+                return value;
+            }
+            return 128;
         }
 
         protected virtual void Awake()
@@ -212,6 +223,7 @@ namespace XFlag.Alter3Simulator
                 //                param.Transform.localRotation = param.CurrentQuat;
             }
 
+            _axisValues[axisNum] = value;
         }
 
 

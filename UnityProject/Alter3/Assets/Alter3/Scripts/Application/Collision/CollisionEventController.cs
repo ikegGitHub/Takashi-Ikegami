@@ -18,7 +18,7 @@ namespace XFlag.Alter3Simulator
         private void Awake()
         {
             var mesh = this.gameObject.GetComponent<SkinnedMeshRenderer>();
-            if(mesh != null)
+            if (mesh != null)
             {
                 renderMaterial = mesh.material;
             }
@@ -27,12 +27,13 @@ namespace XFlag.Alter3Simulator
 
         private void SetColor(Color color)
         {
-            renderMaterial?.SetColor("_Color",color);
+            renderMaterial?.SetColor("_Color", color);
+            //            renderMaterial?.SetColor("_SpecColor", color);
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            if(other.gameObject.CompareTag(CollisionTagID.Hand.ToString()))
+            if (other.gameObject.CompareTag(CollisionTagID.Hand.ToString()))
             {
                 SetColor(Color.red);
             }
@@ -44,7 +45,7 @@ namespace XFlag.Alter3Simulator
         }
         private void OnTriggerExit(Collider other)
         {
-            if(other.gameObject.CompareTag(CollisionTagID.Hand.ToString()))
+            if (other.gameObject.CompareTag(CollisionTagID.Hand.ToString()))
             {
                 SetColor(Color.white);
             }

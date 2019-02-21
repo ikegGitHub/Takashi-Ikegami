@@ -172,9 +172,17 @@ namespace XFlag.Alter3Simulator
 
                 var t = value / 255f;
                 var ang = Mathf.Lerp(item.rangeMin, item.rangeMax, t);
+
+
+
                 //                param.CurrentRotation = param.CurrentQuat.eulerAngles;
                 param.StartRotation = param.CurrentRotation;
                 var newRotation = item.Axis * ang;
+
+#if DEBUG || UNITY_EDITOR
+                Debug.LogWarning("MoveAxis : " + axisNum.ToString() + " value: " + newRotation.ToString() + ": " + Time.realtimeSinceStartup.ToString());
+#endif
+
                 float ax = 0;
                 float ay = 0;
                 float az = 0;
@@ -226,9 +234,6 @@ namespace XFlag.Alter3Simulator
         #region IRobot
         public void MoveAxis(AxisParam axisParam)
         {
-#if DEBUG
-            Debug.LogWarning("MoveAxis : " + axisParam.AxisNumber.ToString() + " value: " + axisParam.Value.ToString() + ": " + Time.realtimeSinceStartup.ToString());
-#endif
 
             UpdateJoint(axisParam.AxisNumber, (float)axisParam.Value);
 

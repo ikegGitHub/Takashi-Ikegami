@@ -27,7 +27,7 @@ namespace XFlag.Alter3Simulator
         private TMP_Text _clientListText = null;
 
         [SerializeField]
-        private LampView _serverStatusLamp = null;
+        private ServerToggleView _serverToggle = null;
 
         [SerializeField]
         private RobotSimulatorBaseController _robot = null;
@@ -77,7 +77,7 @@ namespace XFlag.Alter3Simulator
             _server.OnDisconnected += OnClientDisconnected;
             _server.OnReceived += OnReceived;
 
-            _serverStatusLamp.OnClick += eventData => OnServerButtonClick();
+            _serverToggle.OnValueChanged += isOn => OnServerButtonClick(isOn);
         }
 
         private void Start()
@@ -87,7 +87,7 @@ namespace XFlag.Alter3Simulator
 
             _axisControlPanel.Initialize(_robot);
 
-            OnServerButtonClick();
+            _serverToggle.IsOn = true;
         }
 
         private void Update()
@@ -118,27 +118,23 @@ namespace XFlag.Alter3Simulator
             _server.StopServer();
         }
 
-        private void OnServerButtonClick()
+        private void OnServerButtonClick(bool start)
         {
-            _serverStatusLamp.IsError = false;
-
             try
             {
-                if (_server.IsStarted)
-                {
-                    StopServer();
-                }
-                else
+                if (start)
                 {
                     StartServer();
                 }
-                _serverStatusLamp.IsOn = _server.IsStarted;
+                else
+                {
+                    StopServer();
+                }
             }
             catch (Exception e)
             {
                 _logger.LogException(e);
                 _serverStatusText.text = e.Message;
-                _serverStatusLamp.IsError = true;
             }
         }
 

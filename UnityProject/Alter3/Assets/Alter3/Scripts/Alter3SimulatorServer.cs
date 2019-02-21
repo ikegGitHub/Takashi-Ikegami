@@ -6,6 +6,7 @@ using System.Net;
 using System.Threading;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.UI;
 using XFlag.Alter3Simulator.Network;
 
@@ -60,6 +61,18 @@ namespace XFlag.Alter3Simulator
 
         private void Awake()
         {
+            Assert.IsNotNull(_sampleConfig);
+            Assert.IsNotNull(_serverStatusText);
+            Assert.IsNotNull(_clientListText);
+            Assert.IsNotNull(_serverToggle);
+            Assert.IsNotNull(_robot);
+            Assert.IsNotNull(_logFileLocation);
+            Assert.IsNotNull(_LeftEyeRawImage);
+            Assert.IsNotNull(_RightEyeRawImage);
+            Assert.IsNotNull(_faceCameraScreen);
+            Assert.IsNotNull(_cameraController);
+            Assert.IsNotNull(_axisControlPanel);
+
             _context = SynchronizationContext.Current;
 
             _config = ConfigParser.Parse(_sampleConfig);

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace XFlag.Alter3Simulator
@@ -126,12 +125,8 @@ namespace XFlag.Alter3Simulator
 
         protected void UpdateJointParameter()
         {
-            List<string> keyList = new List<string>(dictionary.Keys);
-            foreach (var key in keyList)
+            foreach (var param in dictionary.Values)
             {
-                var param = dictionary[key];
-
-
                 //                var qx = Quaternion.AngleAxis(param.NextRotation.x, Vector3.right);
                 //                var qy = Quaternion.AngleAxis(param.NextRotation.y, Vector3.up);
                 //                var qz = Quaternion.AngleAxis(param.NextRotation.z, Vector3.forward);

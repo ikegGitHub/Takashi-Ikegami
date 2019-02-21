@@ -30,9 +30,6 @@ namespace XFlag.Alter3Simulator
         private LampView _serverStatusLamp = null;
 
         [SerializeField]
-        private LogWindow _logWindow = null;
-
-        [SerializeField]
         private RobotSimulatorBaseController _robot = null;
 
         [SerializeField]
@@ -60,8 +57,6 @@ namespace XFlag.Alter3Simulator
         private ConnectionManager _server;
 
         private SynchronizationContext _context;
-
-        private float _keyDownTime;
 
         private void Awake()
         {
@@ -115,10 +110,6 @@ namespace XFlag.Alter3Simulator
             {
                 // 9キーで軸コントロールパネル表示
                 _axisControlPanel.gameObject.SetActive(true);
-            }
-            else
-            {
-                _keyDownTime = 0;
             }
         }
 

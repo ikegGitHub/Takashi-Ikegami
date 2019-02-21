@@ -314,6 +314,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dragAreaView: {fileID: 903041466}
+--- !u!4 &586754799 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6056565335414682123, guid: 83e4f1fe41a0d0b4bba108859e7cdafe,
+    type: 3}
+  m_PrefabInstance: {fileID: 1749082521729962092}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &649048370
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -608,12 +614,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 004e17e29e44a8346b500ed6d7bf6b9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &1613917992 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1356245688401853629, guid: dd76c948f07851549aea54f738af8481,
-    type: 3}
-  m_PrefabInstance: {fileID: 762914642}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1693733382 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3883498530191015019, guid: 86aad4c5e600480469464a5693e36686,
@@ -791,7 +791,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb3686c5c86482042ac9a5d73cf86712, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetTransform: {fileID: 1613917992}
+  _targetTransform: {fileID: 586754799}
   _distance: 0.4
   _offsetHeight: 0.08
 --- !u!20 &1916106262
@@ -844,7 +844,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1916106260}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -1.1, y: 3.2042046, z: 0.28461015}
+  m_LocalPosition: {x: -1.1, y: 3.263, z: 0.218}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

@@ -65,8 +65,9 @@ namespace XFlag.Alter3Simulator
         {
             CreateJointParameter();
             CreateCollision();
-
+            EnableUpdateWhenOffscreenForAllRenderers();
         }
+
         // Use this for initialization
         protected virtual void Start()
         {
@@ -107,9 +108,15 @@ namespace XFlag.Alter3Simulator
                 transform.gameObject.AddComponent<CapsuleCollider>();
                 transform.gameObject.AddComponent<CollisionEventController>();
             }
-
         }
 
+        private void EnableUpdateWhenOffscreenForAllRenderers()
+        {
+            foreach (var renderer in modelRoot.GetComponentsInChildren<SkinnedMeshRenderer>())
+            {
+                renderer.updateWhenOffscreen = true;
+            }
+        }
 
         protected Transform FindJoint(string name)
         {

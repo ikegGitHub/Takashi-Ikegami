@@ -11,6 +11,81 @@ using UnityEngine.UI;
 
 namespace XFlag.Alter3Simulator
 {
+    public class Connection
+    {
+        private readonly string _hostName;
+        private readonly int _port;
+        private readonly Encoding _encoding;
+
+        private Socket _socket;
+        private NetworkStream _stream;
+        private StreamWriter _writer;
+        private Task _readTask;
+
+        public event Action OnDisconnected = delegate { };
+
+        public string RemoteEndPointString => $"{_hostName}:{_port}";
+
+        public Connection(string hostName, int port, Encoding encoding)
+        {
+            _hostName = hostName;
+            _port = port;
+            _encoding = encoding;
+        }
+
+        public void Connect()
+        {
+            _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            _socket.Connect(_hostName, _port);
+            _stream = new NetworkStream(_socket);
+            _writer = new StreamWriter(_stream, _encoding);
+        }
+
+        public void StartReadingStream()
+        {
+            _readTask = Task.Factory.StartNew(async () => await ReadResponseAsync(), TaskCreationOptions.LongRunning);
+        }
+
+        public async Task SendLine(string line)
+        {
+            await _writer.WriteLineAsync(line);
+            await _writer.FlushAsync();
+        }
+
+        public void Close()
+        {
+            _socket.Shutdown(SocketShutdown.Both);
+            _socket.Disconnect(false);
+            _socket.Close();
+        }
+
+        private async Task ReadResponseAsync()
+        {
+            using (var reader = new StreamReader(_stream, _encoding))
+            {
+                while (_socket.Connected)
+                {
+                    if (_socket.Poll(100000, SelectMode.SelectRead))
+                    {
+                        if (!_socket.Connected)
+                        {
+                            OnDisconnected();
+                            break;
+                        }
+                        var line = await reader.ReadLineAsync();
+                        if (line == null)
+                        {
+                            OnDisconnected();
+                            break;
+                        }
+                        Debug.Log(line);
+                    }
+                    await Task.Yield();
+                }
+            }
+        }
+    }
+
     [DisallowMultipleComponent]
     public class TestClient : MonoBehaviour
     {
@@ -23,9 +98,6 @@ namespace XFlag.Alter3Simulator
 
         [SerializeField]
         private TMP_InputField _portInput = null;
-
-        [SerializeField]
-        private TMP_InputField _commandInput = null;
 
         [SerializeField]
         private TMP_Text _outputTextPrefab = null;
@@ -54,47 +126,36 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private SelectValueSetFileView _selectPresetFileView = null;
 
+        [SerializeField]
+        private ConnectionView _connectionViewPrefab = null;
+
+        [SerializeField]
+        private RectTransform _connectionListRoot = null;
+
         private SynchronizationContext _syncContext;
 
-        private TcpClient _client;
-        private TextWriter _writer;
-        private Task _readTask;
+        private List<Connection> _connections = new List<Connection>();
         private LinkedList<GameObject> _logLines = new LinkedList<GameObject>();
         private int _logCount;
 
         private List<AxisControllerView> _axisSliders = new List<AxisControllerView>(AxisCount);
 
-        private bool IsConnected => _client != null && _client.Connected;
-
-        private void ToggleConnect()
-        {
-            if (IsConnected)
-            {
-                Disconnect();
-            }
-            else
-            {
-                Connect();
-            }
-        }
-
         private void Connect()
         {
-            if (IsConnected)
-            {
-                AppendLineError($"already connected ({_client.Client.RemoteEndPoint})");
-                return;
-            }
-
             try
             {
-                _client = new TcpClient(_addressInput.text, int.Parse(_portInput.text));
-                var stream = _client.GetStream();
-                _writer = new StreamWriter(stream, Encoding);
-                Task.Factory.StartNew(async () => await ReadResponseAsync(_client), TaskCreationOptions.LongRunning);
+                var connection = new Connection(_addressInput.text, int.Parse(_portInput.text), Encoding);
+                connection.Connect();
+                _connections.Add(connection);
 
-                AppendLineSuccess("connected");
-                _connectButton.ButtonText = "disconnect";
+                var connectionView = Instantiate(_connectionViewPrefab, _connectionListRoot, false);
+                connectionView.Text = connection.RemoteEndPointString;
+                connectionView.OnDisconnectButtonClicked += () => connection.Close();
+
+                connection.OnDisconnected += () => OnDisconnected(connection, connectionView);
+                connection.StartReadingStream();
+
+                AppendLineSuccess($"connected {connection.RemoteEndPointString}");
             }
             catch (SocketException)
             {
@@ -102,55 +163,21 @@ namespace XFlag.Alter3Simulator
             }
         }
 
-        private void Disconnect()
+        private void OnDisconnected(Connection connection, ConnectionView view)
         {
-            if (_client != null)
+            _syncContext.Post(state =>
             {
-                _client.Close();
-                _client = null;
-                _writer = null;
-            }
-            _connectButton.ButtonText = "connect";
+                Destroy(view.gameObject);
+                _connections.Remove(connection);
+            }, null);
         }
 
         public void Submit(string command)
         {
-            if (_client == null)
-            {
-                AppendLineError("not connected");
-                return;
-            }
-            if (!_client.Connected)
-            {
-                Disconnect();
-                AppendLineError("connection lost");
-                return;
-            }
-
-            _commandInput.text = "";
-            _commandInput.ActivateInputField();
-
             AppendLineLog($"(req) {command}");
-            _writer.WriteLine(command);
-            _writer.Flush();
-        }
-
-        private async Task ReadResponseAsync(TcpClient tcpClient)
-        {
-            try
+            foreach (var connection in _connections)
             {
-                using (var reader = new StreamReader(tcpClient.GetStream(), Encoding))
-                {
-                    string line;
-                    while ((line = await reader.ReadLineAsync()) != null)
-                    {
-                        line = line.Trim();
-                        AppendLineLog($"(res) {line}");
-                    }
-                }
-            }
-            catch (ObjectDisposedException)
-            {
+                connection.SendLine(command);
             }
         }
 
@@ -247,10 +274,9 @@ namespace XFlag.Alter3Simulator
         {
             _syncContext = SynchronizationContext.Current;
 
-            _commandInput.onSubmit.AddListener(Submit);
             InitializeAxisControllers(AxisCount);
 
-            _connectButton.OnClick += ToggleConnect;
+            _connectButton.OnClick += Connect;
             _clearLogButton.onClick.AddListener(() => ClearLog());
             _sendAllButton.onClick.AddListener(() => SendAll());
             _selectPresetFileView.OnFileSelected += LoadPresetFile;
@@ -258,7 +284,10 @@ namespace XFlag.Alter3Simulator
 
         private void OnDestroy()
         {
-            Disconnect();
+            foreach (var connection in _connections)
+            {
+                connection.Close();
+            }
         }
     }
 }

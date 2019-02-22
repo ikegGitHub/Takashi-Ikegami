@@ -389,6 +389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dragAreaView: {fileID: 111230634}
+  _target: {fileID: 1029383720}
 --- !u!4 &586754799 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6056565335414682123, guid: 83e4f1fe41a0d0b4bba108859e7cdafe,
@@ -609,6 +610,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd76c948f07851549aea54f738af8481, type: 3}
+--- !u!4 &1029383720 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6056565335414682161, guid: 83e4f1fe41a0d0b4bba108859e7cdafe,
+    type: 3}
+  m_PrefabInstance: {fileID: 1749082521729962092}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1033748759 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2248, guid: 86aad4c5e600480469464a5693e36686,
@@ -1248,22 +1255,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2275, guid: 86aad4c5e600480469464a5693e36686, type: 3}
-      propertyPath: m_havePropertiesChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2275, guid: 86aad4c5e600480469464a5693e36686, type: 3}
-      propertyPath: m_isInputParsingRequired
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2276, guid: 86aad4c5e600480469464a5693e36686, type: 3}
-      propertyPath: m_havePropertiesChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2276, guid: 86aad4c5e600480469464a5693e36686, type: 3}
-      propertyPath: m_isInputParsingRequired
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2201, guid: 86aad4c5e600480469464a5693e36686, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -1313,6 +1304,22 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2272, guid: 86aad4c5e600480469464a5693e36686, type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2275, guid: 86aad4c5e600480469464a5693e36686, type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2275, guid: 86aad4c5e600480469464a5693e36686, type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2276, guid: 86aad4c5e600480469464a5693e36686, type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2276, guid: 86aad4c5e600480469464a5693e36686, type: 3}
       propertyPath: m_isInputParsingRequired
       value: 1
       objectReference: {fileID: 0}

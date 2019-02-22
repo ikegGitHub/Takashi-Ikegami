@@ -39,13 +39,17 @@ namespace XFlag.Alter3Simulator
             _socket.Connect(_hostName, _port);
             _stream = new NetworkStream(_socket);
             _writer = new StreamWriter(_stream, _encoding);
+        }
+
+        public void StartReadingStream()
+        {
             _readTask = Task.Factory.StartNew(async () => await ReadResponseAsync(), TaskCreationOptions.LongRunning);
         }
 
-        public void SendLine(string line)
+        public async Task SendLine(string line)
         {
-            _writer.WriteLine(line);
-            _writer.Flush();
+            await _writer.WriteLineAsync(line);
+            await _writer.FlushAsync();
         }
 
         public void Close()
@@ -146,9 +150,10 @@ namespace XFlag.Alter3Simulator
 
                 var connectionView = Instantiate(_connectionViewPrefab, _connectionListRoot, false);
                 connectionView.Text = connection.RemoteEndPointString;
+                connectionView.OnDisconnectButtonClicked += () => connection.Close();
 
-                connectionView.OnDisconnectButtonClicked += () => OnDisconnected(connection, connectionView);
                 connection.OnDisconnected += () => OnDisconnected(connection, connectionView);
+                connection.StartReadingStream();
 
                 AppendLineSuccess($"connected {connection.RemoteEndPointString}");
             }
@@ -164,7 +169,6 @@ namespace XFlag.Alter3Simulator
             {
                 Destroy(view.gameObject);
                 _connections.Remove(connection);
-                connection.Close();
             }, null);
         }
 

@@ -6,12 +6,15 @@ namespace XFlag.Alter3Simulator
     [DisallowMultipleComponent]
     public class CameraController : MonoBehaviour
     {
-        private const float Agility = 0.7f;
+        private const float Agility = 0.5f;
         private const float NormalSpeed = 0.2f;
         private const float SlowSpeed = 0.05f;
 
         [SerializeField]
         private DragAreaView _dragAreaView = null;
+
+        [SerializeField]
+        private Transform _target = null;
 
         private Vector3 _initialPosition;
         private Quaternion _initialRotation;
@@ -26,6 +29,12 @@ namespace XFlag.Alter3Simulator
         {
             _targetPosition = _initialPosition;
             _targetRotation = _initialRotation;
+        }
+
+        public void MoveToForwardOfTarget()
+        {
+            _targetPosition = _target.position + 3 * _target.forward + 2 * _target.up + _target.right;
+            _targetRotation = Quaternion.LookRotation(_target.position + 0.5f * _target.up - _targetPosition, _target.up);
         }
 
         private void Awake()

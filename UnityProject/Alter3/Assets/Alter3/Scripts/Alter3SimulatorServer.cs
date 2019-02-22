@@ -114,6 +114,11 @@ namespace XFlag.Alter3Simulator
                 // Pキーでカメラリセット
                 _cameraController.ResetPosition();
             }
+            else if (Input.GetKeyDown(KeyCode.O))
+            {
+                // Oキーで斜め前回り込み
+                _cameraController.MoveToForwardOfTarget();
+            }
             else if (Input.GetKeyDown(KeyCode.R))
             {
                 // Rキーでロボットリセット

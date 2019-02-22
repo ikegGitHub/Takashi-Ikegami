@@ -18,10 +18,10 @@ namespace XFlag.Alter3Simulator
         private TMP_InputField _valueInput = null;
 
         [SerializeField]
-        private Text _jointNameText = null;
+        private TMP_Text _jointNameText = null;
 
         [SerializeField]
-        private Text _contentsText = null;
+        private TMP_Text _contentsText = null;
 
         public event Action<float> OnValueChanged = delegate { };
 

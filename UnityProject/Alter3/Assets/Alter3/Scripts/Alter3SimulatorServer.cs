@@ -25,6 +25,9 @@ namespace XFlag.Alter3Simulator
         private TMP_Text _serverStatusText = null;
 
         [SerializeField]
+        private TMP_InputField _portInputField = null;
+
+        [SerializeField]
         private TMP_Text _clientListText = null;
 
         [SerializeField]
@@ -158,7 +161,7 @@ namespace XFlag.Alter3Simulator
 
         private void StartServer()
         {
-            var port = ushort.Parse(_config["port_num_User"]);
+            var port = ushort.Parse(_portInputField.text);
             _server.StartServerAsync(_listenAddress, port);
             _serverStatusText.text = $"server started {_listenAddress}:{port}";
         }

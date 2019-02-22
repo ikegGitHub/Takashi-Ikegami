@@ -106,7 +106,7 @@ namespace XFlag.Alter3Simulator
 
         private void ApplyValueToText()
         {
-            _valueInput.text = _slider.value.ToString("F02");
+            _valueInput.text = _slider.value.ToString("F01");
         }
 
         private void OnSliderValueChanged(float value)

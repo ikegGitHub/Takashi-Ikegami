@@ -204,15 +204,6 @@ namespace XFlag.Alter3Simulator
                 // 範囲は仮
                 axisController.MinValue = 0;
                 axisController.MaxValue = 255;
-                //プリセット31のパラメータに合わせる
-                if (i < 32)
-                {
-                    axisController.Value = 125;
-                }
-                else
-                {
-                    axisController.Value = 127;
-                }
 
                 _axisSliders.Add(axisController);
             }

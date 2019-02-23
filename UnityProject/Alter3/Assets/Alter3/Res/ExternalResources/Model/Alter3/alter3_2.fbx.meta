@@ -124,6 +124,28 @@ ModelImporter:
     100236: Spine4
     100238: Spine5
     100240: Spine6
+    100242: LeftHandIndex1
+    100244: LeftHandIndex2
+    100246: LeftHandIndex3
+    100248: LeftHandMiddle1
+    100250: LeftHandMiddle2
+    100252: LeftHandMiddle3
+    100254: LeftHandRingPinky1
+    100256: LeftHandRingPinky2
+    100258: LeftHandRingPinky3
+    100260: LeftHandThumb1
+    100262: LeftHandThumb2
+    100264: RightHandIndex1
+    100266: RightHandIndex2
+    100268: RightHandIndex3
+    100270: RightHandMiddle1
+    100272: RightHandMiddle2
+    100274: RightHandMiddle3
+    100276: RightHandRingPinky1
+    100278: RightHandRingPinky2
+    100280: RightHandRingPinky3
+    100282: RightHandThumb1
+    100284: RightHandThumb2
     400000: //RootNode
     400002: axis_1
     400004: axis_10
@@ -245,6 +267,28 @@ ModelImporter:
     400236: Spine4
     400238: Spine5
     400240: Spine6
+    400242: LeftHandIndex1
+    400244: LeftHandIndex2
+    400246: LeftHandIndex3
+    400248: LeftHandMiddle1
+    400250: LeftHandMiddle2
+    400252: LeftHandMiddle3
+    400254: LeftHandRingPinky1
+    400256: LeftHandRingPinky2
+    400258: LeftHandRingPinky3
+    400260: LeftHandThumb1
+    400262: LeftHandThumb2
+    400264: RightHandIndex1
+    400266: RightHandIndex2
+    400268: RightHandIndex3
+    400270: RightHandMiddle1
+    400272: RightHandMiddle2
+    400274: RightHandMiddle3
+    400276: RightHandRingPinky1
+    400278: RightHandRingPinky2
+    400280: RightHandRingPinky3
+    400282: RightHandThumb1
+    400284: RightHandThumb2
     2100000: body
     2100002: lambert1
     2100004: mouth

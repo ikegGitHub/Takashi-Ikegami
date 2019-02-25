@@ -20,7 +20,7 @@ namespace XFlag.Alter3Simulator
             Assert.IsNotNull(_targetTransform);
         }
 
-        private void Update()
+        private void LateUpdate()
         {
             if (_targetTransform != null)
             {

@@ -46,10 +46,14 @@ namespace XFlag.Alter3Simulator
             _readTask = Task.Factory.StartNew(async () => await ReadResponseAsync(), TaskCreationOptions.LongRunning);
         }
 
-        public async Task SendLine(string line)
+        public void SendLine(string line)
         {
-            await _writer.WriteLineAsync(line);
-            await _writer.FlushAsync();
+            _writer.WriteLine(line);
+        }
+
+        public void Flush()
+        {
+            _writer.Flush();
         }
 
         public void Close()
@@ -172,12 +176,20 @@ namespace XFlag.Alter3Simulator
             }, null);
         }
 
-        public void Submit(string command)
+        private void Submit(string command)
         {
             AppendLineLog($"(req) {command}");
             foreach (var connection in _connections)
             {
                 connection.SendLine(command);
+            }
+        }
+
+        private void FlushAll()
+        {
+            foreach (var connection in _connections)
+            {
+                connection.Flush();
             }
         }
 
@@ -222,7 +234,11 @@ namespace XFlag.Alter3Simulator
             {
                 var axisNumber = i;
                 var axisController = Instantiate(_axisControllerPrefab, _axisControllerRoot, false);
-                axisController.OnValueChanged += value => SendMoveAxisCommand(axisNumber, value);
+                axisController.OnValueChanged += value =>
+                {
+                    SendMoveAxisCommand(axisNumber, value);
+                    FlushAll();
+                };
                 axisController.LabelText = i.ToString();
                 var entity = _jointTable.GetEntity(i);
                 axisController.JointNameText = entity.Name;
@@ -255,6 +271,7 @@ namespace XFlag.Alter3Simulator
                 var value = _axisSliders[i].Value;
                 SendMoveAxisCommand(axisNumber, value);
             }
+            FlushAll();
         }
 
         private void LoadPresetFile(string filePath)

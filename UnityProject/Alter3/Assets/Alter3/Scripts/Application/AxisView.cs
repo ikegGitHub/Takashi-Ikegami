@@ -87,7 +87,14 @@ namespace XFlag.Alter3Simulator
         private void Update()
         {
             transform.localRotation = Quaternion.FromToRotation(Vector3.up, _axis);
-            _arcImage.fillAmount = (_angleMax - _angleMin) / 360.0f;
+
+            (var min, var max) = (_angleMin, _angleMax);
+            if (min > max)
+            {
+                (min, max) = (max, min);
+            }
+            _arcImage.fillClockwise = _angleMin > _angleMax;
+            _arcImage.fillAmount = Mathf.Repeat((max - min) / 360.0f, 1.0f);
 
             var angles = _rotator.localEulerAngles;
             angles.y = _angleMin;

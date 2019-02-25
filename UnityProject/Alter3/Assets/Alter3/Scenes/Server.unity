@@ -631,6 +631,7 @@ MonoBehaviour:
   _faceCameraScreen: {fileID: 1155111616}
   _cameraController: {fileID: 534669906}
   _axisControlPanel: {fileID: 1576888829}
+  _playData: {fileID: 4900000, guid: fb0a8dff4842dba47a0df97f9b8ad9b7, type: 3}
 --- !u!4 &1532764322
 Transform:
   m_ObjectHideFlags: 0
@@ -1172,22 +1173,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2275, guid: 86aad4c5e600480469464a5693e36686, type: 3}
-      propertyPath: m_havePropertiesChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2275, guid: 86aad4c5e600480469464a5693e36686, type: 3}
-      propertyPath: m_isInputParsingRequired
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2276, guid: 86aad4c5e600480469464a5693e36686, type: 3}
-      propertyPath: m_havePropertiesChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2276, guid: 86aad4c5e600480469464a5693e36686, type: 3}
-      propertyPath: m_isInputParsingRequired
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2201, guid: 86aad4c5e600480469464a5693e36686, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -1240,6 +1225,38 @@ PrefabInstance:
       propertyPath: m_isInputParsingRequired
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2275, guid: 86aad4c5e600480469464a5693e36686, type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2275, guid: 86aad4c5e600480469464a5693e36686, type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2276, guid: 86aad4c5e600480469464a5693e36686, type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2276, guid: 86aad4c5e600480469464a5693e36686, type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2251, guid: 86aad4c5e600480469464a5693e36686, type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2251, guid: 86aad4c5e600480469464a5693e36686, type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283, guid: 86aad4c5e600480469464a5693e36686, type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283, guid: 86aad4c5e600480469464a5693e36686, type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5275914640356016, guid: 86aad4c5e600480469464a5693e36686, type: 3}
       propertyPath: m_havePropertiesChanged
       value: 1
@@ -1259,22 +1276,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2380380583312741381, guid: 86aad4c5e600480469464a5693e36686,
         type: 3}
-      propertyPath: m_isInputParsingRequired
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2251, guid: 86aad4c5e600480469464a5693e36686, type: 3}
-      propertyPath: m_havePropertiesChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2251, guid: 86aad4c5e600480469464a5693e36686, type: 3}
-      propertyPath: m_isInputParsingRequired
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2283, guid: 86aad4c5e600480469464a5693e36686, type: 3}
-      propertyPath: m_havePropertiesChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2283, guid: 86aad4c5e600480469464a5693e36686, type: 3}
       propertyPath: m_isInputParsingRequired
       value: 1
       objectReference: {fileID: 0}

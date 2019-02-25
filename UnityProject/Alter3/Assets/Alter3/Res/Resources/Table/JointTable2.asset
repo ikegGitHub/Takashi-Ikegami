@@ -257,10 +257,10 @@ MonoBehaviour:
     Spring: 20
     Dumper: 5
     JointItems:
-    - JointName: LeftArm
+    - JointName: LeftArm_Rota
       Axis: {x: 0, y: 1, z: 0}
-      rangeMin: 0
-      rangeMax: 90
+      rangeMin: -90
+      rangeMax: 0
   - id: 21
     Name: "\u5DE6\u8098\u5C48\u4F38"
     Content: "\u8098\u306E\u5C48\u4F38"
@@ -279,7 +279,7 @@ MonoBehaviour:
     Spring: 20
     Dumper: 5
     JointItems:
-    - JointName: LeftForeArm
+    - JointName: LeftForeArm_Rota
       Axis: {x: 0, y: 1, z: 0}
       rangeMin: 90
       rangeMax: -90
@@ -428,10 +428,10 @@ MonoBehaviour:
     Spring: 20
     Dumper: 5
     JointItems:
-    - JointName: RightArm
-      Axis: {x: 0, y: -1, z: 0}
-      rangeMin: 0
-      rangeMax: 90
+    - JointName: RightArm_Rota
+      Axis: {x: 0, y: 1, z: 0}
+      rangeMin: 90
+      rangeMax: 0
   - id: 34
     Name: "\u53F3\u8098\u5C48\u4F38"
     Content: "\u8098\u306E\u5C48\u4F38"
@@ -450,7 +450,7 @@ MonoBehaviour:
     Spring: 20
     Dumper: 5
     JointItems:
-    - JointName: RightForeArm
+    - JointName: RightForeArm_Rota
       Axis: {x: 0, y: 1, z: 0}
       rangeMin: 90
       rangeMax: -90

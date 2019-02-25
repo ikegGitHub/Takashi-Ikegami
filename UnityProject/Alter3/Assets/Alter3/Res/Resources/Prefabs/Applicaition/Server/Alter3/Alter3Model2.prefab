@@ -6306,26 +6306,26 @@ PrefabInstance:
       propertyPath: m_RootBone
       value: 
       objectReference: {fileID: 1715839682865734566}
+    - target: {fileID: 400110, guid: c52ea5ac14f74664eba375b55df77e2a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400110, guid: c52ea5ac14f74664eba375b55df77e2a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400214, guid: c52ea5ac14f74664eba375b55df77e2a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400214, guid: c52ea5ac14f74664eba375b55df77e2a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2300032, guid: c52ea5ac14f74664eba375b55df77e2a, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 8ee908d0c2144c84a956d6414e60e19c, type: 2}
-    - target: {fileID: 400110, guid: c52ea5ac14f74664eba375b55df77e2a, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400110, guid: c52ea5ac14f74664eba375b55df77e2a, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400214, guid: c52ea5ac14f74664eba375b55df77e2a, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400214, guid: c52ea5ac14f74664eba375b55df77e2a, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c52ea5ac14f74664eba375b55df77e2a, type: 3}
 --- !u!4 &1715839682865734566 stripped

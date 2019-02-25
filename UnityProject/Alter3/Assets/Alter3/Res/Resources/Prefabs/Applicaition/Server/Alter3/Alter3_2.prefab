@@ -49,6 +49,8 @@ MonoBehaviour:
   modelRoot: {fileID: 3619960565644303506}
   jointController: {fileID: 521159334857284622}
   jointRotateScale: 10
+  spring: 20
+  damper: 5
   eyeCameraPrefab: {fileID: 4055364985713604388, guid: fb6fb58d5cd8bd64c8dead39327ac4ac,
     type: 3}
   rigidBodyPredab: {fileID: 2711682230804247242, guid: 0f70da32424a74b5f94d7ab6e955876d,

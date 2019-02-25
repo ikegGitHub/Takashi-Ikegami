@@ -31,6 +31,11 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         protected float jointRotateScale = 3;
 
+        [SerializeField]
+        protected float spring = 3;
+
+        [SerializeField]
+        protected float damper = 2;
         protected Alter3EveCameraController eyeCameraLeft = null;
         public Alter3EveCameraController EyeCameraLeft
         {
@@ -134,26 +139,33 @@ namespace XFlag.Alter3Simulator
         {
             foreach (var param in dictionary.Values)
             {
-                //                var qx = Quaternion.AngleAxis(param.NextRotation.x, Vector3.right);
-                //                var qy = Quaternion.AngleAxis(param.NextRotation.y, Vector3.up);
-                //                var qz = Quaternion.AngleAxis(param.NextRotation.z, Vector3.forward);
-                if (Quaternion.Angle(param.CurrentQuat, param.NextQuat) <= 1)
+                //なんとなくスプリング＋ダンパー
+                var dt = Time.deltaTime;
+
+                var acceleration = ((param.NextRotation - param.CurrentRotation) * spring) - (param.Velocity * damper);
+                param.Velocity += acceleration * dt;
+                param.CurrentRotation += param.Velocity * dt;
+
+
+                var qx = Quaternion.AngleAxis(param.CurrentRotation.x, Vector3.right);
+                var qy = Quaternion.AngleAxis(param.CurrentRotation.y, Vector3.up);
+                var qz = Quaternion.AngleAxis(param.CurrentRotation.z, Vector3.forward);
+
+                param.Transform.localRotation = qx * qz * qy;
+
+
+/*
+//以前のプログラム
+//                if (Quaternion.Angle(param.CurrentQuat, param.NextQuat) <= 1)
                 {
-                    param.CurrentQuat = param.NextQuat;
+ //                   param.CurrentQuat = param.NextQuat;
                 }
-                else
+ //               else
                 {
                     param.CurrentQuat = Quaternion.Lerp(param.CurrentQuat, param.NextQuat, Time.deltaTime * jointRotateScale);
                 }
-
-
-
-                //                param.CurrentRotation = Vector3.Lerp(param.CurrentRotation, param.NextRotation, Time.deltaTime * jointRotateScale);
-                //param.Transform.localRotation = Quaternion.Euler(param.CurrentRotation);
-
-
                 param.Transform.localRotation = param.CurrentQuat;
-
+*/
             }
 
         }
@@ -187,7 +199,7 @@ namespace XFlag.Alter3Simulator
                 var newRotation = item.Axis * ang;
 
 #if DEBUG || UNITY_EDITOR
-                Debug.LogWarning("MoveAxis : " + axisNum.ToString() + " value: " + newRotation.ToString() + ": " + Time.realtimeSinceStartup.ToString());
+                Debug.LogWarning("MoveAxis : " + axisNum.ToString() + " value: " + value.ToString() + "  " + newRotation.ToString() + ": " + Time.realtimeSinceStartup.ToString());
 #endif
 
                 float ax = 0;
@@ -206,16 +218,6 @@ namespace XFlag.Alter3Simulator
                     qx = Quaternion.AngleAxis(param.CurrentRotation.x, Vector3.right);
                     ax = param.CurrentRotation.x;
                 }
-                if (item.Axis.y != 0)
-                {
-                    qy = Quaternion.AngleAxis(newRotation.y, Vector3.up);
-                    ay = newRotation.y;
-                }
-                else
-                {
-                    qy = Quaternion.AngleAxis(param.CurrentRotation.y, Vector3.up);
-                    ay = param.CurrentRotation.y;
-                }
                 if (item.Axis.z != 0)
                 {
                     qz = Quaternion.AngleAxis(newRotation.z, Vector3.forward);
@@ -226,11 +228,20 @@ namespace XFlag.Alter3Simulator
                     qz = Quaternion.AngleAxis(param.CurrentRotation.z, Vector3.forward);
                     az = param.CurrentRotation.z;
                 }
+                if (item.Axis.y != 0)
+                {
+                    qy = Quaternion.AngleAxis(newRotation.y, Vector3.up);
+                    ay = newRotation.y;
+                }
+                else
+                {
+                    qy = Quaternion.AngleAxis(param.CurrentRotation.y, Vector3.up);
+                    ay = param.CurrentRotation.y;
+                }
                 //                param.NextQuat = qz * qx * qy;
                 param.NextQuat = qx * qz * qy;
                 param.NextRotation = new Vector3(ax, ay, az);
-                param.CurrentRotation = param.NextRotation;
-                //                param.Transform.localRotation = param.CurrentQuat;
+//                param.CurrentRotation = param.NextRotation;
             }
 
             _axisValues[axisNum] = value;

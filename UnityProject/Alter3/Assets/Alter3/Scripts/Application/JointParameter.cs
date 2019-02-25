@@ -18,6 +18,8 @@ namespace XFlag.Alter3Simulator
         public Vector3 StartRotation = Vector3.zero;
         public Transform Transform = null;
         public Vector3 AxisVector = Vector3.zero;
+
+        public Vector3 Velocity = Vector3.zero;
         //        public Vector3 AddRotationSpeed = Vector3.zero;
         //        public float CurrentValue = 128;
         //        public float BeforeValue = 128;

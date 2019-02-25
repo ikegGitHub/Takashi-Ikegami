@@ -231,6 +231,7 @@ namespace XFlag.Alter3Simulator
                 // 範囲は仮
                 axisController.MinValue = 0;
                 axisController.MaxValue = 255;
+                axisController.Value = 127;
 
                 _axisSliders.Add(axisController);
             }

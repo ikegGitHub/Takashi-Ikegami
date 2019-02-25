@@ -22,12 +22,12 @@ MonoBehaviour:
     JointItems:
     - JointName: LeftUpperEyelid
       Axis: {x: 1, y: 0, z: 0}
-      rangeMin: -10
-      rangeMax: 40
+      rangeMin: 0
+      rangeMax: 20
     - JointName: RightUpperEyelid
       Axis: {x: 1, y: 0, z: 0}
-      rangeMin: -10
-      rangeMax: 40
+      rangeMin: 0
+      rangeMax: 20
   - id: 2
     Name: "\u773C\u5DE6\u53F3 "
     Content: "\u773C\u7403\u5DE6\u53F3\uFF08\u5DE6\u53F335\xB0\u632F\u308A\u5206\u3051\uFF09"
@@ -68,11 +68,11 @@ MonoBehaviour:
     - JointName: LeftLowerEyelid
       Axis: {x: 1, y: 0, z: 0}
       rangeMin: 0
-      rangeMax: -14
+      rangeMax: -20
     - JointName: RightLowerEyelid
       Axis: {x: 1, y: 0, z: 0}
       rangeMin: 0
-      rangeMax: -14
+      rangeMax: -20
   - id: 5
     Name: "\u982C\u5F15\u304D\u5DE6"
     Content: "\u53E3\u89D2\u3084\u982C\u306E\u8089\u306E\u52D5\u304D"
@@ -82,8 +82,8 @@ MonoBehaviour:
     JointItems:
     - JointName: LeftMouth
       Axis: {x: -0.5, y: -1, z: 0}
-      rangeMin: -15
-      rangeMax: 15
+      rangeMin: -10
+      rangeMax: 10
   - id: 6
     Name: "\u982C\u5F15\u304D\u53F3"
     Content: "\u53E3\u89D2\u3084\u982C\u306E\u8089\u306E\u52D5\u304D"
@@ -93,8 +93,8 @@ MonoBehaviour:
     JointItems:
     - JointName: RightMouth
       Axis: {x: 0, y: 1, z: 0}
-      rangeMin: -15
-      rangeMax: 15
+      rangeMin: -10
+      rangeMax: 10
   - id: 7
     Name: "\u53E3\u3059\u307C\u3081"
     Content: "\u300E\u3046\u300F\u306E\u53E3\u306E\u52D5\u304D"
@@ -110,10 +110,6 @@ MonoBehaviour:
       Axis: {x: 0, y: 1, z: 0}
       rangeMin: -15
       rangeMax: 15
-    - JointName: jaw
-      Axis: {x: 1, y: 0, z: 0}
-      rangeMin: -15
-      rangeMax: 15
   - id: 8
     Name: "\u53E3\u958B\u9589"
     Content: "\u30A2\u30B4\u5168\u4F53\u306E\u52D5\u4F5C"
@@ -124,7 +120,7 @@ MonoBehaviour:
     - JointName: jaw
       Axis: {x: 1, y: 0, z: 0}
       rangeMin: 0
-      rangeMax: 20
+      rangeMax: 15
   - id: 9
     Name: "\u9996\u50BE\u3052"
     Content: "\u9996\u306E\u5DE6\u53F3\u50BE\u3052"
@@ -291,9 +287,9 @@ MonoBehaviour:
     Dumper: 5
     JointItems:
     - JointName: LeftHand
-      Axis: {x: 0, y: 0, z: 1}
-      rangeMin: -28
-      rangeMax: 28
+      Axis: {x: 1, y: 0, z: 1}
+      rangeMin: 28
+      rangeMax: -28
   - id: 24
     Name: "\u5DE6\u624B\u9996\u524D\u5F8C"
     Content: "\u89AA\u6307\u5074\u306E\u4F38\u7E2E"
@@ -302,9 +298,9 @@ MonoBehaviour:
     Dumper: 5
     JointItems:
     - JointName: LeftHand
-      Axis: {x: 1, y: 0, z: 0}
-      rangeMin: -48
-      rangeMax: 48
+      Axis: {x: 1, y: 0, z: -1}
+      rangeMin: 28
+      rangeMax: -28
   - id: 25
     Name: "\u5DE6\u6307\u52D5\u4F5C1"
     Content: "\u89AA\u6307\u52D5\u4F5C"
@@ -462,9 +458,9 @@ MonoBehaviour:
     Dumper: 5
     JointItems:
     - JointName: RightHand
-      Axis: {x: 0, y: 0, z: -1}
-      rangeMin: -28
-      rangeMax: 28
+      Axis: {x: 1, y: 0, z: -1}
+      rangeMin: 28
+      rangeMax: -28
   - id: 37
     Name: "\u53F3\u624B\u9996\u524D\u5F8C"
     Content: "\u89AA\u6307\u5074\u306E\u4F38\u7E2E"
@@ -473,9 +469,9 @@ MonoBehaviour:
     Dumper: 5
     JointItems:
     - JointName: RightHand
-      Axis: {x: 1, y: 0, z: 0}
-      rangeMin: -48
-      rangeMax: 48
+      Axis: {x: 1, y: 0, z: 1}
+      rangeMin: 28
+      rangeMax: -28
   - id: 38
     Name: "\u53F3\u6307\u52D5\u4F5C1"
     Content: "\u89AA\u6307\u52D5\u4F5C"
@@ -484,11 +480,11 @@ MonoBehaviour:
     Dumper: 5
     JointItems:
     - JointName: RightHandThumb1
-      Axis: {x: 0, y: 0, z: -1}
+      Axis: {x: 1, y: 0, z: 0}
       rangeMin: 0
       rangeMax: 35
     - JointName: RightHandThumb2
-      Axis: {x: 0, y: 0, z: -1}
+      Axis: {x: 1, y: 0, z: 0}
       rangeMin: 0
       rangeMax: 35
   - id: 39

@@ -176,7 +176,7 @@ namespace XFlag.Alter3Simulator
             }, null);
         }
 
-        public void Submit(string command)
+        private void Submit(string command)
         {
             AppendLineLog($"(req) {command}");
             foreach (var connection in _connections)

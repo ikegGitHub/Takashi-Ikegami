@@ -54,6 +54,9 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private AxisControlPanel _axisControlPanel = null;
 
+        [SerializeField]
+        private TextAsset _playData = null;
+
         private ILogger _logger;
 
         private IDictionary<string, string> _config;
@@ -61,6 +64,8 @@ namespace XFlag.Alter3Simulator
         private ConnectionManager _server;
 
         private SynchronizationContext _context;
+
+        private CommandTimelinePlayer _player;
 
         private void Awake()
         {
@@ -132,11 +137,50 @@ namespace XFlag.Alter3Simulator
                 // 9キーで軸コントロールパネル表示
                 _axisControlPanel.gameObject.SetActive(true);
             }
+            else if (Input.GetKeyDown(KeyCode.B))
+            {
+                // 2/23版ScaryBeautyデータ再生
+                TogglePlayData();
+            }
         }
 
         private void OnDestroy()
         {
             _server.StopServer();
+            StopPlayerData();
+        }
+
+        /// <summary>
+        /// 2/23版のMIDIデータから発行されるコマンドタイムラインを再生する
+        /// </summary>
+        private void TogglePlayData()
+        {
+            if (_player != null)
+            {
+                StopPlayerData();
+                return;
+            }
+
+            using (var loader = new CommandTimelineDataLoader(new BinaryReader(new MemoryStream(_playData.bytes))))
+            {
+                var commands = loader.Load();
+                _player = new CommandTimelinePlayer(commands);
+            }
+
+            _player.OnCommand += command =>
+            {
+                _context.Post(state => _robot.MoveAxis(command.Param), null);
+            };
+            _player.Start();
+        }
+
+        private void StopPlayerData()
+        {
+            if (_player != null)
+            {
+                _player.Stop();
+                _player = null;
+            }
         }
 
         private void OnServerButtonClick(bool start)

@@ -146,6 +146,12 @@ ModelImporter:
     100280: RightHandRingPinky3
     100282: RightHandThumb1
     100284: RightHandThumb2
+    100286: LeftArm_Rota
+    100288: LeftForeArm_Rota
+    100290: LeftShoulder_Rota
+    100292: RightArm_Rota
+    100294: RightForeArm_Rota
+    100296: RightShoulder_Rota
     400000: //RootNode
     400002: axis_1
     400004: axis_10
@@ -289,6 +295,12 @@ ModelImporter:
     400280: RightHandRingPinky3
     400282: RightHandThumb1
     400284: RightHandThumb2
+    400286: LeftArm_Rota
+    400288: LeftForeArm_Rota
+    400290: LeftShoulder_Rota
+    400292: RightArm_Rota
+    400294: RightForeArm_Rota
+    400296: RightShoulder_Rota
     2100000: body
     2100002: lambert1
     2100004: mouth

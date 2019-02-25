@@ -53,7 +53,7 @@ namespace XFlag.Alter3Simulator
         {
             foreach (var jointParameter in dictionary.Values)
             {
-                jointParameter.NextQuat = Quaternion.Euler(jointParameter.DefaultRotation);
+                jointParameter.NextRotation = jointParameter.DefaultRotation;
             }
         }
 

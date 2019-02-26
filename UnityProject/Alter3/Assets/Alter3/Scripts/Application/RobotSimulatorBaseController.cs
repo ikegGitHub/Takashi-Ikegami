@@ -85,6 +85,7 @@ namespace XFlag.Alter3Simulator
                     var jointTransform = FindJoint(joint.JointName);
                     var axisView = Instantiate(_axisRangeViewPrefab, jointTransform.parent, false);
                     axisView.transform.localPosition = jointTransform.localPosition;
+                    axisView.Label = $"{axisNumber}-{joint.JointName}";
                     axisView.Axis = joint.Axis;
                     axisView.AngleMin = joint.rangeMin;
                     axisView.AngleMax = joint.rangeMax;

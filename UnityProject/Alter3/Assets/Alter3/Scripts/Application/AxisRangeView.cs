@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace XFlag.Alter3Simulator
@@ -14,11 +15,26 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private Transform _rotator = null;
 
+        [SerializeField]
+        private TMP_Text _labelText = null;
+
         private Vector3 _angleMinDirection;
         private Vector3 _angleMaxDirection;
         private Vector3 _currentAngleRatioDirection;
 
         private float _currentAngleRatio;
+
+        public string Label
+        {
+            get
+            {
+                return _labelText.text;
+            }
+            set
+            {
+                _labelText.text = value;
+            }
+        }
 
         public Vector3 Axis { get; set; } = Vector3.up;
 
@@ -58,7 +74,7 @@ namespace XFlag.Alter3Simulator
             {
                 (min, max) = (max, min);
             }
-            _arcImage.fillClockwise = AngleMin > AngleMax;
+            _arcImage.fillClockwise = AngleMin < AngleMax;
             _arcImage.fillAmount = Mathf.Clamp01((max - min) / 360.0f);
 
             var angles = _rotator.localEulerAngles;

@@ -36,6 +36,10 @@ namespace XFlag.Alter3Simulator
 
         [SerializeField]
         protected float damper = 2;
+
+        [SerializeField]
+        private AxisRangeView _axisRangeViewPrefab = null;
+
         protected Alter3EveCameraController eyeCameraLeft = null;
         public Alter3EveCameraController EyeCameraLeft
         {
@@ -48,6 +52,7 @@ namespace XFlag.Alter3Simulator
         }
 
         private readonly Dictionary<int, float> _axisValues = new Dictionary<int, float>();
+        private readonly Dictionary<int, AxisRangeView[]> _axisViewLists = new Dictionary<int, AxisRangeView[]>();
 
         bool isCollisionCheck = false;
         List<CollisionEventController> collisionEventLists = new List<CollisionEventController>();
@@ -57,6 +62,35 @@ namespace XFlag.Alter3Simulator
             foreach (var jointParameter in dictionary.Values)
             {
                 jointParameter.NextRotation = jointParameter.DefaultRotation;
+            }
+        }
+
+        public void ToggleAxisRangeView(int axisNumber)
+        {
+            if (_axisViewLists.TryGetValue(axisNumber, out var axisViews))
+            {
+                _axisViewLists.Remove(axisNumber);
+                foreach (var axisView in axisViews)
+                {
+                    Destroy(axisView.gameObject);
+                }
+            }
+            else
+            {
+                var joints = jointController.GetItem(axisNumber);
+                axisViews = new AxisRangeView[joints.Length];
+                for (var i = 0; i < joints.Length; i++)
+                {
+                    var joint = joints[i];
+                    var jointTransform = FindJoint(joint.JointName);
+                    var axisView = Instantiate(_axisRangeViewPrefab, jointTransform.parent, false);
+                    axisView.transform.localPosition = jointTransform.localPosition;
+                    axisView.Axis = joint.Axis;
+                    axisView.AngleMin = joint.rangeMin;
+                    axisView.AngleMax = joint.rangeMax;
+                    axisViews[i] = axisView;
+                }
+                _axisViewLists.Add(axisNumber, axisViews);
             }
         }
 
@@ -220,6 +254,8 @@ namespace XFlag.Alter3Simulator
 
             var jointItem = jointController.GetItem(axisNum);
 
+            _axisViewLists.TryGetValue(axisNum, out var axisViews);
+
             foreach (var item in jointItem)
             {
                 var param = FindJointParameter(item.JointName);
@@ -280,6 +316,14 @@ namespace XFlag.Alter3Simulator
                 param.NextQuat = qx * qz * qy;
                 param.NextRotation = new Vector3(ax, ay, az);
                 //                param.CurrentRotation = param.NextRotation;
+
+                if (axisViews != null)
+                {
+                    foreach (var axisView in axisViews)
+                    {
+                        axisView.CurrentAngleRatio = t;
+                    }
+                }
             }
 
             _axisValues[axisNum] = value;

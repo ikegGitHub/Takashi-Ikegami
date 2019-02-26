@@ -51,6 +51,8 @@ MonoBehaviour:
   jointRotateScale: 10
   spring: 20
   damper: 5
+  _axisRangeViewPrefab: {fileID: 8438505611528628970, guid: a9dd3d6eae21f45a3bda713db48994a3,
+    type: 3}
   eyeCameraPrefab: {fileID: 4055364985713604388, guid: fb6fb58d5cd8bd64c8dead39327ac4ac,
     type: 3}
   rigidBodyPredab: {fileID: 2711682230804247242, guid: 0f70da32424a74b5f94d7ab6e955876d,

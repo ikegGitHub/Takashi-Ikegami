@@ -54,6 +54,9 @@ namespace XFlag.Alter3Simulator
         private readonly Dictionary<int, float> _axisValues = new Dictionary<int, float>();
         private readonly Dictionary<int, AxisView[]> _axisViewLists = new Dictionary<int, AxisView[]>();
 
+        bool isCollisionCheck = false;
+        List<CollisionEventController> collisionEventLists = new List<CollisionEventController>();
+
         public void ResetAxes()
         {
             foreach (var jointParameter in dictionary.Values)
@@ -145,9 +148,44 @@ namespace XFlag.Alter3Simulator
             foreach (var transform in transforms)
             {
                 transform.gameObject.AddComponent<CapsuleCollider>();
-                transform.gameObject.AddComponent<CollisionEventController>();
+                var collitionEvent = transform.gameObject.AddComponent<CollisionEventController>();
+                collisionEventLists.Add(collitionEvent);
+            }
+            DisableCollisionCheck();
+        }
+
+        public void CollisionCheckOnOff()
+        {
+            if (isCollisionCheck)
+            {
+                DisableCollisionCheck();
+
+            }
+            else
+            {
+                EnableCollisionCheck();
             }
         }
+
+        void EnableCollisionCheck()
+        {
+            foreach (var collisionEvent in collisionEventLists)
+            {
+                collisionEvent.EnableCollisionCheck();
+            }
+            isCollisionCheck = true;
+        }
+
+        void DisableCollisionCheck()
+        {
+            foreach (var collisionEvent in collisionEventLists)
+            {
+                collisionEvent.DisableCollisionCheck();
+            }
+            isCollisionCheck = false;
+
+        }
+
 
         private void EnableUpdateWhenOffscreenForAllRenderers()
         {
@@ -188,18 +226,18 @@ namespace XFlag.Alter3Simulator
                 param.Transform.localRotation = qx * qz * qy;
 
 
-/*
-//以前のプログラム
-//                if (Quaternion.Angle(param.CurrentQuat, param.NextQuat) <= 1)
-                {
- //                   param.CurrentQuat = param.NextQuat;
-                }
- //               else
-                {
-                    param.CurrentQuat = Quaternion.Lerp(param.CurrentQuat, param.NextQuat, Time.deltaTime * jointRotateScale);
-                }
-                param.Transform.localRotation = param.CurrentQuat;
-*/
+                /*
+                //以前のプログラム
+                //                if (Quaternion.Angle(param.CurrentQuat, param.NextQuat) <= 1)
+                                {
+                 //                   param.CurrentQuat = param.NextQuat;
+                                }
+                 //               else
+                                {
+                                    param.CurrentQuat = Quaternion.Lerp(param.CurrentQuat, param.NextQuat, Time.deltaTime * jointRotateScale);
+                                }
+                                param.Transform.localRotation = param.CurrentQuat;
+                */
             }
 
         }
@@ -277,7 +315,7 @@ namespace XFlag.Alter3Simulator
                 //                param.NextQuat = qz * qx * qy;
                 param.NextQuat = qx * qz * qy;
                 param.NextRotation = new Vector3(ax, ay, az);
-//                param.CurrentRotation = param.NextRotation;
+                //                param.CurrentRotation = param.NextRotation;
 
                 if (axisViews != null)
                 {

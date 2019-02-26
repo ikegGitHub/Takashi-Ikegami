@@ -142,6 +142,12 @@ namespace XFlag.Alter3Simulator
                 // 2/23版ScaryBeautyデータ再生
                 TogglePlayData();
             }
+            else if (Input.GetKeyDown(KeyCode.C))
+            {
+                // Cキーでコリジョンチェックon/off
+                _robot.CollisionCheckOnOff();
+            }
+
         }
 
         private void OnDestroy()

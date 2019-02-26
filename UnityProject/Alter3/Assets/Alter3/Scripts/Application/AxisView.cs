@@ -1,70 +1,30 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using Random = UnityEngine.Random;
 
 namespace XFlag.Alter3Simulator
 {
     [DisallowMultipleComponent]
     public class AxisView : MonoBehaviour
     {
+        private static Material _sharedMaterial;
+
         [SerializeField]
         private Image _arcImage = null;
 
         [SerializeField]
         private Transform _rotator = null;
 
-        private float _angleMin = 0;
-
-        private float _angleMax = 0;
-
-        private Material _material;
-
-        private Vector3 _axis = Vector3.up;
+        private Vector3 _angleMinDirection;
+        private Vector3 _angleMaxDirection;
+        private Vector3 _currentAngleRatioDirection;
 
         private float _currentAngleRatio;
 
-        public Vector3 Axis
-        {
-            get
-            {
-                return _axis;
-            }
-            set
-            {
-                _axis = value;
-                transform.localRotation = Quaternion.FromToRotation(Vector3.up, _axis);
-            }
-        }
+        public Vector3 Axis { get; set; } = Vector3.up;
 
-        public float AngleMin
-        {
-            get
-            {
-                return _angleMin;
-            }
-            set
-            {
-                _angleMin = value;
-            }
-        }
+        public float AngleMin { get; set; }
 
-        public float AngleMax
-        {
-            get
-            {
-                return _angleMax;
-            }
-            set
-            {
-                _angleMax = value;
-            }
-        }
+        public float AngleMax { get; set; }
 
         public float CurrentAngleRatio
         {
@@ -80,37 +40,46 @@ namespace XFlag.Alter3Simulator
 
         private void Awake()
         {
-            _material = new Material(Shader.Find("Hidden/Internal-Colored"));
-            _material.hideFlags = HideFlags.HideAndDontSave;
+            if (_sharedMaterial == null)
+            {
+                _sharedMaterial = new Material(Shader.Find("Hidden/Internal-Colored"))
+                {
+                    hideFlags = HideFlags.HideAndDontSave
+                };
+            }
         }
 
         private void Update()
         {
-            transform.localRotation = Quaternion.FromToRotation(Vector3.up, _axis);
+            transform.localRotation = Quaternion.FromToRotation(Vector3.up, Axis);
 
-            (var min, var max) = (_angleMin, _angleMax);
+            (var min, var max) = (AngleMin, AngleMax);
             if (min > max)
             {
                 (min, max) = (max, min);
             }
-            _arcImage.fillClockwise = _angleMin > _angleMax;
+            _arcImage.fillClockwise = AngleMin > AngleMax;
             _arcImage.fillAmount = Mathf.Clamp01((max - min) / 360.0f);
 
             var angles = _rotator.localEulerAngles;
-            angles.y = _angleMin;
+            angles.y = AngleMin;
             _rotator.localEulerAngles = angles;
+
+            _angleMinDirection = Quaternion.AngleAxis(AngleMin, transform.up) * transform.right;
+            _angleMaxDirection = Quaternion.AngleAxis(AngleMax, transform.up) * transform.right;
+            _currentAngleRatioDirection = Quaternion.AngleAxis(Mathf.LerpAngle(AngleMin, AngleMax, _currentAngleRatio), transform.up) * transform.right;
         }
 
         private void OnRenderObject()
         {
-            _material.SetPass(0);
+            _sharedMaterial.SetPass(0);
             GL.PushMatrix();
             GL.Begin(GL.LINES);
 
-            GLDrawRay(transform.position, transform.up, Color.blue, Color.blue);
-            GLDrawRay(transform.position, Quaternion.AngleAxis(_angleMin, transform.up) * transform.right, Color.yellow, new Color(1, 1, 0, 0));
-            GLDrawRay(transform.position, Quaternion.AngleAxis(_angleMax, transform.up) * transform.right, Color.yellow, new Color(1, 1, 0, 0));
-            GLDrawRay(transform.position, Quaternion.AngleAxis(Mathf.LerpAngle(_angleMin, _angleMax, _currentAngleRatio), transform.up) * transform.right, Color.blue, new Color(0, 0, 1, 0));
+            GLDrawRay(transform.position, transform.up, Color.red, Color.red);
+            GLDrawRay(transform.position, _angleMinDirection, Color.yellow, new Color(1, 1, 0, 0));
+            GLDrawRay(transform.position, _angleMaxDirection, Color.yellow, new Color(1, 1, 0, 0));
+            GLDrawRay(transform.position, _currentAngleRatioDirection, Color.blue, new Color(0, 0, 1, 0));
 
             GL.End();
             GL.PopMatrix();

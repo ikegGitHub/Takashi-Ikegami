@@ -94,7 +94,7 @@ namespace XFlag.Alter3Simulator
                 (min, max) = (max, min);
             }
             _arcImage.fillClockwise = _angleMin > _angleMax;
-            _arcImage.fillAmount = Mathf.Repeat((max - min) / 360.0f, 1.0f);
+            _arcImage.fillAmount = Mathf.Clamp01((max - min) / 360.0f);
 
             var angles = _rotator.localEulerAngles;
             angles.y = _angleMin;

@@ -15,6 +15,7 @@ namespace XFlag.Alter3Simulator
     {
         public Action<CollisionEventController> OnEvent = null;
         private Material renderMaterial = null;
+        bool isCollisionCheck = false;
         private void Awake()
         {
             var mesh = this.gameObject.GetComponent<SkinnedMeshRenderer>();
@@ -27,7 +28,10 @@ namespace XFlag.Alter3Simulator
 
         private void SetColor(Color color)
         {
-            renderMaterial?.SetColor("_Color", color);
+            if (isCollisionCheck)
+            {
+                renderMaterial?.SetColor("_Color", color);
+            }
             //            renderMaterial?.SetColor("_SpecColor", color);
         }
 
@@ -49,6 +53,18 @@ namespace XFlag.Alter3Simulator
             {
                 SetColor(Color.white);
             }
+
+        }
+
+        public void EnableCollisionCheck()
+        {
+            isCollisionCheck = true;
+        }
+        public void DisableCollisionCheck()
+        {
+
+            isCollisionCheck = false;
+            SetColor(Color.white);
 
         }
 

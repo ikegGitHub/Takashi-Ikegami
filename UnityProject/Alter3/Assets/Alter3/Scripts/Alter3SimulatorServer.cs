@@ -57,11 +57,15 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private TextAsset _playData = null;
 
+        [SerializeField]
+        private TMP_InputField _systemPortInputField = null;
+
         private ILogger _logger;
 
         private IDictionary<string, string> _config;
         private CoreSystem _coreSystem = new CoreSystem(50);
         private ConnectionManager _server;
+        private ConnectionManager _systemCommandConnection;
 
         private SynchronizationContext _context;
 
@@ -97,6 +101,23 @@ namespace XFlag.Alter3Simulator
             _server.OnConnected += OnClientConnected;
             _server.OnDisconnected += OnClientDisconnected;
             _server.OnReceived += OnReceived;
+
+            _systemCommandConnection = new ConnectionManager(new IncrementalSequencer())
+            {
+                Logger = _logger
+            };
+            _systemCommandConnection.OnReceived += request =>
+            {
+                switch (request.ReceivedString.ToUpper())
+                {
+                    case "GETHANDSPOS": // 両手の座標取得
+                        {
+                            var handsPositions = _robot.GetHandsPositionArray();
+                            request.ResponseLines = new string[] { $"{handsPositions[0].x} {handsPositions[0].y} {handsPositions[0].z} {handsPositions[1].x} {handsPositions[1].y} {handsPositions[1].z}" };
+                        }
+                        break;
+                }
+            };
 
             _serverToggle.OnValueChanged += isOn => OnServerButtonClick(isOn);
         }
@@ -153,6 +174,7 @@ namespace XFlag.Alter3Simulator
         private void OnDestroy()
         {
             _server.StopServer();
+            _systemCommandConnection.StopServer();
             StopPlayerData();
         }
 
@@ -213,11 +235,16 @@ namespace XFlag.Alter3Simulator
         {
             var port = ushort.Parse(_portInputField.text);
             _server.StartServerAsync(_listenAddress, port);
-            _serverStatusText.text = $"server started {_listenAddress}:{port}";
+
+            var systemPort = ushort.Parse(_systemPortInputField.text);
+            _systemCommandConnection.StartServerAsync("0.0.0.0", systemPort);
+
+            _serverStatusText.text = $"server started {_listenAddress}:{port} / system port = {systemPort}";
         }
 
         private void StopServer()
         {
+            _systemCommandConnection.StopServer();
             _server.StopServer();
             _serverStatusText.text = "server stopped";
         }

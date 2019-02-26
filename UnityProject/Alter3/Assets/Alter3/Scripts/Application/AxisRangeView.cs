@@ -4,7 +4,7 @@ using UnityEngine.UI;
 namespace XFlag.Alter3Simulator
 {
     [DisallowMultipleComponent]
-    public class AxisView : MonoBehaviour
+    public class AxisRangeView : MonoBehaviour
     {
         private static Material _sharedMaterial;
 

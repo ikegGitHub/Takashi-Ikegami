@@ -38,7 +38,7 @@ namespace XFlag.Alter3Simulator
         protected float damper = 2;
 
         [SerializeField]
-        private AxisView _axisRangeViewPrefab = null;
+        private AxisRangeView _axisRangeViewPrefab = null;
 
         protected Alter3EveCameraController eyeCameraLeft = null;
         public Alter3EveCameraController EyeCameraLeft
@@ -52,7 +52,7 @@ namespace XFlag.Alter3Simulator
         }
 
         private readonly Dictionary<int, float> _axisValues = new Dictionary<int, float>();
-        private readonly Dictionary<int, AxisView[]> _axisViewLists = new Dictionary<int, AxisView[]>();
+        private readonly Dictionary<int, AxisRangeView[]> _axisViewLists = new Dictionary<int, AxisRangeView[]>();
 
         bool isCollisionCheck = false;
         List<CollisionEventController> collisionEventLists = new List<CollisionEventController>();
@@ -78,7 +78,7 @@ namespace XFlag.Alter3Simulator
             else
             {
                 var joints = jointController.GetItem(axisNumber);
-                axisViews = new AxisView[joints.Length];
+                axisViews = new AxisRangeView[joints.Length];
                 for (var i = 0; i < joints.Length; i++)
                 {
                     var joint = joints[i];

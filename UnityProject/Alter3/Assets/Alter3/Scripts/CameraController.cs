@@ -67,11 +67,11 @@ namespace XFlag.Alter3Simulator
             switch (eventData.button)
             {
                 case PointerEventData.InputButton.Left:
+                case PointerEventData.InputButton.Middle:
                     var delta2 = -transform.right * delta.x - transform.up * delta.y;
                     _targetPosition += delta2 * Time.deltaTime * Speed;
                     break;
                 case PointerEventData.InputButton.Right:
-                case PointerEventData.InputButton.Middle:
                     var angles = _targetRotation.eulerAngles;
                     angles.y += delta.x * Speed;
                     angles.x += -delta.y * Speed;

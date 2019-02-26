@@ -12,6 +12,21 @@ ModelImporter:
     100012: mdl_orchestra03
     100014: mdl_orchestra04
     100016: mdl_Table
+    100018: chair_GP
+    100020: mdl_chair01
+    100022: mdl_chair02
+    100024: mdl_chair03
+    100026: mdl_chair04
+    100028: mdl_chair05
+    100030: mdl_chair06
+    100032: mdl_chair07
+    100034: mdl_chair08
+    100036: mdl_chair09
+    100038: mdl_chair10
+    100040: mdl_chair11
+    100042: mdl_musicStand
+    100044: mdl_piano
+    100046: mdl_table
     400000: //RootNode
     400002: mdl_camera01
     400004: mdl_camera02
@@ -21,10 +36,32 @@ ModelImporter:
     400012: mdl_orchestra03
     400014: mdl_orchestra04
     400016: mdl_Table
+    400018: chair_GP
+    400020: mdl_chair01
+    400022: mdl_chair02
+    400024: mdl_chair03
+    400026: mdl_chair04
+    400028: mdl_chair05
+    400030: mdl_chair06
+    400032: mdl_chair07
+    400034: mdl_chair08
+    400036: mdl_chair09
+    400038: mdl_chair10
+    400040: mdl_chair11
+    400042: mdl_musicStand
+    400044: mdl_piano
+    400046: mdl_table
     2100000: lambert1
     2100002: kamera
     2100004: orchestra1
     2100006: orchestra2
+    2100008: 'Material #29'
+    2100010: musicStand_leg
+    2100012: musicStand_head
+    2100014: musicStand_stand
+    2100016: chair_stand
+    2100018: chair_leg
+    2100020: chair_seat
     2300000: mdl_camera01
     2300002: mdl_camera02
     2300004: mdl_floor
@@ -33,6 +70,20 @@ ModelImporter:
     2300010: mdl_orchestra03
     2300012: mdl_orchestra04
     2300014: mdl_Table
+    2300016: mdl_chair01
+    2300018: mdl_chair02
+    2300020: mdl_chair03
+    2300022: mdl_chair04
+    2300024: mdl_chair05
+    2300026: mdl_chair06
+    2300028: mdl_chair07
+    2300030: mdl_chair08
+    2300032: mdl_chair09
+    2300034: mdl_chair10
+    2300036: mdl_chair11
+    2300038: mdl_musicStand
+    2300040: mdl_piano
+    2300042: mdl_table
     3300000: mdl_camera01
     3300002: mdl_camera02
     3300004: mdl_floor
@@ -41,6 +92,20 @@ ModelImporter:
     3300010: mdl_orchestra03
     3300012: mdl_orchestra04
     3300014: mdl_Table
+    3300016: mdl_chair01
+    3300018: mdl_chair02
+    3300020: mdl_chair03
+    3300022: mdl_chair04
+    3300024: mdl_chair05
+    3300026: mdl_chair06
+    3300028: mdl_chair07
+    3300030: mdl_chair08
+    3300032: mdl_chair09
+    3300034: mdl_chair10
+    3300036: mdl_chair11
+    3300038: mdl_musicStand
+    3300040: mdl_piano
+    3300042: mdl_table
     4300000: mdl_Table
     4300002: mdl_floor
     4300004: mdl_camera01
@@ -49,6 +114,20 @@ ModelImporter:
     4300010: mdl_orchestra02
     4300012: mdl_orchestra03
     4300014: mdl_orchestra04
+    4300016: mdl_table
+    4300018: mdl_piano
+    4300020: mdl_musicStand
+    4300022: mdl_chair01
+    4300024: mdl_chair02
+    4300026: mdl_chair03
+    4300028: mdl_chair04
+    4300030: mdl_chair05
+    4300032: mdl_chair06
+    4300034: mdl_chair07
+    4300036: mdl_chair08
+    4300038: mdl_chair09
+    4300040: mdl_chair10
+    4300042: mdl_chair11
     2186277476908879412: ImportLogs
   externalObjects: {}
   materials:

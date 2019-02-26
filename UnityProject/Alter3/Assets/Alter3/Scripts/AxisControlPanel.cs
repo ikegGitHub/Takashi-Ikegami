@@ -27,15 +27,17 @@ namespace XFlag.Alter3Simulator
             _axisDials.Clear();
             foreach (var entry in _jointTable.List)
             {
+                var axisNumber = entry.id;
                 var dialView = Instantiate(_axisDialViewPrefab, _contentRoot, false);
-                dialView.Initialize(entry.id, entry.Name, 0, 255, 0);
+                dialView.Initialize(axisNumber, entry.Name, 0, 255, 0);
                 dialView.OnValueChanged += value =>
                 {
                     if (!_suppressApplyValue)
                     {
-                        _robotController.MoveAxis(new AxisParam { AxisNumber = entry.id, Value = value });
+                        _robotController.MoveAxis(new AxisParam { AxisNumber = axisNumber, Value = value });
                     }
                 };
+                dialView.OnClicked += () => _robotController.ToggleAxisRangeView(axisNumber);
                 _axisDials.Add(entry.id, dialView);
             }
         }

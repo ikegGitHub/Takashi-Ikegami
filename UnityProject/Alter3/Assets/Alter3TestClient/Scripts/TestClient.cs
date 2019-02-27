@@ -13,6 +13,8 @@ namespace XFlag.Alter3Simulator
 {
     public class Connection
     {
+        private const int PollTimeoutMicroSeconds = 100_000; // 100 [ms]
+
         private readonly string _hostName;
         private readonly int _port;
         private readonly Encoding _encoding;
@@ -23,8 +25,6 @@ namespace XFlag.Alter3Simulator
         private Task _readTask;
 
         public event Action OnDisconnected = delegate { };
-
-        public string RemoteEndPointString => $"{_hostName}:{_port}";
 
         public Connection(string hostName, int port, Encoding encoding)
         {
@@ -65,27 +65,31 @@ namespace XFlag.Alter3Simulator
 
         private async Task ReadResponseAsync()
         {
-            using (var reader = new StreamReader(_stream, _encoding))
+            try
             {
-                while (_socket.Connected)
+                using (var reader = new StreamReader(_stream, _encoding))
                 {
-                    if (_socket.Poll(100000, SelectMode.SelectRead))
+                    while (_socket.Connected)
                     {
-                        if (!_socket.Connected)
+                        if (_socket.Poll(PollTimeoutMicroSeconds, SelectMode.SelectRead))
                         {
-                            OnDisconnected();
-                            break;
+                            if (!_socket.Connected)
+                            {
+                                break;
+                            }
+                            var line = await reader.ReadLineAsync();
+                            if (line == null)
+                            {
+                                break;
+                            }
                         }
-                        var line = await reader.ReadLineAsync();
-                        if (line == null)
-                        {
-                            OnDisconnected();
-                            break;
-                        }
-                        Debug.Log(line);
+                        await Task.Yield();
                     }
-                    await Task.Yield();
                 }
+            }
+            finally
+            {
+                OnDisconnected();
             }
         }
     }
@@ -146,20 +150,28 @@ namespace XFlag.Alter3Simulator
 
         private void Connect()
         {
+            var hostname = _addressInput.text;
+            if (!short.TryParse(_portInput.text, out var port))
+            {
+                AppendLineError("invalid port");
+                return;
+            }
+            var endPoint = $"{hostname}:{port}";
+
             try
             {
-                var connection = new Connection(_addressInput.text, int.Parse(_portInput.text), Encoding);
+                var connection = new Connection(hostname, port, Encoding);
                 connection.Connect();
                 _connections.Add(connection);
 
                 var connectionView = Instantiate(_connectionViewPrefab, _connectionListRoot, false);
-                connectionView.Text = connection.RemoteEndPointString;
+                connectionView.Text = endPoint;
                 connectionView.OnDisconnectButtonClicked += () => connection.Close();
 
                 connection.OnDisconnected += () => OnDisconnected(connection, connectionView);
                 connection.StartReadingStream();
 
-                AppendLineSuccess($"connected {connection.RemoteEndPointString}");
+                AppendLineSuccess($"connected {endPoint}");
             }
             catch (SocketException)
             {

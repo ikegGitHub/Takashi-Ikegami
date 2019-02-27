@@ -152,6 +152,8 @@ ModelImporter:
     100292: RightArm_Rota
     100294: RightForeArm_Rota
     100296: RightShoulder_Rota
+    100298: LeftHand_LR
+    100300: RightHand_LR
     400000: //RootNode
     400002: axis_1
     400004: axis_10
@@ -301,11 +303,14 @@ ModelImporter:
     400292: RightArm_Rota
     400294: RightForeArm_Rota
     400296: RightShoulder_Rota
+    400298: LeftHand_LR
+    400300: RightHand_LR
     2100000: body
     2100002: lambert1
     2100004: mouth
     2100006: tooth
     2100008: eye
+    2100010: lambert2
     2300000: axis_1
     2300002: axis_10
     2300004: axis_11

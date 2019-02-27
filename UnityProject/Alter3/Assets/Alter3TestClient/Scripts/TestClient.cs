@@ -26,6 +26,8 @@ namespace XFlag.Alter3Simulator
 
         public event Action OnDisconnected = delegate { };
 
+        public bool IsActive { get; set; } = true;
+
         public Connection(string hostName, int port, Encoding encoding)
         {
             _hostName = hostName;
@@ -48,12 +50,18 @@ namespace XFlag.Alter3Simulator
 
         public void SendLine(string line)
         {
-            _writer.WriteLine(line);
+            if (IsActive)
+            {
+                _writer.WriteLine(line);
+            }
         }
 
         public void Flush()
         {
-            _writer.Flush();
+            if (IsActive)
+            {
+                _writer.Flush();
+            }
         }
 
         public void Close()
@@ -167,6 +175,7 @@ namespace XFlag.Alter3Simulator
                 var connectionView = Instantiate(_connectionViewPrefab, _connectionListRoot, false);
                 connectionView.Text = endPoint;
                 connectionView.OnDisconnectButtonClicked += () => connection.Close();
+                connectionView.OnActiveChanged += isActive => connection.IsActive = isActive;
 
                 connection.OnDisconnected += () => OnDisconnected(connection, connectionView);
                 connection.StartReadingStream();

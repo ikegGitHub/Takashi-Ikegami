@@ -14,7 +14,12 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private Button _disconnectButton = null;
 
+        [SerializeField]
+        private Toggle _activeToggle = null;
+
         public event Action OnDisconnectButtonClicked = delegate { };
+
+        public event Action<bool> OnActiveChanged = delegate { };
 
         public string Text
         {
@@ -31,6 +36,7 @@ namespace XFlag.Alter3Simulator
         private void Awake()
         {
             _disconnectButton.onClick.AddListener(() => OnDisconnectButtonClicked());
+            _activeToggle.onValueChanged.AddListener(isOn => OnActiveChanged(isOn));
         }
     }
 }

@@ -277,8 +277,8 @@ MonoBehaviour:
     JointItems:
     - JointName: LeftForeArm_Rota
       Axis: {x: 0, y: 1, z: 0}
-      rangeMin: 90
-      rangeMax: -90
+      rangeMin: -90
+      rangeMax: 90
   - id: 23
     Name: "\u5DE6\u624B\u9996\u50BE\u3052"
     Content: "\u5C0F\u6307\u5074\u306E\u4F38\u7E2E"
@@ -287,7 +287,7 @@ MonoBehaviour:
     Dumper: 5
     JointItems:
     - JointName: LeftHand
-      Axis: {x: 1, y: 0, z: 1}
+      Axis: {x: -1, y: 0, z: 1}
       rangeMin: 28
       rangeMax: -28
   - id: 24
@@ -298,7 +298,7 @@ MonoBehaviour:
     Dumper: 5
     JointItems:
     - JointName: LeftHand
-      Axis: {x: 1, y: 0, z: -1}
+      Axis: {x: 1, y: 1, z: 0}
       rangeMin: 28
       rangeMax: -28
   - id: 25

@@ -567,6 +567,6 @@ MonoBehaviour:
     Dumper: 5
     JointItems:
     - JointName: Leg1
-      Axis: {x: 0, y: 1, z: 0}
-      rangeMin: 0
-      rangeMax: 380
+      Axis: {x: 0, y: -1, z: 0}
+      rangeMin: -20
+      rangeMax: 360

@@ -6,7 +6,7 @@ pipeline {
   parameters {
     string(name: 'BUILD_BRANCH', defaultValue: 'master', description: 'ビルドするブランチ名を入力します。')
     string(name: 'PROJECT_PATH', defaultValue: 'UnityProject/Alter3', description: 'Unityプロジェクトのルートディレクトリのパスを指定します。')
-    string(name: 'EXECUTE_METHOD', defaultValue: 'XFlag.Alter3SimulatorEditor.BatchBuild.BuildAll_OSX', description: 'バッチビルドで実行するメソッド名を指定します。')
+    string(name: 'EXECUTE_METHOD', defaultValue: 'XFlag.Alter3SimulatorEditor.BatchBuild.BuildAll', description: 'バッチビルドで実行するメソッド名を指定します。')
   }
 
   environment {
@@ -31,7 +31,7 @@ pipeline {
       }
     }
 
-    stage("Package") {
+    stage("Package (macOS)") {
       environment {
         PACKAGE_ASSETS_COMMON_PATH = "PackageAssets/Common"
         PACKAGE_ASSETS_PATH        = "PackageAssets/StandaloneOSX"
@@ -51,9 +51,37 @@ pipeline {
           }
 
           sh "hdiutil create \"${DMG_PATH}\" -volname \"XFLAG Alter3Simulator\" -format UDBZ -srcfolder \"${SRC_PATH}\""
-
-          archiveArtifacts artifacts: "${DMG_PATH}", onlyIfSuccessful: true
         }
+      }
+    }
+
+    stage("Package (Windows)") {
+      environment {
+        PACKAGE_ASSETS_COMMON_PATH = "PackageAssets/Common"
+        BUILDS_ROOT                = "UnityProject/Alter3/Builds/StandaloneWindows64"
+        TEMP_DIR                   = "temp"
+        ARCHIVE_ROOT               = "${TEMP_DIR}/XFLAG-Alter3Simulator-Win64"
+        RELEASE_PATH               = "Releases/win64"
+      }
+
+      steps {
+        sh "mkdir -p \"${ARCHIVE_ROOT}\""
+        sh "cp -vr \"${BUILDS_ROOT}\"/* \"${ARCHIVE_ROOT}\""
+        sh "cp -vr \"${PACKAGE_ASSETS_COMMON_PATH}\"/* \"${ARCHIVE_ROOT}\""
+
+        dir("${TEMP_DIR}") {
+          sh "zip -r XFLAG-Alter3Simulator-Win64.zip XFLAG-Alter3Simulator-Win64"
+        }
+
+        sh "mkdir -p \"${RELEASE_PATH}\""
+        sh "mv \"${TEMP_DIR}\"/XFLAG-Alter3Simulator-Win64.zip \"${RELEASE_PATH}\""
+        sh "rm -rf \"${TEMP_DIR}\""
+      }
+    }
+
+    stage("Archive Artifacs") {
+      steps {
+        archiveArtifacts artifacts: "Releases/*", onlyIfSuccessful: true
       }
     }
   }

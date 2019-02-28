@@ -1,11 +1,11 @@
 #!/usr/bin/env groovy
 
 pipeline {
-  agent any
+  agent { label "slave" }
 
   parameters {
-    string(name: 'BUILD_BRANCH', defaultValue: '', description: 'ビルドするブランチ名を入力します。')
-    string(name: 'PROJECT_PATH', defaultValue: '', description: 'Unityプロジェクトのルートディレクトリのパスを指定します。')
+    string(name: 'BUILD_BRANCH', defaultValue: 'master', description: 'ビルドするブランチ名を入力します。')
+    string(name: 'PROJECT_PATH', defaultValue: 'UnityProject/Alter3', description: 'Unityプロジェクトのルートディレクトリのパスを指定します。')
     string(name: 'EXECUTE_METHOD', defaultValue: 'XFlag.Alter3SimulatorEditor.BatchBuild.BuildAll_OSX', description: 'バッチビルドで実行するメソッド名を指定します。')
   }
 

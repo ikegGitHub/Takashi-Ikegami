@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.UI;
 using XFlag.Alter3Simulator.Network;
 
 namespace XFlag.Alter3Simulator
 {
+    [DisallowMultipleComponent]
     public class Alter3SimulatorServer : MonoBehaviour
     {
         [SerializeField]
@@ -22,29 +25,70 @@ namespace XFlag.Alter3Simulator
         private TMP_Text _serverStatusText = null;
 
         [SerializeField]
+        private TMP_InputField _portInputField = null;
+
+        [SerializeField]
         private TMP_Text _clientListText = null;
 
         [SerializeField]
-        private LampView _serverStatusLamp = null;
+        private ServerToggleView _serverToggle = null;
 
         [SerializeField]
-        private LogWindow _logWindow = null;
+        private RobotSimulatorBaseController _robot = null;
 
         [SerializeField]
-        private RobotSimulatorBaseController    _robot = null;
+        private TMP_InputField _logFileLocation = null;
+
+        [SerializeField]
+        private RawImage _LeftEyeRawImage = null;
+
+        [SerializeField]
+        private RawImage _RightEyeRawImage = null;
+
+        [SerializeField]
+        private GameObject _faceCameraScreen = null;
+
+        [SerializeField]
+        private CameraController _cameraController = null;
+
+        [SerializeField]
+        private FaceCameraController _faceCameraController = null;
+
+        [SerializeField]
+        private AxisControlPanel _axisControlPanel = null;
+
+        [SerializeField]
+        private TextAsset _playData = null;
+
+        [SerializeField]
+        private TMP_InputField _systemPortInputField = null;
 
         private ILogger _logger;
 
         private IDictionary<string, string> _config;
         private CoreSystem _coreSystem = new CoreSystem(50);
         private ConnectionManager _server;
+        private ConnectionManager _systemCommandConnection;
 
         private SynchronizationContext _context;
 
-        private float _keyDownTime;
+        private CommandTimelinePlayer _player;
 
         private void Awake()
         {
+            Assert.IsNotNull(_sampleConfig);
+            Assert.IsNotNull(_serverStatusText);
+            Assert.IsNotNull(_clientListText);
+            Assert.IsNotNull(_serverToggle);
+            Assert.IsNotNull(_robot);
+            Assert.IsNotNull(_logFileLocation);
+            Assert.IsNotNull(_LeftEyeRawImage);
+            Assert.IsNotNull(_RightEyeRawImage);
+            Assert.IsNotNull(_faceCameraScreen);
+            Assert.IsNotNull(_cameraController);
+            Assert.IsNotNull(_faceCameraController);
+            Assert.IsNotNull(_axisControlPanel);
+
             _context = SynchronizationContext.Current;
 
             _config = ConfigParser.Parse(_sampleConfig);
@@ -61,69 +105,153 @@ namespace XFlag.Alter3Simulator
             _server.OnConnected += OnClientConnected;
             _server.OnDisconnected += OnClientDisconnected;
             _server.OnReceived += OnReceived;
-           
 
-            _serverStatusLamp.OnClick += eventData => OnServerButtonClick();
+            _systemCommandConnection = new ConnectionManager(new IncrementalSequencer())
+            {
+                Logger = _logger
+            };
+            _systemCommandConnection.OnReceived += request =>
+            {
+                switch (request.ReceivedString.ToUpper())
+                {
+                    case "GETHANDSPOS": // 両手の座標取得
+                        {
+                            var handsPositions = _robot.GetHandsPositionArray();
+                            request.ResponseLines = new string[] { $"{handsPositions[0].x} {handsPositions[0].y} {handsPositions[0].z} {handsPositions[1].x} {handsPositions[1].y} {handsPositions[1].z}" };
+                        }
+                        break;
+                }
+            };
+
+            _serverToggle.OnValueChanged += isOn => OnServerButtonClick(isOn);
+
+            _cameraController.LookTarget = _robot.FindName("Hips").transform;
+            _faceCameraController.LookTarget = _robot.FindName("Head").transform;
+        }
+
+        private void Start()
+        {
+            _LeftEyeRawImage.texture = _robot.EyeCameraLeft.RenderTexture;
+            _RightEyeRawImage.texture = _robot.EyeCameraRight.RenderTexture;
+
+            _axisControlPanel.Initialize(_robot);
+
+            _serverToggle.IsOn = true;
         }
 
         private void Update()
         {
-            // Lボタンを長押しでログウィンドウ表示
-            if (!_logWindow.IsShown && Input.GetKey(KeyCode.L))
+            if (!_faceCameraScreen.activeSelf && Input.GetKey(KeyCode.F))
             {
-                if (_keyDownTime >= 3.0f)
-                {
-                    _logWindow.Show();
-                }
-                else
-                {
-                    _keyDownTime += Time.deltaTime;
-                }
+                _faceCameraScreen.SetActive(true);
             }
-            else
+            else if (Input.GetKeyDown(KeyCode.P))
             {
-                _keyDownTime = 0;
+                // Pキーでカメラリセット
+                _cameraController.ResetPosition();
             }
+            else if (Input.GetKeyDown(KeyCode.O))
+            {
+                // Oキーで斜め前回り込み
+                _cameraController.MoveToForwardOfTarget();
+            }
+            else if (Input.GetKeyDown(KeyCode.R))
+            {
+                // Rキーでロボットリセット
+                _robot.ResetAxes();
+            }
+            else if (!_axisControlPanel.gameObject.activeSelf && Input.GetKeyDown(KeyCode.Alpha9))
+            {
+                // 9キーで軸コントロールパネル表示
+                _axisControlPanel.gameObject.SetActive(true);
+            }
+            else if (Input.GetKeyDown(KeyCode.B))
+            {
+                // 2/23版ScaryBeautyデータ再生
+                TogglePlayData();
+            }
+            else if (Input.GetKeyDown(KeyCode.C))
+            {
+                // Cキーでコリジョンチェックon/off
+                _robot.CollisionCheckOnOff();
+            }
+
         }
 
         private void OnDestroy()
         {
             _server.StopServer();
+            _systemCommandConnection.StopServer();
+            StopPlayerData();
         }
 
-        private void OnServerButtonClick()
+        /// <summary>
+        /// 2/23版のMIDIデータから発行されるコマンドタイムラインを再生する
+        /// </summary>
+        private void TogglePlayData()
         {
-            _serverStatusLamp.IsError = false;
+            if (_player != null)
+            {
+                StopPlayerData();
+                return;
+            }
 
+            using (var loader = new CommandTimelineDataLoader(new BinaryReader(new MemoryStream(_playData.bytes))))
+            {
+                var commands = loader.Load();
+                _player = new CommandTimelinePlayer(commands);
+            }
+
+            _player.OnCommand += command =>
+            {
+                _context.Post(state => _robot.MoveAxis(command.Param), null);
+            };
+            _player.Start();
+        }
+
+        private void StopPlayerData()
+        {
+            if (_player != null)
+            {
+                _player.Stop();
+                _player = null;
+            }
+        }
+
+        private void OnServerButtonClick(bool start)
+        {
             try
             {
-                if (_server.IsStarted)
-                {
-                    StopServer();
-                }
-                else
+                if (start)
                 {
                     StartServer();
                 }
-                _serverStatusLamp.IsOn = _server.IsStarted;
+                else
+                {
+                    StopServer();
+                }
             }
             catch (Exception e)
             {
                 _logger.LogException(e);
                 _serverStatusText.text = e.Message;
-                _serverStatusLamp.IsError = true;
             }
         }
 
         private void StartServer()
         {
-            var port = ushort.Parse(_config["port_num_User"]);
+            var port = ushort.Parse(_portInputField.text);
             _server.StartServerAsync(_listenAddress, port);
-            _serverStatusText.text = $"server started {_listenAddress}:{port}";
+
+            var systemPort = ushort.Parse(_systemPortInputField.text);
+            _systemCommandConnection.StartServerAsync("0.0.0.0", systemPort);
+
+            _serverStatusText.text = $"server started {_listenAddress}:{port} / system port = {systemPort}";
         }
 
         private void StopServer()
         {
+            _systemCommandConnection.StopServer();
             _server.StopServer();
             _serverStatusText.text = "server stopped";
         }
@@ -156,8 +284,9 @@ namespace XFlag.Alter3Simulator
         private ILogger CreateLogger()
         {
             var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
-            var logFileName = $"Logs/{timestamp}.log";
-            return new Logger(Debug.unityLogger.And(_logWindow).And(new FileLogger(logFileName)));
+            var logFileName = Path.Combine(Path.Combine(Application.persistentDataPath, "Logs"), $"{timestamp}.log");
+            _logFileLocation.text = logFileName;
+            return new Logger(Debug.unityLogger.And(new FileLogger(logFileName)));
         }
     }
 }

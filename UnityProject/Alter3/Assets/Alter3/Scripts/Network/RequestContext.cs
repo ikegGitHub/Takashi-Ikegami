@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Net;
-
-namespace XFlag.Alter3Simulator.Network
+﻿namespace XFlag.Alter3Simulator.Network
 {
     public class RequestContext
     {
@@ -11,14 +8,14 @@ namespace XFlag.Alter3Simulator.Network
 
         public bool IsClose { get; set; }
 
-        public IPEndPoint EndPoint { get; }
+        public string EndPointString { get; }
 
         public string[] ResponseLines { get; set; }
 
-        public RequestContext(uint clientId, IPEndPoint endPoint, string receivedString)
+        public RequestContext(uint clientId, string endPointString, string receivedString)
         {
             ClientId = clientId;
-            EndPoint = endPoint;
+            EndPointString = endPointString;
             ReceivedString = receivedString;
         }
     }

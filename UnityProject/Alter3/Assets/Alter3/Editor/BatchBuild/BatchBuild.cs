@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -7,48 +8,120 @@ namespace XFlag.Alter3SimulatorEditor
 {
     public static class BatchBuild
     {
+        private static BuildOptions DefaultBuildOptions
+        {
+            get
+            {
+                if (Environment.GetCommandLineArgs().Contains("-batchmode"))
+                {
+                    return BuildOptions.None;
+                }
+                return BuildOptions.ShowBuiltPlayer;
+            }
+        }
+
         private static readonly string[] SimulatorScenes = { "Splash", "Server" };
         private static readonly string[] TestClientScenes = { "Client" };
 
-        [MenuItem("Window/Alter3/Build (Win64)/All")]
+        [MenuItem("Alter3/ビルド/All", priority = 0)]
+        private static void BuildAll()
+        {
+            BuildAll_Win64();
+            BuildAll_OSX();
+        }
+
+        [MenuItem("Alter3/ビルド/Win64/All", priority = 0)]
         private static void BuildAll_Win64()
         {
             BuildServer_Win64();
+            BuildHeadlessServer_Win64();
             BuildTestClient_Win64();
         }
 
-        [MenuItem("Window/Alter3/Build (OSX)/All")]
+        [MenuItem("Alter3/ビルド/macOS/All", priority = 0)]
         private static void BuildAll_OSX()
         {
             BuildServer_OSX();
+            BuildHeadlessServer_OSX();
             BuildTestClient_OSX();
         }
 
-        [MenuItem("Window/Alter3/Build (Win64)/Test Client")]
+        [MenuItem("Alter3/ビルド/Win64/Test Client", priority = 11)]
         private static void BuildTestClient_Win64()
         {
-            BuildSingleScene(TestClientScenes, "TestClient", BuildTarget.StandaloneWindows64, BuildOptions.None);
+            BuildTestClient(BuildTarget.StandaloneWindows64);
         }
 
-        [MenuItem("Window/Alter3/Build (OSX)/Test Client")]
+        [MenuItem("Alter3/ビルド/macOS/Test Client", priority = 11)]
         private static void BuildTestClient_OSX()
         {
-            BuildSingleScene(TestClientScenes, "TestClient", BuildTarget.StandaloneOSX, BuildOptions.None);
+            BuildTestClient(BuildTarget.StandaloneOSX);
         }
 
-        [MenuItem("Window/Alter3/Build (Win64)/Server")]
+        [MenuItem("Alter3/ビルド/Win64/Server", priority = 12)]
         private static void BuildServer_Win64()
         {
-            BuildSingleScene(SimulatorScenes, "Alter3Simulator", BuildTarget.StandaloneWindows64, BuildOptions.None);
+            BuildSimulator(BuildTarget.StandaloneWindows64);
         }
 
-        [MenuItem("Window/Alter3/Build (OSX)/Server")]
+        [MenuItem("Alter3/ビルド/macOS/Server", priority = 12)]
         private static void BuildServer_OSX()
         {
-            BuildSingleScene(SimulatorScenes, "Alter3Simulator", BuildTarget.StandaloneOSX, BuildOptions.None);
+            BuildSimulator(BuildTarget.StandaloneOSX);
         }
 
-        private static void BuildSingleScene(string[] sceneNames, string outputName, BuildTarget target, BuildOptions options)
+        [MenuItem("Alter3/ビルド/Win64/Server (Headless)", priority = 13)]
+        private static void BuildHeadlessServer_Win64()
+        {
+            BuildHeadlessSimulator(BuildTarget.StandaloneWindows64);
+        }
+
+        [MenuItem("Alter3/ビルド/macOS/Server (Headless)", priority = 13)]
+        private static void BuildHeadlessServer_OSX()
+        {
+            BuildHeadlessSimulator(BuildTarget.StandaloneOSX);
+        }
+
+        private static void BuildTestClient(BuildTarget target)
+        {
+            PreserveSettings(() =>
+            {
+                PlayerSettings.fullScreenMode = FullScreenMode.Windowed;
+                PlayerSettings.displayResolutionDialog = ResolutionDialogSetting.Disabled;
+                BuildScenes(TestClientScenes, "TestClient", target);
+            });
+        }
+
+        private static void BuildSimulator(BuildTarget target)
+        {
+            PreserveSettings(() =>
+            {
+                PlayerSettings.displayResolutionDialog = ResolutionDialogSetting.Enabled;
+                BuildScenes(SimulatorScenes, "Alter3Simulator", target);
+            });
+        }
+
+        private static void BuildHeadlessSimulator(BuildTarget target)
+        {
+            BuildScenes(SimulatorScenes, "Alter3Simulator-Headless", target, BuildOptions.EnableHeadlessMode);
+        }
+
+        private static void PreserveSettings(Action action)
+        {
+            var savedFullScreenMode = PlayerSettings.fullScreenMode;
+            var savedResolutionDialogSetting = PlayerSettings.displayResolutionDialog;
+            try
+            {
+                action();
+            }
+            finally
+            {
+                PlayerSettings.fullScreenMode = savedFullScreenMode;
+                PlayerSettings.displayResolutionDialog = savedResolutionDialogSetting;
+            }
+        }
+
+        private static void BuildScenes(string[] sceneNames, string outputName, BuildTarget target, BuildOptions options = BuildOptions.None)
         {
             Debug.Log($"Starting build {outputName}");
             var buildPlayerOptions = new BuildPlayerOptions
@@ -56,11 +129,21 @@ namespace XFlag.Alter3SimulatorEditor
                 scenes = GetScenePaths(sceneNames),
                 targetGroup = BuildTargetGroup.Standalone,
                 target = target,
-                locationPathName = $"Builds/{target}/{outputName}/{outputName}{GetExtension(target)}",
-                options = options
+                locationPathName = GetOutputLocationPathName(target, outputName),
+                options = DefaultBuildOptions | options,
             };
             var buildReport = BuildPipeline.BuildPlayer(buildPlayerOptions);
-            Debug.Log($"Build {buildReport.summary.result}");
+            Debug.Log($"Build {outputName} {buildReport.summary.result}");
+        }
+
+        private static string GetOutputLocationPathName(BuildTarget target, string outputName)
+        {
+            var location = Path.Combine("Builds", target.ToString());
+            if (IsOutputDirectory(target))
+            {
+                location = Path.Combine(location, outputName);
+            }
+            return Path.Combine(location, $"{outputName}{GetExtension(target)}");
         }
 
         private static string[] GetScenePaths(string[] names)
@@ -69,6 +152,11 @@ namespace XFlag.Alter3SimulatorEditor
                 .Where(scene => names.Contains(Path.GetFileNameWithoutExtension(scene.path)))
                 .Select(scene => scene.path)
                 .ToArray();
+        }
+
+        private static bool IsOutputDirectory(BuildTarget target)
+        {
+            return target != BuildTarget.StandaloneOSX;
         }
 
         private static string GetExtension(BuildTarget target)

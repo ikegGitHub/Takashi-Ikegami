@@ -13,9 +13,6 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private DragAreaView _dragAreaView = null;
 
-        [SerializeField]
-        private Transform _target = null;
-
         private Vector3 _initialPosition;
         private Quaternion _initialRotation;
         private Vector3 _targetPosition;
@@ -25,6 +22,8 @@ namespace XFlag.Alter3Simulator
 
         private float Speed => IsShiftKeyDown ? SlowSpeed : NormalSpeed;
 
+        public Transform LookTarget { get; set; }
+
         public void ResetPosition()
         {
             _targetPosition = _initialPosition;
@@ -33,8 +32,14 @@ namespace XFlag.Alter3Simulator
 
         public void MoveToForwardOfTarget()
         {
-            _targetPosition = _target.position + 3 * _target.forward + 2 * _target.up + _target.right;
-            _targetRotation = Quaternion.LookRotation(_target.position + 0.5f * _target.up - _targetPosition, _target.up);
+            if (LookTarget == null)
+            {
+                Debug.LogError("LookTarget is not set");
+                return;
+            }
+
+            _targetPosition = LookTarget.position + 3 * LookTarget.forward + 2 * LookTarget.up + LookTarget.right;
+            _targetRotation = Quaternion.LookRotation(LookTarget.position + 0.5f * LookTarget.up - _targetPosition, LookTarget.up);
         }
 
         private void Awake()

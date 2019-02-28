@@ -52,6 +52,9 @@ namespace XFlag.Alter3Simulator
         private CameraController _cameraController = null;
 
         [SerializeField]
+        private FaceCameraController _faceCameraController = null;
+
+        [SerializeField]
         private AxisControlPanel _axisControlPanel = null;
 
         [SerializeField]
@@ -83,6 +86,7 @@ namespace XFlag.Alter3Simulator
             Assert.IsNotNull(_RightEyeRawImage);
             Assert.IsNotNull(_faceCameraScreen);
             Assert.IsNotNull(_cameraController);
+            Assert.IsNotNull(_faceCameraController);
             Assert.IsNotNull(_axisControlPanel);
 
             _context = SynchronizationContext.Current;
@@ -120,6 +124,9 @@ namespace XFlag.Alter3Simulator
             };
 
             _serverToggle.OnValueChanged += isOn => OnServerButtonClick(isOn);
+
+            _cameraController.LookTarget = _robot.FindName("Hips").transform;
+            _faceCameraController.LookTarget = _robot.FindName("Head").transform;
         }
 
         private void Start()

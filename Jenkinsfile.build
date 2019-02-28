@@ -1,0 +1,92 @@
+#!/usr/bin/env groovy
+
+pipeline {
+  agent { label "slave" }
+
+  parameters {
+    string(name: 'BUILD_BRANCH', defaultValue: 'master', description: 'ビルドするブランチ名を入力します。')
+    string(name: 'PROJECT_PATH', defaultValue: 'UnityProject/Alter3', description: 'Unityプロジェクトのルートディレクトリのパスを指定します。')
+    string(name: 'EXECUTE_METHOD', defaultValue: 'XFlag.Alter3SimulatorEditor.BatchBuild.BuildAll', description: 'バッチビルドで実行するメソッド名を指定します。')
+  }
+
+  environment {
+    UNITY_PATH = "/Applications/Unity/Hub/Editor/2018.3.2f1/Unity.app/Contents/MacOS/Unity"
+    UNITY_USER = "yuki.shinobu+unity01@mixi.co.jp"
+  }
+
+  stages {
+    stage("Checkout Build Branch") {
+      steps {
+        sh "git clean -fd && git reset --hard"
+      }
+    }
+
+    stage("Unity Build") {
+      environment {
+        UNITY_PASSWORD = credentials("unity-password")
+        UNITY_SERIAL   = credentials("unity-serial")
+      }
+      steps {
+        sh "${UNITY_PATH} -batchmode -quit -projectPath '${WORKSPACE}/${params.PROJECT_PATH}' -executeMethod '${params.EXECUTE_METHOD}' -username '${UNITY_USER}' -password '${UNITY_PASSWORD}' -serial ${UNITY_SERIAL} -logFile"
+      }
+    }
+
+    stage("Package") {
+      parallel {
+        stage("macOS") {
+          environment {
+            PACKAGE_ASSETS_COMMON_PATH = "PackageAssets/Common"
+            PACKAGE_ASSETS_PATH        = "PackageAssets/StandaloneOSX"
+            SRC_PATH                   = "UnityProject/Alter3/Builds/StandaloneOSX"
+            RELEASE_PATH               = "Releases/macOS"
+            DMG_NAME                   = "XFLAG-Alter3Simulator-macOS.dmg"
+            DMG_PATH                   = "${RELEASE_PATH}/${DMG_NAME}"
+          }
+          steps {
+            script {
+              sh "cp -vr ${PACKAGE_ASSETS_COMMON_PATH}/* ${SRC_PATH}"
+              sh "cp -vr ${PACKAGE_ASSETS_PATH}/* ${SRC_PATH}"
+              sh "mkdir -p ${RELEASE_PATH}"
+
+              if (fileExists("${DMG_PATH}")) {
+                sh "rm \"${DMG_PATH}\""
+              }
+
+              sh "hdiutil create \"${DMG_PATH}\" -volname \"XFLAG Alter3Simulator\" -format UDBZ -srcfolder \"${SRC_PATH}\""
+            }
+          }
+        }
+
+        stage("Windows") {
+          environment {
+            PACKAGE_ASSETS_COMMON_PATH = "PackageAssets/Common"
+            BUILDS_ROOT                = "UnityProject/Alter3/Builds/StandaloneWindows64"
+            TEMP_DIR                   = "temp"
+            ARCHIVE_ROOT               = "${TEMP_DIR}/XFLAG-Alter3Simulator-Win64"
+            RELEASE_PATH               = "Releases/win64"
+          }
+
+          steps {
+            sh "mkdir -p \"${ARCHIVE_ROOT}\""
+            sh "cp -vr \"${BUILDS_ROOT}\"/* \"${ARCHIVE_ROOT}\""
+            sh "cp -vr \"${PACKAGE_ASSETS_COMMON_PATH}\"/* \"${ARCHIVE_ROOT}\""
+
+            dir("${TEMP_DIR}") {
+              sh "zip -r XFLAG-Alter3Simulator-Win64.zip XFLAG-Alter3Simulator-Win64"
+            }
+
+            sh "mkdir -p \"${RELEASE_PATH}\""
+            sh "mv \"${TEMP_DIR}\"/XFLAG-Alter3Simulator-Win64.zip \"${RELEASE_PATH}\""
+            sh "rm -rf \"${TEMP_DIR}\""
+          }
+        }
+      }
+    }
+
+    stage("Archive Artifacs") {
+      steps {
+        archiveArtifacts artifacts: "Releases/**/*", onlyIfSuccessful: true
+      }
+    }
+  }
+}

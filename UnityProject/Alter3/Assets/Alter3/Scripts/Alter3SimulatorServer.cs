@@ -168,7 +168,11 @@ namespace XFlag.Alter3Simulator
                 // Cキーでコリジョンチェックon/off
                 _robot.CollisionCheckOnOff();
             }
-
+            else if (Input.GetKeyDown(KeyCode.V))
+            {
+                var p = Camera.main.GetComponent<UnityEngine.Rendering.PostProcessing.PostProcessLayer>();
+                p.enabled = !p.enabled;
+            }
         }
 
         private void OnDestroy()

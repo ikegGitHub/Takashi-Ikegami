@@ -292,7 +292,7 @@ namespace XFlag.Alter3Simulator
                 var newRotation = item.Axis * ang;
 
 #if DEBUG || UNITY_EDITOR
-                Debug.LogWarning("MoveAxis : " + axisNum.ToString() + " value: " + value.ToString() + "  " + newRotation.ToString() + ": " + Time.realtimeSinceStartup.ToString());
+                // Debug.LogWarning("MoveAxis : " + axisNum.ToString() + " value: " + value.ToString() + "  " + newRotation.ToString() + ": " + Time.realtimeSinceStartup.ToString());
 #endif
 
                 float ax = 0;

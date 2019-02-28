@@ -33,9 +33,31 @@ pipeline {
         UNITY_SERIAL   = credentials("unity-serial")
       }
       steps {
-        script {
-          sh "${UNITY_PATH} -batchmode -quit -projectPath '${WORKSPACE}/${params.PROJECT_PATH}' -executeMethod '${params.EXECUTE_METHOD}' -username '${UNITY_USER}' -password '${UNITY_PASSWORD}' -serial ${UNITY_SERIAL} -logFile"
-        }
+        sh "${UNITY_PATH} -batchmode -quit -projectPath '${WORKSPACE}/${params.PROJECT_PATH}' -executeMethod '${params.EXECUTE_METHOD}' -username '${UNITY_USER}' -password '${UNITY_PASSWORD}' -serial ${UNITY_SERIAL} -logFile"
+      }
+    }
+
+    stage("Package") {
+      environment {
+        PACKAGE_ASSETS_COMMON_PATH = "PackageAssets/Common"
+        PACKAGE_ASSETS_PATH        = "PackageAssets/StandaloneOSX"
+        SRC_PATH                   = "UnityProject/Alter3/Builds/StandaloneOSX"
+        RELEASE_PATH               = "Releases/macOS"
+        DMG_NAME                   = "XFLAG-Alter3Simulator-macOS.dmg"
+        DMG_PATH                   = "${RELEASE_PATH}/${DMG_NAME}"
+      }
+      steps {
+        sh "cp -vr ${PACKAGE_ASSETS_COMMON_PATH}/* ${SRC_PATH}"
+        sh "cp -vr ${PACKAGE_ASSETS_PATH}/* ${SRC_PATH}"
+        sh "mkdir -p ${RELEASE_PATH}"
+
+        if (fileExists("${DMG_PATH}")) {
+          sh "rm \"${DMG_PATH}\""
+        fi
+
+        sh "hdiutil create \"${DMG_PATH}\" -volname \"XFLAG Alter3Simulator\" -format UDBZ -srcfolder \"${SRC_PATH}\""
+
+        archiveArtifacts artifacts: "${DMG_PATH}", onlyIfSuccessful: true
       }
     }
   }

@@ -131,12 +131,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &74426195 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1452020553082286553, guid: 83e4f1fe41a0d0b4bba108859e7cdafe,
-    type: 3}
-  m_PrefabInstance: {fileID: 1749082521729962092}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &111230634 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2270, guid: 86aad4c5e600480469464a5693e36686,
@@ -395,7 +389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dragAreaView: {fileID: 111230634}
-  _target: {fileID: 2070800559}
+  _target: {fileID: 1749082521729962093}
 --- !u!1001 &649048370
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -859,7 +853,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb3686c5c86482042ac9a5d73cf86712, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetTransform: {fileID: 74426195}
+  _targetTransform: {fileID: 1749082521729962094}
   _distance: 0.4
   _offsetHeight: 0.08
 --- !u!20 &1916106262
@@ -930,12 +924,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &2070800559 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1452020553082286558, guid: 83e4f1fe41a0d0b4bba108859e7cdafe,
-    type: 3}
-  m_PrefabInstance: {fileID: 1749082521729962092}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2079802601
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1060,6 +1048,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83e4f1fe41a0d0b4bba108859e7cdafe, type: 3}
+--- !u!4 &1749082521729962093 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7820518002685716267, guid: 83e4f1fe41a0d0b4bba108859e7cdafe,
+    type: 3}
+  m_PrefabInstance: {fileID: 1749082521729962092}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1749082521729962094 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7820518002685716261, guid: 83e4f1fe41a0d0b4bba108859e7cdafe,
+    type: 3}
+  m_PrefabInstance: {fileID: 1749082521729962092}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3515564317455545139
 PrefabInstance:
   m_ObjectHideFlags: 0

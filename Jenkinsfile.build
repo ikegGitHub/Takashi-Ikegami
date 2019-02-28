@@ -53,7 +53,7 @@ pipeline {
 
         if (fileExists("${DMG_PATH}")) {
           sh "rm \"${DMG_PATH}\""
-        fi
+        }
 
         sh "hdiutil create \"${DMG_PATH}\" -volname \"XFLAG Alter3Simulator\" -format UDBZ -srcfolder \"${SRC_PATH}\""
 

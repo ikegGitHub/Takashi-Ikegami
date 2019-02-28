@@ -47,17 +47,19 @@ pipeline {
         DMG_PATH                   = "${RELEASE_PATH}/${DMG_NAME}"
       }
       steps {
-        sh "cp -vr ${PACKAGE_ASSETS_COMMON_PATH}/* ${SRC_PATH}"
-        sh "cp -vr ${PACKAGE_ASSETS_PATH}/* ${SRC_PATH}"
-        sh "mkdir -p ${RELEASE_PATH}"
+        script {
+          sh "cp -vr ${PACKAGE_ASSETS_COMMON_PATH}/* ${SRC_PATH}"
+          sh "cp -vr ${PACKAGE_ASSETS_PATH}/* ${SRC_PATH}"
+          sh "mkdir -p ${RELEASE_PATH}"
 
-        if (fileExists("${DMG_PATH}")) {
-          sh "rm \"${DMG_PATH}\""
+          if (fileExists("${DMG_PATH}")) {
+            sh "rm \"${DMG_PATH}\""
+          }
+
+          sh "hdiutil create \"${DMG_PATH}\" -volname \"XFLAG Alter3Simulator\" -format UDBZ -srcfolder \"${SRC_PATH}\""
+
+          archiveArtifacts artifacts: "${DMG_PATH}", onlyIfSuccessful: true
         }
-
-        sh "hdiutil create \"${DMG_PATH}\" -volname \"XFLAG Alter3Simulator\" -format UDBZ -srcfolder \"${SRC_PATH}\""
-
-        archiveArtifacts artifacts: "${DMG_PATH}", onlyIfSuccessful: true
       }
     }
   }

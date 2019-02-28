@@ -17,13 +17,7 @@ pipeline {
   stages {
     stage("Checkout Build Branch") {
       steps {
-        sh """git clean -fd
-              git fetch origin ${params.BUILD_BRANCH}
-              git checkout -B ${params.BUILD_BRANCH} origin/${params.BUILD_BRANCH}
-              git reset --hard
-              git clean -fd
-              git pull origin ${params.BUILD_BRANCH}
-           """
+        sh "git clean -fd && git reset --hard"
       }
     }
 

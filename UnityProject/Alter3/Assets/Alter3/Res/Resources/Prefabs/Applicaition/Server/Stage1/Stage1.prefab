@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d74e0b72e414424b91822b5249a4a76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StageGameObject: {fileID: 0}
+  StageGameObject: {fileID: 8912760633548859195}
 --- !u!1001 &1055598037384061241
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -112,13 +112,19 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 615377491128701162, guid: 4de201036ee823143ac48041044edef1,
+    - target: {fileID: 615377491126505014, guid: 4de201036ee823143ac48041044edef1,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 67ee3eeeacd0c9340aa2ec291b8944eb, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4de201036ee823143ac48041044edef1, type: 3}
+--- !u!1 &8912760633548859195 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8437001601740408322, guid: 4de201036ee823143ac48041044edef1,
+    type: 3}
+  m_PrefabInstance: {fileID: 1055598037384061241}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7487049779180067728 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7584454063468690089, guid: 4de201036ee823143ac48041044edef1,

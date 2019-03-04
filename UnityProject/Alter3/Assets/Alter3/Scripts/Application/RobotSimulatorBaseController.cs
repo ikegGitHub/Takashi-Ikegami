@@ -40,6 +40,11 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private AxisRangeView _axisRangeViewPrefab = null;
 
+        [SerializeField]
+        protected GameObject positionMarkerPrefab = null;
+
+
+        protected Dictionary<string, PositionMarkerController> positionMarkers = new Dictionary<string, PositionMarkerController>();
         protected Alter3EveCameraController eyeCameraLeft = null;
         public Alter3EveCameraController EyeCameraLeft
         {
@@ -127,6 +132,28 @@ namespace XFlag.Alter3Simulator
 
             _leftHandTransform = FindJoint("LeftHand");
             _rightHandTransform = FindJoint("RightHand");
+
+
+            AttachPositionMarker("LeftHand", new Vector3(0, -0.2f, 0));
+            AttachPositionMarker("RightHand", new Vector3(0, -0.2f, 0));
+            AttachPositionMarker("Head", new Vector3(0, 0.2f, 0));
+        }
+
+        protected void AttachPositionMarker(string jointName, Vector3 offset)
+        {
+            var obj = Instantiate(positionMarkerPrefab);
+
+            var controller = obj.GetComponent<PositionMarkerController>();
+
+            var jointTransform = FindJoint(jointName);
+
+            controller.gameObject.transform.localPosition = offset;
+            controller.gameObject.transform.SetParent(jointTransform, false);
+            obj.name = "PositionMarker_" + jointName;
+            positionMarkers.Add(jointName, controller);
+
+
+
         }
 
         // Use this for initialization
@@ -233,6 +260,7 @@ namespace XFlag.Alter3Simulator
                 //なんとなくスプリング＋ダンパー
                 var dt = Time.deltaTime;
 
+
                 var acceleration = ((param.NextRotation - param.CurrentRotation) * spring) - (param.Velocity * damper);
                 param.Velocity += acceleration * dt;
                 param.CurrentRotation += param.Velocity * dt;
@@ -271,6 +299,10 @@ namespace XFlag.Alter3Simulator
         protected void UpdateJoint(int axisNum, float value)
         {
 
+            //            var leftHandWorldPosition = positionMarkers["LeftHand"].GetWorldPosition();
+            //            Debug.Log("LeftHand " + leftHandWorldPosition.ToString());
+
+
             var jointItem = jointController.GetItem(axisNum);
 
             _axisViewLists.TryGetValue(axisNum, out var axisViews);
@@ -292,7 +324,7 @@ namespace XFlag.Alter3Simulator
                 var newRotation = item.Axis * ang;
 
 #if DEBUG || UNITY_EDITOR
-                Debug.LogWarning("MoveAxis : " + axisNum.ToString() + " value: " + value.ToString() + "  " + newRotation.ToString() + ": " + Time.realtimeSinceStartup.ToString());
+                //                Debug.LogWarning("MoveAxis : " + axisNum.ToString() + " value: " + value.ToString() + "  " + newRotation.ToString() + ": " + Time.realtimeSinceStartup.ToString());
 #endif
 
                 float ax = 0;

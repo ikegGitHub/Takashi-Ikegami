@@ -23,6 +23,7 @@
         ResetPose,
         RobotInfo,
         WhoAmI,
-        Calib
+        Calib,
+        GetPositions
     }
 }

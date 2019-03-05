@@ -76,6 +76,8 @@
 
         public static CalibCommand CreateCalibCommand() => Singleton<CalibCommand>.Instance;
 
+        public static GetPositionsCommand CreateGetPositionsCommand() => Singleton<GetPositionsCommand>.Instance;
+
         private class Singleton<T> where T : ICommand, new()
         {
             public static readonly T Instance = new T();

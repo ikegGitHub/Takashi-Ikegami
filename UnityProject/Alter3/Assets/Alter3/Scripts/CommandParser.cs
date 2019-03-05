@@ -110,6 +110,8 @@ namespace XFlag.Alter3Simulator
                     return CommandFactory.CreateWhoAmICommand();
                 case "CALIB":
                     return CommandFactory.CreateCalibCommand();
+                case "GETPOSITIONS":
+                    return CommandFactory.CreateGetPositionsCommand();
             }
 
             throw new ApplicationException($"unknown command: '{command}'");

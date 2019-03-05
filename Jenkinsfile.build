@@ -86,6 +86,7 @@ pipeline {
     stage("Archive Artifacs") {
       steps {
         archiveArtifacts artifacts: "Releases/**/*", onlyIfSuccessful: true
+        sh "rm -rf UnityProject/Alter3/Builds Releases"
       }
     }
   }

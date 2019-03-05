@@ -59,7 +59,6 @@ namespace XFlag.Alter3Simulator
         private readonly Dictionary<int, float> _axisValues = new Dictionary<int, float>();
         private readonly Dictionary<int, AxisRangeView[]> _axisViewLists = new Dictionary<int, AxisRangeView[]>();
 
-        bool isCollisionCheck = false;
         List<CollisionEventController> collisionEventLists = new List<CollisionEventController>();
 
         private readonly Vector3[] _positions = new Vector3[3];
@@ -199,16 +198,15 @@ namespace XFlag.Alter3Simulator
             DisableCollisionCheck();
         }
 
-        public void CollisionCheckOnOff()
+        public void SetCollisionCheckEnabled(bool enabled)
         {
-            if (isCollisionCheck)
+            if (enabled)
             {
-                DisableCollisionCheck();
-
+                EnableCollisionCheck();
             }
             else
             {
-                EnableCollisionCheck();
+                DisableCollisionCheck();
             }
         }
 
@@ -218,7 +216,6 @@ namespace XFlag.Alter3Simulator
             {
                 collisionEvent.EnableCollisionCheck();
             }
-            isCollisionCheck = true;
         }
 
         void DisableCollisionCheck()
@@ -227,8 +224,6 @@ namespace XFlag.Alter3Simulator
             {
                 collisionEvent.DisableCollisionCheck();
             }
-            isCollisionCheck = false;
-
         }
 
 

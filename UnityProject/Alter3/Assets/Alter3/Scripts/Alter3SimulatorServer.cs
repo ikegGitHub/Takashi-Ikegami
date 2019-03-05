@@ -40,6 +40,9 @@ namespace XFlag.Alter3Simulator
         private TMP_InputField _logFileLocation = null;
 
         [SerializeField]
+        private GameObject _eyeCameraScreen = null;
+
+        [SerializeField]
         private RawImage _LeftEyeRawImage = null;
 
         [SerializeField]
@@ -63,12 +66,16 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private TMP_InputField _systemPortInputField = null;
 
+        [SerializeField]
+        private ControlPanelView _controlPanelView = null;
+
         private ILogger _logger;
 
         private IDictionary<string, string> _config;
         private CoreSystem _coreSystem = new CoreSystem(50);
         private ConnectionManager _server;
         private ConnectionManager _systemCommandConnection;
+        private SettingModel _setting = new SettingModel();
 
         private SynchronizationContext _context;
 
@@ -137,28 +144,45 @@ namespace XFlag.Alter3Simulator
             _axisControlPanel.Initialize(_robot);
 
             _serverToggle.IsOn = true;
+
+            _controlPanelView.OnEnableEyeCameraChanged += isOn => _setting.EnableEyeCamera = isOn;
+            _controlPanelView.OnEnableFaceCameraChanged += isOn => _setting.EnableFaceCamera = isOn;
+            _controlPanelView.OnEnableCollisionCheckChanged += isOn => _setting.EnableCollisionCheck = isOn;
+            _controlPanelView.OnResetCameraButtonClicked += () => _cameraController.ResetPosition();
+            _controlPanelView.OnResetPositionButtonClicked += () => _robot.ResetAxes();
+
+            _setting.OnEnableEyeCameraChanged += enabled =>
+            {
+                _eyeCameraScreen.SetActive(enabled);
+                _controlPanelView.EnableEyeCamera = enabled;
+            };
+            _setting.OnEnableFaceCameraChanged += enabled =>
+            {
+                _faceCameraScreen.SetActive(enabled);
+                _controlPanelView.EnableFaceCamera = enabled;
+            };
+            _setting.OnEnableCollisionCheckChanged += enabled =>
+            {
+                _robot.SetCollisionCheckEnabled(enabled);
+                _controlPanelView.EnableCollisionCheck = enabled;
+            };
+
+            _eyeCameraScreen.SetActive(_setting.EnableEyeCamera);
+            _controlPanelView.EnableEyeCamera = _setting.EnableEyeCamera;
+
+            _faceCameraScreen.SetActive(_setting.EnableFaceCamera);
+            _controlPanelView.EnableFaceCamera = _setting.EnableFaceCamera;
+
+            _robot.SetCollisionCheckEnabled(_setting.EnableCollisionCheck);
+            _controlPanelView.EnableCollisionCheck = _setting.EnableCollisionCheck;
         }
 
         private void Update()
         {
-            if (!_faceCameraScreen.activeSelf && Input.GetKey(KeyCode.F))
-            {
-                _faceCameraScreen.SetActive(true);
-            }
-            else if (Input.GetKeyDown(KeyCode.P))
-            {
-                // Pキーでカメラリセット
-                _cameraController.ResetPosition();
-            }
-            else if (Input.GetKeyDown(KeyCode.O))
+            if (Input.GetKeyDown(KeyCode.O))
             {
                 // Oキーで斜め前回り込み
                 _cameraController.MoveToForwardOfTarget();
-            }
-            else if (Input.GetKeyDown(KeyCode.R))
-            {
-                // Rキーでロボットリセット
-                _robot.ResetAxes();
             }
             else if (!_axisControlPanel.gameObject.activeSelf && Input.GetKeyDown(KeyCode.Alpha9))
             {
@@ -170,12 +194,6 @@ namespace XFlag.Alter3Simulator
                 // 2/23版ScaryBeautyデータ再生
                 TogglePlayData();
             }
-            else if (Input.GetKeyDown(KeyCode.C))
-            {
-                // Cキーでコリジョンチェックon/off
-                _robot.CollisionCheckOnOff();
-            }
-
         }
 
         private void OnDestroy()

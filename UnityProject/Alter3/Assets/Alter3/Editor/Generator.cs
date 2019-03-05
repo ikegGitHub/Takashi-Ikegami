@@ -71,7 +71,7 @@ namespace XFlag.Alter3Simulator
 }}
 ";
                 var file = Path.Combine(autoGenPath, $"{type}Command.generated.cs");
-                File.WriteAllText(file, code.Replace("\n", "\r\n"), Encoding.UTF8);
+                File.WriteAllText(file, code, Encoding.UTF8);
                 AssetDatabase.ImportAsset(file);
 
                 file = Path.Combine(outputPath, $"{type}Command.cs");
@@ -86,7 +86,7 @@ namespace XFlag.Alter3Simulator
     }}
 }}
 ";
-                File.WriteAllText(file, code.Replace("\n", "\r\n"), Encoding.UTF8);
+                File.WriteAllText(file, code, Encoding.UTF8);
                 AssetDatabase.ImportAsset(file);
             }
 

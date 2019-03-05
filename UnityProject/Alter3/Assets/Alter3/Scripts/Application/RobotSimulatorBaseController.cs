@@ -62,9 +62,7 @@ namespace XFlag.Alter3Simulator
         bool isCollisionCheck = false;
         List<CollisionEventController> collisionEventLists = new List<CollisionEventController>();
 
-        private Transform _leftHandTransform;
-        private Transform _rightHandTransform;
-        private Vector3[] _handsPositions = new Vector3[2];
+        private readonly Vector3[] _positions = new Vector3[3];
 
         public void ResetAxes()
         {
@@ -119,9 +117,14 @@ namespace XFlag.Alter3Simulator
         /// <returns>左手の座標値と右手の座標値からなる要素数6の配列</returns>
         public IReadOnlyList<Vector3> GetHandsPositionArray()
         {
-            _handsPositions[0] = _leftHandTransform.position - transform.position;
-            _handsPositions[1] = _rightHandTransform.position - transform.position;
-            return _handsPositions;
+            var leftHand = positionMarkers["LeftHand"];
+            var rightHand = positionMarkers["RightHand"];
+            var head = positionMarkers["Head"];
+
+            _positions[0] = leftHand.GetWorldPosition() - transform.position;
+            _positions[1] = rightHand.GetWorldPosition() - transform.position;
+            _positions[2] = head.GetWorldPosition() - transform.position;
+            return _positions;
         }
 
         protected virtual void Awake()
@@ -129,10 +132,6 @@ namespace XFlag.Alter3Simulator
             CreateJointParameter();
             CreateCollision();
             EnableUpdateWhenOffscreenForAllRenderers();
-
-            _leftHandTransform = FindJoint("LeftHand");
-            _rightHandTransform = FindJoint("RightHand");
-
 
             AttachPositionMarker("LeftHand", new Vector3(0, -0.2f, 0));
             AttachPositionMarker("RightHand", new Vector3(0, -0.2f, 0));

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using XFlag.Alter3Simulator.Network;
 
 namespace XFlag.Alter3Simulator
@@ -151,6 +152,32 @@ namespace XFlag.Alter3Simulator
 
         public override IEnumerable<string> Visit(PlayMotionCommand command)
         {
+            yield return Response.OK;
+        }
+
+        public override IEnumerable<string> Visit(GetPositionsCommand command)
+        {
+            var positions = _coreSystem.Robot.GetHandsPositionArray();
+            var buf = new StringBuilder();
+            var first = true;
+            foreach (var position in positions)
+            {
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    buf.Append(' ');
+                }
+
+                buf.Append(position.x);
+                buf.Append(' ');
+                buf.Append(position.y);
+                buf.Append(' ');
+                buf.Append(position.z);
+            }
+            yield return buf.ToString();
             yield return Response.OK;
         }
 

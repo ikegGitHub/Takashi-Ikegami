@@ -26,9 +26,6 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         protected GameObject clothModel = null;
 
-
-        protected Dictionary<string, JointParameter> dictionary = new Dictionary<string, JointParameter>();
-
         [SerializeField]
         protected JointController jointController = null;
 
@@ -47,8 +44,6 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         protected GameObject positionMarkerPrefab = null;
 
-
-        protected Dictionary<string, PositionMarkerController> positionMarkers = new Dictionary<string, PositionMarkerController>();
         protected Alter3EveCameraController eyeCameraLeft = null;
         public Alter3EveCameraController EyeCameraLeft
         {
@@ -60,10 +55,15 @@ namespace XFlag.Alter3Simulator
             get { return this.eyeCameraRight; }
         }
 
+        protected readonly Dictionary<string, JointParameter> dictionary = new Dictionary<string, JointParameter>();
+
+        protected readonly Dictionary<string, PositionMarkerController> positionMarkers = new Dictionary<string, PositionMarkerController>();
+
+        private readonly Dictionary<string, Transform> _jointTransforms = new Dictionary<string, Transform>();
         private readonly Dictionary<int, float> _axisValues = new Dictionary<int, float>();
         private readonly Dictionary<int, AxisRangeView[]> _axisViewLists = new Dictionary<int, AxisRangeView[]>();
 
-        List<CollisionEventController> collisionEventLists = new List<CollisionEventController>();
+        private readonly List<CollisionEventController> collisionEventLists = new List<CollisionEventController>();
 
         private readonly Vector3[] _positions = new Vector3[3];
 
@@ -180,13 +180,19 @@ namespace XFlag.Alter3Simulator
             var joints = jointRoot.GetComponentsInChildren<Transform>();
             foreach (var joint in joints)
             {
+                _jointTransforms.Add(joint.name, joint);
+            }
 
-                var param = new JointParameter(joint);
-                dictionary.Add(joint.name, param);
-
-                //                var rigidBody = joint.gameObject.AddComponent<Rigidbody>();
-                //                rigidBody.useGravity = false;
-
+            foreach (var jointTableEntity in jointController.JointTableEntities)
+            {
+                foreach (var jointItem in jointTableEntity.JointItems)
+                {
+                    if (!dictionary.ContainsKey(jointItem.JointName))
+                    {
+                        var param = new JointParameter(FindJoint(jointItem.JointName));
+                        dictionary.Add(param.Name, param);
+                    }
+                }
             }
         }
 
@@ -262,14 +268,12 @@ namespace XFlag.Alter3Simulator
 
         protected Transform FindJoint(string name)
         {
-            var trans = dictionary[name].Transform;
-            return trans;
+            return _jointTransforms[name];
         }
 
         protected JointParameter FindJointParameter(string name)
         {
-            var param = dictionary[name];
-            return param;
+            return dictionary[name];
         }
 
         protected void UpdateJointParameter()
@@ -326,6 +330,8 @@ namespace XFlag.Alter3Simulator
 
             _axisViewLists.TryGetValue(axisNum, out var axisViews);
 
+            var t = value / 255f;
+
             foreach (var item in jointItem)
             {
                 var param = FindJointParameter(item.JointName);
@@ -333,7 +339,6 @@ namespace XFlag.Alter3Simulator
                 //                param.BeforeValue = param.CurrentValue;
                 //               param.CurrentValue = value;
 
-                var t = value / 255f;
                 var ang = Mathf.Lerp(item.rangeMin, item.rangeMax, t);
 
 
@@ -386,16 +391,15 @@ namespace XFlag.Alter3Simulator
                 param.NextQuat = qx * qz * qy;
                 param.NextRotation = new Vector3(ax, ay, az);
                 //                param.CurrentRotation = param.NextRotation;
-
-                if (axisViews != null)
-                {
-                    foreach (var axisView in axisViews)
-                    {
-                        axisView.CurrentAngleRatio = t;
-                    }
-                }
             }
 
+            if (axisViews != null)
+            {
+                foreach (var axisView in axisViews)
+                {
+                    axisView.CurrentAngleRatio = t;
+                }
+            }
             _axisValues[axisNum] = value;
         }
 

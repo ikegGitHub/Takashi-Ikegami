@@ -60,7 +60,7 @@ namespace XFlag.Alter3Simulator
         protected readonly Dictionary<string, PositionMarkerController> positionMarkers = new Dictionary<string, PositionMarkerController>();
 
         private readonly Dictionary<string, Transform> _jointTransforms = new Dictionary<string, Transform>();
-        private readonly Dictionary<int, float> _axisValues = new Dictionary<int, float>();
+        private readonly Dictionary<int, AxisModel> _axes = new Dictionary<int, AxisModel>();
         private readonly Dictionary<int, AxisRangeView[]> _axisViewLists = new Dictionary<int, AxisRangeView[]>();
 
         private readonly List<CollisionEventController> collisionEventLists = new List<CollisionEventController>();
@@ -69,6 +69,10 @@ namespace XFlag.Alter3Simulator
 
         public void ResetAxes()
         {
+            foreach (var axis in _axes.Values)
+            {
+                axis.Value = 128;
+            }
             foreach (var jointParameter in dictionary.Values)
             {
                 jointParameter.NextRotation = jointParameter.DefaultRotation;
@@ -107,11 +111,7 @@ namespace XFlag.Alter3Simulator
 
         public float GetAxisValue(int axisNumber)
         {
-            if (_axisValues.TryGetValue(axisNumber, out float value))
-            {
-                return value;
-            }
-            return 128;
+            return FindAxisModelById(axisNumber).Value;
         }
 
         /// <summary>
@@ -185,13 +185,17 @@ namespace XFlag.Alter3Simulator
 
             foreach (var jointTableEntity in jointController.JointTableEntities)
             {
+                var axis = new AxisModel(jointTableEntity);
+                _axes.Add(axis.Id, axis);
+
                 foreach (var jointItem in jointTableEntity.JointItems)
                 {
-                    if (!dictionary.ContainsKey(jointItem.JointName))
+                    if (!dictionary.TryGetValue(jointItem.JointName, out var param))
                     {
-                        var param = new JointParameter(jointItem, FindJoint(jointItem.JointName));
+                        param = new JointParameter(jointItem, FindJoint(jointItem.JointName));
                         dictionary.Add(param.Name, param);
                     }
+                    axis.Joints.Add(param);
                 }
             }
         }
@@ -266,6 +270,11 @@ namespace XFlag.Alter3Simulator
             }
         }
 
+        protected AxisModel FindAxisModelById(int id)
+        {
+            return _axes[id];
+        }
+
         protected Transform FindJoint(string name)
         {
             return _jointTransforms[name];
@@ -311,17 +320,16 @@ namespace XFlag.Alter3Simulator
             //            var leftHandWorldPosition = positionMarkers["LeftHand"].GetWorldPosition();
             //            Debug.Log("LeftHand " + leftHandWorldPosition.ToString());
 
-
-            var jointItem = jointController.GetItem(axisNum);
+            var axis = FindAxisModelById(axisNum);
+            axis.Value = value;
 
             _axisViewLists.TryGetValue(axisNum, out var axisViews);
 
             var normalizedValue = value / 255f;
 
-            foreach (var item in jointItem)
+            foreach (var jointParam in axis.Joints)
             {
-                var param = FindJointParameter(item.JointName);
-                param.UpdateTargetRotation(normalizedValue);
+                jointParam.UpdateTargetRotation(normalizedValue);
             }
 
             if (axisViews != null)
@@ -331,7 +339,6 @@ namespace XFlag.Alter3Simulator
                     axisView.CurrentAngleRatio = normalizedValue;
                 }
             }
-            _axisValues[axisNum] = value;
         }
 
 

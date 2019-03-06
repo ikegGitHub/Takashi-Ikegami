@@ -189,7 +189,7 @@ namespace XFlag.Alter3Simulator
                 {
                     if (!dictionary.ContainsKey(jointItem.JointName))
                     {
-                        var param = new JointParameter(FindJoint(jointItem.JointName));
+                        var param = new JointParameter(jointItem, FindJoint(jointItem.JointName));
                         dictionary.Add(param.Name, param);
                     }
                 }
@@ -316,19 +316,19 @@ namespace XFlag.Alter3Simulator
 
             _axisViewLists.TryGetValue(axisNum, out var axisViews);
 
-            var t = value / 255f;
+            var normalizedValue = value / 255f;
 
             foreach (var item in jointItem)
             {
                 var param = FindJointParameter(item.JointName);
-                param.UpdateTargetRotation(item, t);
+                param.UpdateTargetRotation(normalizedValue);
             }
 
             if (axisViews != null)
             {
                 foreach (var axisView in axisViews)
                 {
-                    axisView.CurrentAngleRatio = t;
+                    axisView.CurrentAngleRatio = normalizedValue;
                 }
             }
             _axisValues[axisNum] = value;

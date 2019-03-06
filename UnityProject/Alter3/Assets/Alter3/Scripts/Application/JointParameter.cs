@@ -29,6 +29,14 @@ namespace XFlag.Alter3Simulator
         //       public float AccelerationSpeed = 0;
         //        public float MaxRotationSpeed = 0;
 
+        public Vector3 Axis => _jointItem.Axis;
+
+        public float RangeMin => _jointItem.rangeMin;
+
+        public float RangeMax => _jointItem.rangeMax;
+
+        private readonly JointItem _jointItem;
+
         /// <summary>
         /// 使用禁止
         /// </summary>
@@ -40,8 +48,9 @@ namespace XFlag.Alter3Simulator
         /// コンストラクタ
         /// </summary>
         /// <param name="trans">Trans.</param>
-        public JointParameter(Transform trans)
+        public JointParameter(JointItem jointItem, Transform trans)
         {
+            _jointItem = jointItem;
             Transform = trans;
             Name = trans.name;
             DefaultPosition = trans.localPosition;
@@ -55,12 +64,12 @@ namespace XFlag.Alter3Simulator
 
         }
 
-        public void UpdateTargetRotation(JointItem jointItem, float normalizedValue)
+        public void UpdateTargetRotation(float normalizedValue)
         {
-            var ang = Mathf.Lerp(jointItem.rangeMin, jointItem.rangeMax, normalizedValue);
+            var ang = Mathf.Lerp(RangeMin, RangeMax, normalizedValue);
 
             StartRotation = CurrentRotation;
-            var newRotation = jointItem.Axis * ang;
+            var newRotation = Axis * ang;
 
             float ax = 0;
             float ay = 0;
@@ -68,7 +77,7 @@ namespace XFlag.Alter3Simulator
             Quaternion qx = Quaternion.identity;
             Quaternion qy = Quaternion.identity;
             Quaternion qz = Quaternion.identity;
-            if (jointItem.Axis.x != 0)
+            if (Axis.x != 0)
             {
                 qx = Quaternion.AngleAxis(newRotation.x, Vector3.right);
                 ax = newRotation.x;
@@ -78,7 +87,7 @@ namespace XFlag.Alter3Simulator
                 qx = Quaternion.AngleAxis(CurrentRotation.x, Vector3.right);
                 ax = CurrentRotation.x;
             }
-            if (jointItem.Axis.z != 0)
+            if (Axis.z != 0)
             {
                 qz = Quaternion.AngleAxis(newRotation.z, Vector3.forward);
                 az = newRotation.z;
@@ -88,7 +97,7 @@ namespace XFlag.Alter3Simulator
                 qz = Quaternion.AngleAxis(CurrentRotation.z, Vector3.forward);
                 az = CurrentRotation.z;
             }
-            if (jointItem.Axis.y != 0)
+            if (Axis.y != 0)
             {
                 qy = Quaternion.AngleAxis(newRotation.y, Vector3.up);
                 ay = newRotation.y;

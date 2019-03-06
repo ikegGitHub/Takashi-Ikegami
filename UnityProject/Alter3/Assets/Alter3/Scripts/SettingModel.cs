@@ -51,6 +51,7 @@ namespace XFlag.Alter3Simulator
                 }
             }
         }
+
         public bool EnableClothModel
         {
             get
@@ -67,15 +68,32 @@ namespace XFlag.Alter3Simulator
             }
         }
 
+        public bool CaptureScreen
+        {
+            get
+            {
+                return _captureScreen;
+            }
+            set
+            {
+                if (_captureScreen != value)
+                {
+                    _captureScreen = value;
+                    OnCaptureScreenChanged(_captureScreen);
+                }
+            }
+        }
 
         public event Action<bool> OnEnableEyeCameraChanged = delegate { };
         public event Action<bool> OnEnableFaceCameraChanged = delegate { };
         public event Action<bool> OnEnableCollisionCheckChanged = delegate { };
         public event Action<bool> OnEnableClothModelChanged = delegate { };
+        public event Action<bool> OnCaptureScreenChanged = delegate { };
 
         private bool _enableEyeCamera;
         private bool _enableFaceCamera;
         private bool _enableCollisionCheck;
         private bool _enableClothModel;
+        private bool _captureScreen;
     }
 }

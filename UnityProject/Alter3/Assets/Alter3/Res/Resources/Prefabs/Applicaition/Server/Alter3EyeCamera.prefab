@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45a2b74c2c92c324c8919697595e5052, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resolutionX: 1024
-  resolutionY: 1024
+  resolutionX: 128
+  resolutionY: 128
   fov: 60
   camera: {fileID: 8191315565105497319}
 --- !u!1 &7031424429301641329

@@ -13,11 +13,6 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         protected GameObject rigidBodyPredab = null;
 
-        protected enum EyePos
-        {
-            Left,
-            Right,
-        }
 
         protected List<Alter3RigidBodyController> rigidlists = new List<Alter3RigidBodyController>();
 
@@ -27,8 +22,8 @@ namespace XFlag.Alter3Simulator
         protected override void Awake()
         {
             base.Awake();
-            CreateEyeCamera("LeftEye", EyePos.Left);
-            CreateEyeCamera("RightEye", EyePos.Right);
+            CreateEyeCamera("LeftEye", EyeCameraPos.Left);
+            CreateEyeCamera("RightEye", EyeCameraPos.Right);
 
             CreateRigdBody("LeftHand");
             CreateRigdBody("RightHand");
@@ -48,24 +43,26 @@ namespace XFlag.Alter3Simulator
 
         }
 
-        protected void CreateEyeCamera(string jointName, EyePos eyePos)
+        protected void CreateEyeCamera(string jointName, EyeCameraPos eyePos)
         {
             var param = FindJointParameter(jointName);
-            if (eyePos == EyePos.Left)
+            if (eyePos == EyeCameraPos.Left)
             {
                 eyeCameraLeft = Instantiate(eyeCameraPrefab).GetComponent<Alter3EveCameraController>();
                 eyeCameraLeft.gameObject.transform.SetParent(param.Transform, false);
                 eyeCameraLeft.gameObject.transform.localPosition = Vector3.zero;
                 eyeCameraLeft.gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+                eyeCameraLeft.EyeCameraPos = eyePos;
 
 
             }
-            else if (eyePos == EyePos.Right)
+            else if (eyePos == EyeCameraPos.Right)
             {
                 eyeCameraRight = Instantiate(eyeCameraPrefab).GetComponent<Alter3EveCameraController>();
                 eyeCameraRight.gameObject.transform.SetParent(param.Transform, false);
-                eyeCameraLeft.gameObject.transform.localPosition = Vector3.zero;
-                eyeCameraLeft.gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+                eyeCameraRight.gameObject.transform.localPosition = Vector3.zero;
+                eyeCameraRight.gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+                eyeCameraRight.EyeCameraPos = eyePos;
             }
 
         }
@@ -75,7 +72,7 @@ namespace XFlag.Alter3Simulator
             var param = FindJointParameter(jointName);
             var controller = Instantiate(rigidBodyPredab).GetComponent<Alter3RigidBodyController>();
             controller.gameObject.transform.SetParent(param.Transform, false);
-            controller.gameObject.transform.localPosition = new Vector3(0f,-0.1f,0f);
+            controller.gameObject.transform.localPosition = new Vector3(0f, -0.1f, 0f);
             controller.gameObject.transform.rotation = Quaternion.identity;
             controller.Name = jointName;
             controller.OnEvent += OnEventRigidBody;

@@ -79,7 +79,7 @@ namespace XFlag.Alter3Simulator
         private void Update()
         {
 #if !UNITY_EDITOR
-            SaveTexture();
+//            SaveTexture();
 #endif
             framecount++;
         }

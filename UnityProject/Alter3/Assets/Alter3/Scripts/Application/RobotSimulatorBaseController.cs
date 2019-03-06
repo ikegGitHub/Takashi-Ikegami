@@ -26,9 +26,6 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         protected GameObject clothModel = null;
 
-
-        protected Dictionary<string, JointParameter> dictionary = new Dictionary<string, JointParameter>();
-
         [SerializeField]
         protected JointController jointController = null;
 
@@ -47,8 +44,6 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         protected GameObject positionMarkerPrefab = null;
 
-
-        protected Dictionary<string, PositionMarkerController> positionMarkers = new Dictionary<string, PositionMarkerController>();
         protected Alter3EveCameraController eyeCameraLeft = null;
         public Alter3EveCameraController EyeCameraLeft
         {
@@ -59,6 +54,10 @@ namespace XFlag.Alter3Simulator
         {
             get { return this.eyeCameraRight; }
         }
+
+        protected readonly Dictionary<string, JointParameter> dictionary = new Dictionary<string, JointParameter>();
+
+        protected readonly Dictionary<string, PositionMarkerController> positionMarkers = new Dictionary<string, PositionMarkerController>();
 
         private readonly Dictionary<string, Transform> _jointTransforms = new Dictionary<string, Transform>();
         private readonly Dictionary<int, float> _axisValues = new Dictionary<int, float>();

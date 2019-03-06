@@ -51,13 +51,31 @@ namespace XFlag.Alter3Simulator
                 }
             }
         }
+        public bool EnableClothModel
+        {
+            get
+            {
+                return _enableClothModel;
+            }
+            set
+            {
+                if (_enableClothModel != value)
+                {
+                    _enableClothModel = value;
+                    OnEnableClothModelChanged(_enableClothModel);
+                }
+            }
+        }
+
 
         public event Action<bool> OnEnableEyeCameraChanged = delegate { };
         public event Action<bool> OnEnableFaceCameraChanged = delegate { };
         public event Action<bool> OnEnableCollisionCheckChanged = delegate { };
+        public event Action<bool> OnEnableClothModelChanged = delegate { };
 
         private bool _enableEyeCamera;
         private bool _enableFaceCamera;
         private bool _enableCollisionCheck;
+        private bool _enableClothModel;
     }
 }

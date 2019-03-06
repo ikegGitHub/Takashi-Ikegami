@@ -154,6 +154,10 @@ ModelImporter:
     100296: RightShoulder_Rota
     100298: LeftHand_LR
     100300: RightHand_LR
+    100302: covermodel
+    100304: mdl_bodycover
+    100306: mdl_headcover
+    100308: mdl_neckcover
     400000: //RootNode
     400002: axis_1
     400004: axis_10
@@ -305,12 +309,17 @@ ModelImporter:
     400296: RightShoulder_Rota
     400298: LeftHand_LR
     400300: RightHand_LR
+    400302: covermodel
+    400304: mdl_bodycover
+    400306: mdl_headcover
+    400308: mdl_neckcover
     2100000: body
     2100002: lambert1
     2100004: mouth
     2100006: tooth
     2100008: eye
     2100010: lambert2
+    2100012: Default_Material
     2300000: axis_1
     2300002: axis_10
     2300004: axis_11
@@ -434,6 +443,9 @@ ModelImporter:
     4300104: axis_35
     4300106: axis_36
     4300108: axis_37
+    4300110: mdl_bodycover
+    4300112: mdl_headcover
+    4300114: mdl_neckcover
     9500000: //RootNode
     13700000: mdl_Face
     13700002: mdl_Foundation
@@ -456,6 +468,9 @@ ModelImporter:
     13700036: mdl_Spine3
     13700038: mdl_Spine4
     13700040: mdl_Spine5
+    13700042: mdl_bodycover
+    13700044: mdl_headcover
+    13700046: mdl_neckcover
   externalObjects: {}
   materials:
     importMaterials: 1

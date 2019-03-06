@@ -23,6 +23,10 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         protected GameObject modelRoot = null;
 
+        [SerializeField]
+        protected GameObject clothModel = null;
+
+
         protected Dictionary<string, JointParameter> dictionary = new Dictionary<string, JointParameter>();
 
         [SerializeField]
@@ -209,6 +213,17 @@ namespace XFlag.Alter3Simulator
                 DisableCollisionCheck();
             }
         }
+        public void SetClothModelEnabled(bool enabled)
+        {
+            if (enabled)
+            {
+                EnableClothModel();
+            }
+            else
+            {
+                DisableClothModel();
+            }
+        }
 
         void EnableCollisionCheck()
         {
@@ -225,6 +240,16 @@ namespace XFlag.Alter3Simulator
                 collisionEvent.DisableCollisionCheck();
             }
         }
+
+        public void EnableClothModel()
+        {
+            clothModel?.SetActive(true);
+        }
+        public void DisableClothModel()
+        {
+            clothModel?.SetActive(false);
+        }
+
 
 
         private void EnableUpdateWhenOffscreenForAllRenderers()

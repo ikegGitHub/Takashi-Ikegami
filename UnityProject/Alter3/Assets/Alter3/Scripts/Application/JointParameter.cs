@@ -7,7 +7,6 @@ namespace XFlag.Alter3Simulator
     [System.Serializable]
     public class JointParameter
     {
-        public string Name = "";
         public int AxisNum = 0;
         public Vector3 DefaultPosition = Vector3.zero;
         public Vector3 DefaultRotation = Vector3.zero;
@@ -28,6 +27,8 @@ namespace XFlag.Alter3Simulator
         //       public float RotationSpeed = 0;
         //       public float AccelerationSpeed = 0;
         //        public float MaxRotationSpeed = 0;
+
+        public string Name => _jointItem.JointName;
 
         public Vector3 Axis => _jointItem.Axis;
 
@@ -52,7 +53,6 @@ namespace XFlag.Alter3Simulator
         {
             _jointItem = jointItem;
             Transform = trans;
-            Name = trans.name;
             DefaultPosition = trans.localPosition;
             DefaultRotation = trans.localRotation.eulerAngles;
             CurrentRotation = DefaultRotation;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace XFlag.Alter3Simulator
@@ -24,8 +25,11 @@ namespace XFlag.Alter3Simulator
             set
             {
                 _value = Mathf.Clamp(value, 0, 255);
+                OnValueChanged(_value);
             }
         }
+
+        public event Action<float> OnValueChanged = delegate { };
 
         private readonly JointTableEntity _masterData;
 
@@ -34,6 +38,11 @@ namespace XFlag.Alter3Simulator
         public AxisModel(JointTableEntity masterData)
         {
             _masterData = masterData;
+        }
+
+        public void ClearEventHandler()
+        {
+            OnValueChanged = delegate { };
         }
     }
 }

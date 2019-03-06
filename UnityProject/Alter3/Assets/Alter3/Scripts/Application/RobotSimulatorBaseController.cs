@@ -81,8 +81,11 @@ namespace XFlag.Alter3Simulator
 
         public void ToggleAxisRangeView(int axisNumber)
         {
+            var axis = FindAxisModelById(axisNumber);
+
             if (_axisViewLists.TryGetValue(axisNumber, out var axisViews))
             {
+                axis.ClearEventHandler();
                 _axisViewLists.Remove(axisNumber);
                 foreach (var axisView in axisViews)
                 {
@@ -91,18 +94,19 @@ namespace XFlag.Alter3Simulator
             }
             else
             {
-                var joints = jointController.GetItem(axisNumber);
-                axisViews = new AxisRangeView[joints.Length];
-                for (var i = 0; i < joints.Length; i++)
+                var joints = axis.Joints;
+                axisViews = new AxisRangeView[joints.Count];
+                for (var i = 0; i < joints.Count; i++)
                 {
                     var joint = joints[i];
-                    var jointTransform = FindJoint(joint.JointName);
+                    var jointTransform = FindJoint(joint.Name);
                     var axisView = Instantiate(_axisRangeViewPrefab, jointTransform.parent, false);
                     axisView.transform.localPosition = jointTransform.localPosition;
-                    axisView.Label = $"{axisNumber}-{joint.JointName}";
+                    axisView.Label = $"{axisNumber}-{joint.Name}";
                     axisView.Axis = joint.Axis;
-                    axisView.AngleMin = joint.rangeMin;
-                    axisView.AngleMax = joint.rangeMax;
+                    axisView.AngleMin = joint.RangeMin;
+                    axisView.AngleMax = joint.RangeMax;
+                    axis.OnValueChanged += value => axisView.CurrentAngleRatio = value / 255f;
                     axisViews[i] = axisView;
                 }
                 _axisViewLists.Add(axisNumber, axisViews);
@@ -323,21 +327,11 @@ namespace XFlag.Alter3Simulator
             var axis = FindAxisModelById(axisNum);
             axis.Value = value;
 
-            _axisViewLists.TryGetValue(axisNum, out var axisViews);
-
             var normalizedValue = value / 255f;
 
             foreach (var jointParam in axis.Joints)
             {
                 jointParam.UpdateTargetRotation(normalizedValue);
-            }
-
-            if (axisViews != null)
-            {
-                foreach (var axisView in axisViews)
-                {
-                    axisView.CurrentAngleRatio = normalizedValue;
-                }
             }
         }
 

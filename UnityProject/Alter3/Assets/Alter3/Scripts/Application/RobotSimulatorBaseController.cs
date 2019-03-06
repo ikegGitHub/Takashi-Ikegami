@@ -60,6 +60,7 @@ namespace XFlag.Alter3Simulator
             get { return this.eyeCameraRight; }
         }
 
+        private readonly Dictionary<string, Transform> _jointTransforms = new Dictionary<string, Transform>();
         private readonly Dictionary<int, float> _axisValues = new Dictionary<int, float>();
         private readonly Dictionary<int, AxisRangeView[]> _axisViewLists = new Dictionary<int, AxisRangeView[]>();
 
@@ -180,13 +181,19 @@ namespace XFlag.Alter3Simulator
             var joints = jointRoot.GetComponentsInChildren<Transform>();
             foreach (var joint in joints)
             {
+                _jointTransforms.Add(joint.name, joint);
+            }
 
-                var param = new JointParameter(joint);
-                dictionary.Add(joint.name, param);
-
-                //                var rigidBody = joint.gameObject.AddComponent<Rigidbody>();
-                //                rigidBody.useGravity = false;
-
+            foreach (var jointTableEntity in jointController.JointTableEntities)
+            {
+                foreach (var jointItem in jointTableEntity.JointItems)
+                {
+                    if (!dictionary.ContainsKey(jointItem.JointName))
+                    {
+                        var param = new JointParameter(FindJoint(jointItem.JointName));
+                        dictionary.Add(param.Name, param);
+                    }
+                }
             }
         }
 
@@ -262,14 +269,12 @@ namespace XFlag.Alter3Simulator
 
         protected Transform FindJoint(string name)
         {
-            var trans = dictionary[name].Transform;
-            return trans;
+            return _jointTransforms[name];
         }
 
         protected JointParameter FindJointParameter(string name)
         {
-            var param = dictionary[name];
-            return param;
+            return dictionary[name];
         }
 
         protected void UpdateJointParameter()

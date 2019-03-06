@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace XFlag.Alter3Simulator
 {
@@ -7,6 +8,8 @@ namespace XFlag.Alter3Simulator
     {
         [SerializeField]
         JointTable jointTable = null;
+
+        public IReadOnlyList<JointTableEntity> JointTableEntities => jointTable.List;
 
         public JointItem[] GetItem(int axisNum)
         {

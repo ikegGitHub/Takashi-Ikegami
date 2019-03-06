@@ -28,7 +28,7 @@ namespace XFlag.Alter3Simulator
         private TMP_InputField _portInputField = null;
 
         [SerializeField]
-        private TMP_Text _clientListText = null;
+        private ClientConnectionListView _clientConnectionListView = null;
 
         [SerializeField]
         private ServerToggleView _serverToggle = null;
@@ -85,7 +85,7 @@ namespace XFlag.Alter3Simulator
         {
             Assert.IsNotNull(_sampleConfig);
             Assert.IsNotNull(_serverStatusText);
-            Assert.IsNotNull(_clientListText);
+            Assert.IsNotNull(_clientConnectionListView);
             Assert.IsNotNull(_serverToggle);
             Assert.IsNotNull(_robot);
             Assert.IsNotNull(_logFileLocation);
@@ -274,24 +274,16 @@ namespace XFlag.Alter3Simulator
             _serverStatusText.text = "server stopped";
         }
 
-        private void UpdateClientListText()
-        {
-            _context.Post(state =>
-            {
-                _clientListText.text = _coreSystem.Clients.Aggregate("", (str, c) => $"{str}\n{c}");
-            }, null);
-        }
-
         private void OnClientConnected(uint clientId, IPEndPoint ipEndPoint)
         {
             _coreSystem.RegisterClient(clientId, ipEndPoint.Address, ClientType.User);
-            UpdateClientListText();
+            _context.Post(state => _clientConnectionListView.Add(clientId, ipEndPoint), null);
         }
 
         private void OnClientDisconnected(uint clientId)
         {
             _coreSystem.UnregisterClient(clientId);
-            UpdateClientListText();
+            _context.Post(state => _clientConnectionListView.Remove(clientId), null);
         }
 
         private void OnReceived(RequestContext context)

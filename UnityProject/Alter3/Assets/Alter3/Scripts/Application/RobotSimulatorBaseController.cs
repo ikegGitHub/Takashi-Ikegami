@@ -331,6 +331,8 @@ namespace XFlag.Alter3Simulator
 
             _axisViewLists.TryGetValue(axisNum, out var axisViews);
 
+            var t = value / 255f;
+
             foreach (var item in jointItem)
             {
                 var param = FindJointParameter(item.JointName);
@@ -338,7 +340,6 @@ namespace XFlag.Alter3Simulator
                 //                param.BeforeValue = param.CurrentValue;
                 //               param.CurrentValue = value;
 
-                var t = value / 255f;
                 var ang = Mathf.Lerp(item.rangeMin, item.rangeMax, t);
 
 
@@ -391,16 +392,15 @@ namespace XFlag.Alter3Simulator
                 param.NextQuat = qx * qz * qy;
                 param.NextRotation = new Vector3(ax, ay, az);
                 //                param.CurrentRotation = param.NextRotation;
-
-                if (axisViews != null)
-                {
-                    foreach (var axisView in axisViews)
-                    {
-                        axisView.CurrentAngleRatio = t;
-                    }
-                }
             }
 
+            if (axisViews != null)
+            {
+                foreach (var axisView in axisViews)
+                {
+                    axisView.CurrentAngleRatio = t;
+                }
+            }
             _axisValues[axisNum] = value;
         }
 

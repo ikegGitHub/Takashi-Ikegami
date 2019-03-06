@@ -63,7 +63,7 @@ namespace XFlag.Alter3Simulator
         private readonly Dictionary<int, float> _axisValues = new Dictionary<int, float>();
         private readonly Dictionary<int, AxisRangeView[]> _axisViewLists = new Dictionary<int, AxisRangeView[]>();
 
-        List<CollisionEventController> collisionEventLists = new List<CollisionEventController>();
+        private readonly List<CollisionEventController> collisionEventLists = new List<CollisionEventController>();
 
         private readonly Vector3[] _positions = new Vector3[3];
 

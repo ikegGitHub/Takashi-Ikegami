@@ -14,6 +14,8 @@ namespace XFlag.Alter3Simulator
         protected GameObject rigidBodyPredab = null;
 
 
+
+
         protected List<Alter3RigidBodyController> rigidlists = new List<Alter3RigidBodyController>();
 
 

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d66c4f690f7f6b4d82349bde17f939a, type: 3}
   m_Name: BuildInfoData
   m_EditorClassIdentifier: 
-  BuildDateString: 2019-03-06 18:45:51
-  OperatingSystem: Microsoft Windows NT 10.0.17134.0
+  BuildDateString: 
+  OperatingSystem: 

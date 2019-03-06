@@ -148,6 +148,7 @@ namespace XFlag.Alter3Simulator
             _controlPanelView.OnEnableEyeCameraChanged += isOn => _setting.EnableEyeCamera = isOn;
             _controlPanelView.OnEnableFaceCameraChanged += isOn => _setting.EnableFaceCamera = isOn;
             _controlPanelView.OnEnableCollisionCheckChanged += isOn => _setting.EnableCollisionCheck = isOn;
+            _controlPanelView.OnEnableClothModelChanged += isOn => _setting.EnableClothModel = isOn;
             _controlPanelView.OnResetCameraButtonClicked += () => _cameraController.ResetPosition();
             _controlPanelView.OnResetPositionButtonClicked += () => _robot.ResetAxes();
 
@@ -166,6 +167,11 @@ namespace XFlag.Alter3Simulator
                 _robot.SetCollisionCheckEnabled(enabled);
                 _controlPanelView.EnableCollisionCheck = enabled;
             };
+            _setting.OnEnableClothModelChanged += enabled =>
+            {
+                _robot.SetClothModelEnabled(enabled);
+                _controlPanelView.EnableClothModel = enabled;
+            };
 
             _eyeCameraScreen.SetActive(_setting.EnableEyeCamera);
             _controlPanelView.EnableEyeCamera = _setting.EnableEyeCamera;
@@ -175,6 +181,10 @@ namespace XFlag.Alter3Simulator
 
             _robot.SetCollisionCheckEnabled(_setting.EnableCollisionCheck);
             _controlPanelView.EnableCollisionCheck = _setting.EnableCollisionCheck;
+
+            _robot.SetClothModelEnabled(_setting.EnableClothModel);
+            _controlPanelView.EnableClothModel = _setting.EnableClothModel;
+
         }
 
         private void Update()

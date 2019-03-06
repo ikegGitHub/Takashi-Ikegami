@@ -33,7 +33,9 @@ namespace XFlag.Alter3Simulator
 
         private void Awake()
         {
-            Assert.IsNotNull(_camera = GetComponent<Camera>());
+            _camera = GetComponent<Camera>();
+
+            Assert.IsNotNull(_camera);
             Assert.IsTrue(_frameInterval >= 1);
 
             _buffer = new RenderTexture(_resolution.x, _resolution.y, 24, RenderTextureFormat.ARGB32);

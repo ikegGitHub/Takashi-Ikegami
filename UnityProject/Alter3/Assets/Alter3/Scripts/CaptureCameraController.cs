@@ -13,6 +13,7 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private int _frameInterval = 3;
 
+        private bool _enabled;
         private Camera _camera;
         private RenderTexture _buffer;
 
@@ -20,11 +21,13 @@ namespace XFlag.Alter3Simulator
         {
             get
             {
-                return gameObject.activeSelf;
+                return _enabled;
             }
             set
             {
-                gameObject.SetActive(value);
+                _enabled = value;
+                _camera.enabled = _enabled;
+                enabled = _enabled;
             }
         }
 

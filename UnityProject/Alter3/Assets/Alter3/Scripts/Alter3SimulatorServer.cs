@@ -69,6 +69,9 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private ControlPanelView _controlPanelView = null;
 
+        [SerializeField]
+        private CaptureCameraController _captureCameraController = null;
+
         private ILogger _logger;
 
         private IDictionary<string, string> _config;
@@ -95,6 +98,7 @@ namespace XFlag.Alter3Simulator
             Assert.IsNotNull(_cameraController);
             Assert.IsNotNull(_faceCameraController);
             Assert.IsNotNull(_axisControlPanel);
+            Assert.IsNotNull(_captureCameraController);
 
             _context = SynchronizationContext.Current;
 
@@ -149,6 +153,7 @@ namespace XFlag.Alter3Simulator
             _controlPanelView.OnEnableFaceCameraChanged += isOn => _setting.EnableFaceCamera = isOn;
             _controlPanelView.OnEnableCollisionCheckChanged += isOn => _setting.EnableCollisionCheck = isOn;
             _controlPanelView.OnEnableClothModelChanged += isOn => _setting.EnableClothModel = isOn;
+            _controlPanelView.OnCaptureScreenChanged += isOn => _setting.CaptureScreen = isOn;
             _controlPanelView.OnResetCameraButtonClicked += () => _cameraController.ResetPosition();
             _controlPanelView.OnResetPositionButtonClicked += () => _robot.ResetAxes();
 
@@ -172,6 +177,10 @@ namespace XFlag.Alter3Simulator
                 _robot.SetClothModelEnabled(enabled);
                 _controlPanelView.EnableClothModel = enabled;
             };
+            _setting.OnCaptureScreenChanged += enabled =>
+            {
+                _captureCameraController.Enabled = enabled;
+            };
 
             _eyeCameraScreen.SetActive(_setting.EnableEyeCamera);
             _controlPanelView.EnableEyeCamera = _setting.EnableEyeCamera;
@@ -185,6 +194,8 @@ namespace XFlag.Alter3Simulator
             _robot.SetClothModelEnabled(_setting.EnableClothModel);
             _controlPanelView.EnableClothModel = _setting.EnableClothModel;
 
+            _captureCameraController.Enabled = _setting.CaptureScreen;
+            _controlPanelView.CaptureScreen = _setting.CaptureScreen;
         }
 
         private void Update()

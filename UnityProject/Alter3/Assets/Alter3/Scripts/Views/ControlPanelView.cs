@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.UI;
 
 namespace XFlag.Alter3Simulator
@@ -20,6 +21,9 @@ namespace XFlag.Alter3Simulator
         private Toggle _enableClothModelToggle = null;
 
         [SerializeField]
+        private Toggle _captureScreenToggle = null;
+
+        [SerializeField]
         private Button _resetCameraButton = null;
 
         [SerializeField]
@@ -29,6 +33,7 @@ namespace XFlag.Alter3Simulator
         public event Action<bool> OnEnableFaceCameraChanged = delegate { };
         public event Action<bool> OnEnableCollisionCheckChanged = delegate { };
         public event Action<bool> OnEnableClothModelChanged = delegate { };
+        public event Action<bool> OnCaptureScreenChanged = delegate { };
         public event Action OnResetCameraButtonClicked = delegate { };
         public event Action OnResetPositionButtonClicked = delegate { };
 
@@ -80,13 +85,33 @@ namespace XFlag.Alter3Simulator
             }
         }
 
+        public bool CaptureScreen
+        {
+            get
+            {
+                return _captureScreenToggle.isOn;
+            }
+            set
+            {
+                _captureScreenToggle.isOn = value;
+            }
+        }
 
         private void Awake()
         {
+            Assert.IsNotNull(_enableEyeCameraToggle);
+            Assert.IsNotNull(_enableFaceCameraToggle);
+            Assert.IsNotNull(_enableCollisionCheckToggle);
+            Assert.IsNotNull(_enableClothModelToggle);
+            Assert.IsNotNull(_captureScreenToggle);
+            Assert.IsNotNull(_resetCameraButton);
+            Assert.IsNotNull(_resetPositionButton);
+
             _enableEyeCameraToggle.onValueChanged.AddListener(isOn => OnEnableEyeCameraChanged(isOn));
             _enableFaceCameraToggle.onValueChanged.AddListener(isOn => OnEnableFaceCameraChanged(isOn));
             _enableCollisionCheckToggle.onValueChanged.AddListener(isOn => OnEnableCollisionCheckChanged(isOn));
             _enableClothModelToggle.onValueChanged.AddListener(isOn => OnEnableClothModelChanged(isOn));
+            _captureScreenToggle.onValueChanged.AddListener(isOn => OnCaptureScreenChanged(isOn));
             _resetCameraButton.onClick.AddListener(() => OnResetCameraButtonClicked());
             _resetPositionButton.onClick.AddListener(() => OnResetPositionButtonClicked());
         }

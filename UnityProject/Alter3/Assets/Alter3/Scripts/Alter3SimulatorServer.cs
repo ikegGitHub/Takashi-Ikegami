@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -9,6 +10,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 using XFlag.Alter3Simulator.Network;
+using Debug = UnityEngine.Debug;
 
 namespace XFlag.Alter3Simulator
 {
@@ -156,6 +158,14 @@ namespace XFlag.Alter3Simulator
             _controlPanelView.OnCaptureScreenChanged += isOn => _setting.CaptureScreen = isOn;
             _controlPanelView.OnResetCameraButtonClicked += () => _cameraController.ResetPosition();
             _controlPanelView.OnResetPositionButtonClicked += () => _robot.ResetAxes();
+            _controlPanelView.OnOpenPersistentFolderButtonClicked += () =>
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = Application.persistentDataPath,
+                    UseShellExecute = true
+                });
+            };
 
             _setting.OnEnableEyeCameraChanged += enabled =>
             {

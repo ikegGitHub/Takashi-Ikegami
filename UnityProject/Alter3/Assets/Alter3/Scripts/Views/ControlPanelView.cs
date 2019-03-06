@@ -29,6 +29,9 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private Button _resetPositionButton = null;
 
+        [SerializeField]
+        private Button _openPersistentFolderButton = null;
+
         public event Action<bool> OnEnableEyeCameraChanged = delegate { };
         public event Action<bool> OnEnableFaceCameraChanged = delegate { };
         public event Action<bool> OnEnableCollisionCheckChanged = delegate { };
@@ -36,6 +39,7 @@ namespace XFlag.Alter3Simulator
         public event Action<bool> OnCaptureScreenChanged = delegate { };
         public event Action OnResetCameraButtonClicked = delegate { };
         public event Action OnResetPositionButtonClicked = delegate { };
+        public event Action OnOpenPersistentFolderButtonClicked = delegate { };
 
         public bool EnableEyeCamera
         {
@@ -106,6 +110,7 @@ namespace XFlag.Alter3Simulator
             Assert.IsNotNull(_captureScreenToggle);
             Assert.IsNotNull(_resetCameraButton);
             Assert.IsNotNull(_resetPositionButton);
+            Assert.IsNotNull(_openPersistentFolderButton);
 
             _enableEyeCameraToggle.onValueChanged.AddListener(isOn => OnEnableEyeCameraChanged(isOn));
             _enableFaceCameraToggle.onValueChanged.AddListener(isOn => OnEnableFaceCameraChanged(isOn));
@@ -114,6 +119,7 @@ namespace XFlag.Alter3Simulator
             _captureScreenToggle.onValueChanged.AddListener(isOn => OnCaptureScreenChanged(isOn));
             _resetCameraButton.onClick.AddListener(() => OnResetCameraButtonClicked());
             _resetPositionButton.onClick.AddListener(() => OnResetPositionButtonClicked());
+            _openPersistentFolderButton.onClick.AddListener(() => OnOpenPersistentFolderButtonClicked());
         }
     }
 }

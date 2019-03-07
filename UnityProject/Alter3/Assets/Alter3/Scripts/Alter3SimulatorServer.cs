@@ -124,15 +124,6 @@ namespace XFlag.Alter3Simulator
             };
             _systemCommandConnection.OnReceived += request =>
             {
-                switch (request.ReceivedString.ToUpper())
-                {
-                    case "GETHANDSPOS": // 両手の座標取得
-                        {
-                            var handsPositions = _robot.GetHandsPositionArray();
-                            request.ResponseLines = new string[] { $"{handsPositions[0].x} {handsPositions[0].y} {handsPositions[0].z} {handsPositions[1].x} {handsPositions[1].y} {handsPositions[1].z}" };
-                        }
-                        break;
-                }
             };
 
             _serverToggle.OnValueChanged += isOn => OnServerButtonClick(isOn);

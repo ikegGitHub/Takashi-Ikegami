@@ -118,11 +118,20 @@ namespace XFlag.Alter3Simulator
         {
             if (command.AxisNumber == 0)
             {
-                yield return _coreSystem.Axes.Aggregate("", (a, b) => $"{a} {b}");
+                var buf = new StringBuilder();
+                for (int i = 0; i < _coreSystem.Robot.AxisCount; ++i)
+                {
+                    if (i != 0)
+                    {
+                        buf.Append(' ');
+                    }
+                    buf.Append(_coreSystem.Robot.GetAxis(i + 1));
+                }
+                yield return buf.ToString();
             }
             else
             {
-                var axisValue = _coreSystem.GetAxis(command.AxisNumber);
+                var axisValue = _coreSystem.Robot.GetAxis(command.AxisNumber);
                 yield return axisValue.ToString();
             }
             yield return Response.OK;

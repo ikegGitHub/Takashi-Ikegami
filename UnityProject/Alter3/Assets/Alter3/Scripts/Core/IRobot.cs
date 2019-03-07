@@ -8,8 +8,14 @@ namespace XFlag.Alter3Simulator
     /// </summary>
     public interface IRobot
     {
+        int AxisCount { get; }
+
         void MoveAxis(AxisParam axisParam);
+
         void MoveAxes(AxisParam[] axisParams);
+
+        double GetAxis(int axisNumber);
+
         IReadOnlyList<Vector3> GetHandsPositionArray();
     }
 }

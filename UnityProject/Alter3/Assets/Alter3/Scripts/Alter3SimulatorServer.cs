@@ -76,7 +76,7 @@ namespace XFlag.Alter3Simulator
         private ILogger _logger;
 
         private IDictionary<string, string> _config;
-        private CoreSystem _coreSystem = new CoreSystem(50);
+        private CoreSystem _coreSystem = new CoreSystem();
         private ConnectionManager _server;
         private ConnectionManager _systemCommandConnection;
         private SettingModel _setting = new SettingModel();

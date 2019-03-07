@@ -311,6 +311,7 @@ GameObject:
   - component: {fileID: 534669904}
   - component: {fileID: 534669903}
   - component: {fileID: 534669906}
+  - component: {fileID: 534669907}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -396,6 +397,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dragAreaView: {fileID: 111230634}
+--- !u!114 &534669907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534669902}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89c2af8546df652418ee26be70534d19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _resolution: {x: 256, y: 256}
+  _frameInterval: 3
+  _when: 17
 --- !u!114 &646026675 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6002450948864960187, guid: 86aad4c5e600480469464a5693e36686,

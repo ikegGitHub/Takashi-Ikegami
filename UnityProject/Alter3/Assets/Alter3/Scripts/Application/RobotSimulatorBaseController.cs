@@ -67,6 +67,8 @@ namespace XFlag.Alter3Simulator
 
         private readonly Vector3[] _positions = new Vector3[3];
 
+        public int AxisCount => _axes.Count;
+
         public void ResetAxes()
         {
             foreach (var axis in _axes.Values)
@@ -116,6 +118,11 @@ namespace XFlag.Alter3Simulator
         public float GetAxisValue(int axisNumber)
         {
             return FindAxisModelById(axisNumber).Value;
+        }
+
+        public double GetAxis(int axisNumber)
+        {
+            return GetAxisValue(axisNumber);
         }
 
         /// <summary>

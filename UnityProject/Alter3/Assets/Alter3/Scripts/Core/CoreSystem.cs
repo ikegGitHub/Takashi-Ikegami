@@ -13,19 +13,10 @@ namespace XFlag.Alter3Simulator
 
         public bool IsRecording { get; set; }
 
-        private double[] _axes;
-
-        public IReadOnlyList<double> Axes => _axes;
-
         /// <summary>
         /// 接続されているロボット。接続されていない場合は<code>null</code>。
         /// </summary>
         public IRobot Robot { get; set; }
-
-        public CoreSystem(int axisCount)
-        {
-            _axes = new double[axisCount];
-        }
 
         public void RegisterClient(uint clientId, IPAddress address, ClientType type)
         {
@@ -47,11 +38,6 @@ namespace XFlag.Alter3Simulator
         public Client GetClient(uint clientId)
         {
             return _clients[clientId];
-        }
-
-        public double GetAxis(int axisNumber)
-        {
-            return _axes[axisNumber - 1];
         }
     }
 }

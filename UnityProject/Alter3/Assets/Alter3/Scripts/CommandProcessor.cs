@@ -6,7 +6,7 @@ using XFlag.Alter3Simulator.Network;
 
 namespace XFlag.Alter3Simulator
 {
-    public class CommandProcessor : CommandVisitorBase<IEnumerable<string>>
+    public class CommandProcessor : CommandVisitorBase
     {
         private static readonly CommandParser _commandParser = new CommandParser();
 
@@ -21,100 +21,88 @@ namespace XFlag.Alter3Simulator
 
         public void ProcessCommand()
         {
-            _requestContext.ResponseLines = MakeResponse();
+            MakeResponse();
         }
 
-        private string[] MakeResponse()
+        private void MakeResponse()
         {
             try
             {
-                return _commandParser.ParseCommandLine(_requestContext.ReceivedString).AcceptVisitor(this).ToArray();
+                _commandParser.ParseCommandLine(_requestContext.ReceivedString).AcceptVisitor(this);
+                _requestContext.ResponseWriter.WriteLine(Response.OK);
             }
             catch (Exception e)
             {
-                return Response.MakeErrorResponse(e.Message);
+                _requestContext.ResponseWriter.WriteLine($"ERROR: {e.Message}");
             }
         }
 
-        public override IEnumerable<string> Visit(RecordMotionCommand command)
+        public override void Visit(RecordMotionCommand command)
         {
             _coreSystem.IsRecording = !command.IsStop;
-            yield return Response.OK;
         }
 
-        public override IEnumerable<string> Visit(IsRecordingMotionCommand command)
+        public override void Visit(IsRecordingMotionCommand command)
         {
-            yield return _coreSystem.IsRecording ? StatusText.Recording : StatusText.NotRecording;
-            yield return Response.OK;
+            _requestContext.ResponseWriter.WriteLine(_coreSystem.IsRecording ? StatusText.Recording : StatusText.NotRecording);
         }
 
-        public override IEnumerable<string> Visit(RobotInfoCommand command)
+        public override void Visit(RobotInfoCommand command)
         {
-            yield return "DummyRobot 0 0";
-            yield return Response.OK;
+            _requestContext.ResponseWriter.WriteLine("DummyRobot 0 0");
         }
 
-        public override IEnumerable<string> Visit(ResetPoseCommand command)
+        public override void Visit(ResetPoseCommand command)
         {
-            yield return Response.OK;
         }
 
-        public override IEnumerable<string> Visit(HelloCommand command)
+        public override void Visit(HelloCommand command)
         {
             _coreSystem.SetClientName(_requestContext.ClientId, command.ClientName);
-            yield return Response.OK;
         }
 
-        public override IEnumerable<string> Visit(QuitCommand command)
+        public override void Visit(QuitCommand command)
         {
             _requestContext.IsClose = true;
-            yield return Response.OK;
         }
 
-        public override IEnumerable<string> Visit(IsConnectedCommand command)
+        public override void Visit(IsConnectedCommand command)
         {
-            yield return _coreSystem.IsRobotConnected ? StatusText.Connected : StatusText.NotConnected;
-            yield return Response.OK;
+            _requestContext.ResponseWriter.WriteLine(_coreSystem.IsRobotConnected ? StatusText.Connected : StatusText.NotConnected);
         }
 
-        public override IEnumerable<string> Visit(ConnectRobotCommand command)
+        public override void Visit(ConnectRobotCommand command)
         {
             _coreSystem.IsRobotConnected = true;
-            yield return Response.OK;
         }
 
-        public override IEnumerable<string> Visit(DisconnectRobotCommand command)
+        public override void Visit(DisconnectRobotCommand command)
         {
             _coreSystem.IsRobotConnected = false;
-            yield return Response.OK;
         }
 
-        public override IEnumerable<string> Visit(PrintQueueCommand command)
+        public override void Visit(PrintQueueCommand command)
         {
-            yield return Response.OK;
         }
 
-        public override IEnumerable<string> Visit(ClearQueueCommand command)
+        public override void Visit(ClearQueueCommand command)
         {
-            yield return Response.OK;
         }
 
-        public override IEnumerable<string> Visit(WhoAmICommand command)
+        public override void Visit(WhoAmICommand command)
         {
-            yield return _coreSystem.GetClient(_requestContext.ClientId).ToString();
-            yield return Response.OK;
+            _requestContext.ResponseWriter.WriteLine(_coreSystem.GetClient(_requestContext.ClientId).ToString());
         }
 
-        public override IEnumerable<string> Visit(ClientsInfoCommand command)
+        public override void Visit(ClientsInfoCommand command)
         {
             foreach (var client in _coreSystem.Clients)
             {
-                yield return client.ToString();
+                _requestContext.ResponseWriter.WriteLine(client.ToString());
             }
-            yield return Response.OK;
         }
 
-        public override IEnumerable<string> Visit(GetAxisCommand command)
+        public override void Visit(GetAxisCommand command)
         {
             if (command.AxisNumber == 0)
             {
@@ -127,47 +115,40 @@ namespace XFlag.Alter3Simulator
                     }
                     buf.Append(_coreSystem.Robot.GetAxis(i + 1));
                 }
-                yield return buf.ToString();
+                _requestContext.ResponseWriter.WriteLine(buf.ToString());
             }
             else
             {
                 var axisValue = _coreSystem.Robot.GetAxis(command.AxisNumber);
-                yield return axisValue.ToString();
+                _requestContext.ResponseWriter.WriteLine(axisValue.ToString());
             }
-            yield return Response.OK;
         }
 
-        public override IEnumerable<string> Visit(AppendAxisCommand command)
+        public override void Visit(AppendAxisCommand command)
         {
-            yield return Response.OK;
         }
 
-        public override IEnumerable<string> Visit(AddAxisCommand command)
+        public override void Visit(AddAxisCommand command)
         {
-            yield return Response.OK;
         }
 
-        public override IEnumerable<string> Visit(MoveAxisCommand command)
+        public override void Visit(MoveAxisCommand command)
         {
             _coreSystem.Robot.MoveAxis(command.Param);
-            yield return Response.OK;
         }
 
-        public override IEnumerable<string> Visit(MoveAxesCommand command)
+        public override void Visit(MoveAxesCommand command)
         {
             _coreSystem.Robot.MoveAxes(command.Params);
-            yield return Response.OK;
         }
 
-        public override IEnumerable<string> Visit(PlayMotionCommand command)
+        public override void Visit(PlayMotionCommand command)
         {
-            yield return Response.OK;
         }
 
-        public override IEnumerable<string> Visit(GetPositionsCommand command)
+        public override void Visit(GetPositionsCommand command)
         {
             var positions = _coreSystem.Robot.GetHandsPositionArray();
-            var buf = new StringBuilder();
             var first = true;
             foreach (var position in positions)
             {
@@ -177,22 +158,20 @@ namespace XFlag.Alter3Simulator
                 }
                 else
                 {
-                    buf.Append(' ');
+                    _requestContext.ResponseWriter.Write(' ');
                 }
 
-                buf.Append(position.x);
-                buf.Append(' ');
-                buf.Append(position.y);
-                buf.Append(' ');
-                buf.Append(position.z);
+                _requestContext.ResponseWriter.Write(position.x);
+                _requestContext.ResponseWriter.Write(' ');
+                _requestContext.ResponseWriter.Write(position.y);
+                _requestContext.ResponseWriter.Write(' ');
+                _requestContext.ResponseWriter.Write(position.z);
             }
-            yield return buf.ToString();
-            yield return Response.OK;
+            _requestContext.ResponseWriter.WriteLine();
         }
 
-        protected internal override IEnumerable<string> Default(ICommand command)
+        protected internal override void Default(ICommand command)
         {
-            yield return Response.OK;
         }
     }
 }

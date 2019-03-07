@@ -1,4 +1,7 @@
-﻿namespace XFlag.Alter3Simulator.Network
+﻿using System.IO;
+using System.Text;
+
+namespace XFlag.Alter3Simulator.Network
 {
     public class RequestContext
     {
@@ -10,13 +13,14 @@
 
         public string EndPointString { get; }
 
-        public string[] ResponseLines { get; set; }
+        public TextWriter ResponseWriter { get; }
 
-        public RequestContext(uint clientId, string endPointString, string receivedString)
+        public RequestContext(uint clientId, string endPointString, string receivedString, Stream responseStream)
         {
             ClientId = clientId;
             EndPointString = endPointString;
             ReceivedString = receivedString;
+            ResponseWriter = new StreamWriter(responseStream, Encoding.ASCII);
         }
     }
 }

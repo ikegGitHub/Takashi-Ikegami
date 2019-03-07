@@ -41,7 +41,6 @@ namespace XFlag.Alter3Simulator
         {
             if (Time.frameCount % _frameInterval == 0)
             {
-                //SaveCapturedImage(ConvertToPNG(_buffer));
                 RequestCopyRenderTexture(_buffer);
             }
         }
@@ -125,21 +124,6 @@ namespace XFlag.Alter3Simulator
                     SaveCapturedImage(bytes);
                 }
             });
-        }
-
-        private static byte[] ConvertToPNG(RenderTexture renderTexture)
-        {
-            var currentRenderTexture = RenderTexture.active;
-            RenderTexture.active = renderTexture;
-            var tex = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGB24, false);
-            tex.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
-            tex.Apply();
-            RenderTexture.active = currentRenderTexture;
-
-            var bytes = tex.EncodeToPNG();
-            Destroy(tex);
-
-            return bytes;
         }
 
         private static void SaveCapturedImage(byte[] bytes)

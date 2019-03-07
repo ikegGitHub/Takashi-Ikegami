@@ -19,11 +19,6 @@ namespace XFlag.Alter3Simulator
 
         public void ProcessCommand()
         {
-            MakeResponse();
-        }
-
-        private void MakeResponse()
-        {
             try
             {
                 var command = _commandParser.ParseCommandLine(_requestContext.ReceivedString);

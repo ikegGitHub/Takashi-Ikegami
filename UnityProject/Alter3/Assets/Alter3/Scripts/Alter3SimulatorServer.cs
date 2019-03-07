@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Threading;
 using TMPro;
@@ -72,7 +71,7 @@ namespace XFlag.Alter3Simulator
         private ControlPanelView _controlPanelView = null;
 
         [SerializeField]
-        private CaptureCameraController _captureCameraController = null;
+        private ScreenCaptureCommandBuffer _screenCaptureCommandBuffer = null;
 
         private ILogger _logger;
 
@@ -100,7 +99,7 @@ namespace XFlag.Alter3Simulator
             Assert.IsNotNull(_cameraController);
             Assert.IsNotNull(_faceCameraController);
             Assert.IsNotNull(_axisControlPanel);
-            Assert.IsNotNull(_captureCameraController);
+            Assert.IsNotNull(_screenCaptureCommandBuffer);
 
             _context = SynchronizationContext.Current;
 
@@ -189,7 +188,7 @@ namespace XFlag.Alter3Simulator
             };
             _setting.OnCaptureScreenChanged += enabled =>
             {
-                _captureCameraController.Enabled = enabled;
+                _screenCaptureCommandBuffer.enabled = enabled;
             };
 
             _eyeCameraScreen.SetActive(_setting.EnableEyeCamera);
@@ -204,7 +203,7 @@ namespace XFlag.Alter3Simulator
             _robot.SetClothModelEnabled(_setting.EnableClothModel);
             _controlPanelView.EnableClothModel = _setting.EnableClothModel;
 
-            _captureCameraController.Enabled = _setting.CaptureScreen;
+            _screenCaptureCommandBuffer.enabled = _setting.CaptureScreen;
             _controlPanelView.CaptureScreen = _setting.CaptureScreen;
         }
 

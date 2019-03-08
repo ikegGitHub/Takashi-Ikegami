@@ -22,6 +22,7 @@ namespace XFlag.Alter3Simulator
             try
             {
                 var command = _commandParser.ParseCommandLine(_requestContext.ReceivedString);
+                ProcessCommand(command);
                 _requestContext.ResponseWriter.WriteLine(Response.OK);
             }
             catch (Exception e)
@@ -88,16 +89,15 @@ namespace XFlag.Alter3Simulator
                 case GetAxisCommand command:
                     if (command.AxisNumber == 0)
                     {
-                        var buf = new StringBuilder();
                         for (int i = 0; i < _coreSystem.Robot.AxisCount; ++i)
                         {
                             if (i != 0)
                             {
-                                buf.Append(' ');
+                                _requestContext.ResponseWriter.Write(' ');
                             }
-                            buf.Append(_coreSystem.Robot.GetAxis(i + 1));
+                            _requestContext.ResponseWriter.Write(_coreSystem.Robot.GetAxis(i + 1));
                         }
-                        _requestContext.ResponseWriter.WriteLine(buf.ToString());
+                        _requestContext.ResponseWriter.WriteLine();
                     }
                     else
                     {

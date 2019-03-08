@@ -74,6 +74,9 @@ namespace XFlag.Alter3Simulator.Network
 
         private async Task WaitForRequestAsync()
         {
+            var buffer = new MemoryStream(128);
+            var responseWriter = new StreamWriter(buffer, Encoding);
+
             using (var stream = _tcpClient.GetStream())
             using (var reader = new StreamReader(stream, Encoding))
             using (var writer = new StreamWriter(stream, Encoding))
@@ -89,15 +92,14 @@ namespace XFlag.Alter3Simulator.Network
 
                     EnqueueLog(line);
 
-                    var requestContext = new RequestContext(Id, RemoteEndPointString, line);
-                    _onRequest(requestContext);
 
-                    foreach (var responseLine in requestContext.ResponseLines)
-                    {
-                        Logger?.Log($"[{Id}](res) {responseLine}");
-                        writer.WriteLine(responseLine);
-                    }
-                    writer.Flush();
+                    buffer.SetLength(0);
+                    var requestContext = new RequestContext(Id, RemoteEndPointString, line, responseWriter);
+                    _onRequest(requestContext);
+                    responseWriter.Flush();
+
+                    buffer.WriteTo(stream);
+                    stream.Flush();
 
                     if (requestContext.IsClose)
                     {

@@ -611,7 +611,6 @@ MonoBehaviour:
   _faceCameraController: {fileID: 1916106261}
   _axisControlPanel: {fileID: 1576888829}
   _playData: {fileID: 4900000, guid: fb0a8dff4842dba47a0df97f9b8ad9b7, type: 3}
-  _systemPortInputField: {fileID: 1553958282}
   _controlPanelView: {fileID: 518607605}
   _screenCaptureCommandBuffer: {fileID: 534669907}
 --- !u!4 &1532764322
@@ -628,18 +627,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1553958282 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8919149317542762110, guid: 86aad4c5e600480469464a5693e36686,
-    type: 3}
-  m_PrefabInstance: {fileID: 3883498528638316141}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1576888829 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3171925924860765523, guid: c6f3faf008903be498553018f04316dc,

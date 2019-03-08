@@ -65,9 +65,6 @@ namespace XFlag.Alter3Simulator
         private TextAsset _playData = null;
 
         [SerializeField]
-        private TMP_InputField _systemPortInputField = null;
-
-        [SerializeField]
         private ControlPanelView _controlPanelView = null;
 
         [SerializeField]
@@ -78,7 +75,6 @@ namespace XFlag.Alter3Simulator
         private IDictionary<string, string> _config;
         private CoreSystem _coreSystem = new CoreSystem();
         private ConnectionManager _server;
-        private ConnectionManager _systemCommandConnection;
         private SettingModel _setting = new SettingModel();
 
         private SynchronizationContext _context;
@@ -117,14 +113,6 @@ namespace XFlag.Alter3Simulator
             _server.OnConnected += OnClientConnected;
             _server.OnDisconnected += OnClientDisconnected;
             _server.OnReceived += OnReceived;
-
-            _systemCommandConnection = new ConnectionManager(new IncrementalSequencer())
-            {
-                Logger = _logger
-            };
-            _systemCommandConnection.OnReceived += request =>
-            {
-            };
 
             _serverToggle.OnValueChanged += isOn => OnServerButtonClick(isOn);
 
@@ -220,7 +208,6 @@ namespace XFlag.Alter3Simulator
         private void OnDestroy()
         {
             _server.StopServer();
-            _systemCommandConnection.StopServer();
             StopPlayerData();
         }
 
@@ -282,15 +269,11 @@ namespace XFlag.Alter3Simulator
             var port = ushort.Parse(_portInputField.text);
             _server.StartServerAsync(_listenAddress, port);
 
-            var systemPort = ushort.Parse(_systemPortInputField.text);
-            _systemCommandConnection.StartServerAsync("0.0.0.0", systemPort);
-
-            _serverStatusText.text = $"server started {_listenAddress}:{port} / system port = {systemPort}";
+            _serverStatusText.text = $"server started {_listenAddress}:{port}";
         }
 
         private void StopServer()
         {
-            _systemCommandConnection.StopServer();
             _server.StopServer();
             _serverStatusText.text = "server stopped";
         }

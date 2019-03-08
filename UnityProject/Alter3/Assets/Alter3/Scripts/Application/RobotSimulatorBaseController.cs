@@ -58,7 +58,7 @@ namespace XFlag.Alter3Simulator
             get { return this.eyeCameraRight; }
         }
 
-        protected readonly Dictionary<string, JointParameter> dictionary = new Dictionary<string, JointParameter>();
+        protected readonly List<JointParameter> _jointParameters = new List<JointParameter>();
 
         protected readonly Dictionary<string, PositionMarkerController> positionMarkers = new Dictionary<string, PositionMarkerController>();
 
@@ -200,11 +200,8 @@ namespace XFlag.Alter3Simulator
 
                 foreach (var jointItem in jointTableEntity.JointItems)
                 {
-                    if (!dictionary.TryGetValue(jointItem.JointName, out var param))
-                    {
-                        param = new JointParameter(jointItem, FindJoint(jointItem.JointName));
-                        dictionary.Add(param.Name, param);
-                    }
+                    var param = new JointParameter(jointItem, FindJoint(jointItem.JointName));
+                    _jointParameters.Add(param);
                     axis.Joints.Add(param);
                 }
 
@@ -295,7 +292,7 @@ namespace XFlag.Alter3Simulator
         protected void UpdateJointParameter()
         {
             var dt = Time.deltaTime;
-            foreach (var param in dictionary.Values)
+            foreach (var param in _jointParameters)
             {
                 param.Update(spring, damper, dt);
 

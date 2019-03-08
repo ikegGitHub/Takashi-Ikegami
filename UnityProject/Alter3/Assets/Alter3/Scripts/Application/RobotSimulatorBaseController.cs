@@ -273,7 +273,7 @@ namespace XFlag.Alter3Simulator
 
         private void EnableUpdateWhenOffscreenForAllRenderers()
         {
-            foreach (var renderer in modelRoot.GetComponentsInChildren<SkinnedMeshRenderer>())
+            foreach (var renderer in GetComponentsInChildren<SkinnedMeshRenderer>())
             {
                 renderer.updateWhenOffscreen = true;
             }

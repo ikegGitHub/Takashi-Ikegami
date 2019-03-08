@@ -7,65 +7,67 @@ namespace XFlag.Alter3Simulator
     {
         private const int PriorityMax = 10000;
 
+        private readonly List<string> _splitBuffer = new List<string>(8);
+
         public ICommand ParseCommandLine(string line)
         {
-            var args = Split(line);
-            if (args.Length == 0)
+            Split(line, _splitBuffer);
+            if (_splitBuffer.Count == 0)
             {
                 throw new ApplicationException("invalid command line");
             }
 
-            var command = args[0].ToUpper();
+            var command = _splitBuffer[0].ToUpper();
             switch (command)
             {
                 case "ADDAXIS": // <<ADDAXIS>> ::= "ADDAXIS" <<GENERIC_PARAMS>>
-                    return CommandFactory.CreateAddAxisCommand(ParseGenericAxisArgs(args));
+                    return CommandFactory.CreateAddAxisCommand(ParseGenericAxisArgs(_splitBuffer));
                 case "APPENDAXIS": // <<APPENDAXIS>> ::= "APPENDAXIS" <<GENERIC_PARAMS>>
-                    return CommandFactory.CreateAppendAxisCommand(ParseGenericAxisArgs(args));
+                    return CommandFactory.CreateAppendAxisCommand(ParseGenericAxisArgs(_splitBuffer));
                 case "GETAXIS": // <<GETAXIS>> ::= "GETAXIS" [<AXIS_NUM>]
-                    if (args.Length == 1)
+                    if (_splitBuffer.Count == 1)
                     {
                         return CommandFactory.CreateGetAxisCommand(0);
                     }
-                    else if (args.Length == 2)
+                    else if (_splitBuffer.Count == 2)
                     {
-                        var axisNum = ParseAxisNum(args[1]);
+                        var axisNum = ParseAxisNum(_splitBuffer[1]);
                         return CommandFactory.CreateGetAxisCommand(axisNum);
                     }
                     break;
                 case "HELLO": // <<HELLO>> ::= "HELLO" <STRING>
-                    return CommandFactory.CreateHelloCommand(args[1]);
+                    return CommandFactory.CreateHelloCommand(_splitBuffer[1]);
                 case "HELP":
                     return CommandFactory.CreateHelpCommand();
                 case "MOVEAXIS": // <<MOVEAXIS>> ::= "MOVEAXIS" <<GENERIC_PARAMS>>
-                    return CommandFactory.CreateMoveAxisCommand(ParseGenericAxisArgs(args));
+                    return CommandFactory.CreateMoveAxisCommand(ParseGenericAxisArgs(_splitBuffer));
                 case "MOVEAXES": // <<MOVEAXES>> ::= "MOVEAXES" <<MOVEAXES_PARAMS>> {<<MOVEAXES_PARAMS>>}
-                    return CommandFactory.CreateMoveAxesCommand(ParseMultipleAxisArgs(args));
+                    return CommandFactory.CreateMoveAxesCommand(ParseMultipleAxisArgs(_splitBuffer));
                 case "NOOP":
                     return CommandFactory.CreateNoopCommand();
                 case "PLAYMOTION": // <<PLAYMOTION>> ::= "PLAYMOTION" ["CLEAR"] <STRING> [<PRIORITY>]
                     var offset = 0;
                     var clear = false;
-                    if (args[1].ToUpper() == "CLEAR")
+                    if (_splitBuffer[1].ToUpper() == "CLEAR")
                     {
                         ++offset;
                         clear = true;
                     }
-                    var path = args[offset + 1];
+                    var path = _splitBuffer[offset + 1];
                     var priority = 0;
-                    if (offset + 2 < args.Length)
+                    if (offset + 2 < _splitBuffer.Count)
                     {
-                        priority = ParsePriority(args[offset + 2]);
+                        priority = ParsePriority(_splitBuffer[offset + 2]);
                     }
                     return CommandFactory.CreatePlayMotionCommand(clear, path, priority);
                 case "PRINTQUEUE": // <<PRINTQUEUE>> ::= "PRINTQUEUE" [<AXIS_NUM>]
-                    if (args.Length == 1)
+                    if (_splitBuffer.Count == 1)
                     {
                         return CommandFactory.CreatePrintQueueCommand(0);
                     }
-                    else if (args.Length == 2)
+                    else if (_splitBuffer.Count == 2)
                     {
-                        var axisNum = ParseAxisNum(args[1]);
+                        var axisNum = ParseAxisNum(_splitBuffer[1]);
                         return CommandFactory.CreatePrintQueueCommand(axisNum);
                     }
                     break;
@@ -73,13 +75,13 @@ namespace XFlag.Alter3Simulator
                 case "BYE": // <<QUIT_BYE>> ::= "QUIT" | "BYE"
                     return CommandFactory.CreateQuitCommand();
                 case "CLEARQUEUE": // <<CLEARQUEUE>> ::= "CLEARQUEUE" [<AXIS_NUM>]
-                    if (args.Length == 1)
+                    if (_splitBuffer.Count == 1)
                     {
                         return CommandFactory.CreateClearQueueCommand(0);
                     }
-                    else if (args.Length == 2)
+                    else if (_splitBuffer.Count == 2)
                     {
-                        var axisNum = ParseAxisNum(args[1]);
+                        var axisNum = ParseAxisNum(_splitBuffer[1]);
                         return CommandFactory.CreateClearQueueCommand(axisNum);
                     }
                     break;
@@ -94,7 +96,7 @@ namespace XFlag.Alter3Simulator
                 case "ISRECORDINGMOTION":
                     return CommandFactory.CreateIsRecordingMotionCommand();
                 case "RECORDMOTION": // <<RECORDMOTION>> ::= "RECORDMOTION" ("START" | "STOP")
-                    switch (args[1].ToUpper())
+                    switch (_splitBuffer[1].ToUpper())
                     {
                         case "START":
                             return CommandFactory.CreateRecordMotionCommand(false);
@@ -117,14 +119,14 @@ namespace XFlag.Alter3Simulator
             throw new ApplicationException($"unknown command: '{command}'");
         }
 
-        private AxisParam[] ParseMultipleAxisArgs(string[] args)
+        private AxisParam[] ParseMultipleAxisArgs(IReadOnlyList<string> args)
         {
-            if (args.Length < 5 || (args.Length - 1) % 4 != 0)
+            if (args.Count < 5 || (args.Count - 1) % 4 != 0)
             {
                 throw new ApplicationException("invalid count");
             }
 
-            var axisParams = new AxisParam[(args.Length - 1) / 4];
+            var axisParams = new AxisParam[(args.Count - 1) / 4];
             for (int i = 0; i < axisParams.Length; ++i)
             {
                 var k = 1 + 4 * i;
@@ -133,9 +135,9 @@ namespace XFlag.Alter3Simulator
             return axisParams;
         }
 
-        private AxisParam ParseGenericAxisArgs(string[] args)
+        private AxisParam ParseGenericAxisArgs(IReadOnlyList<string> args)
         {
-            switch (args.Length)
+            switch (args.Count)
             {
                 case 3:
                     return ParseAxisArgs(args[1], args[2]);
@@ -151,8 +153,7 @@ namespace XFlag.Alter3Simulator
         {
             var axisNum = ParseAxisNum(arg0);
 
-            double value;
-            if (!double.TryParse(arg1, out value))
+            if (!double.TryParse(arg1, out var value))
             {
                 throw new ApplicationException($"VALUE invalid format: {arg1}");
             }
@@ -174,8 +175,7 @@ namespace XFlag.Alter3Simulator
 
         private int ParseAxisNum(string s)
         {
-            int axisNum;
-            if (!int.TryParse(s, out axisNum))
+            if (!int.TryParse(s, out var axisNum))
             {
                 throw new ApplicationException($"AXIS_NUM invalid format: {s}");
             }
@@ -188,8 +188,7 @@ namespace XFlag.Alter3Simulator
 
         private int ParsePriority(string s)
         {
-            int priority;
-            if (!int.TryParse(s, out priority))
+            if (!int.TryParse(s, out var priority))
             {
                 throw new ApplicationException($"PRIORITY invalid format: {s}");
             }
@@ -202,8 +201,7 @@ namespace XFlag.Alter3Simulator
 
         private int ParseDuration(string s)
         {
-            int duration;
-            if (!int.TryParse(s, out duration))
+            if (!int.TryParse(s, out var duration))
             {
                 throw new ApplicationException($"DURATION invalid format: {s}");
             }
@@ -214,9 +212,9 @@ namespace XFlag.Alter3Simulator
             return duration;
         }
 
-        private string[] Split(string line)
+        private static void Split(string line, IList<string> splitResult)
         {
-            var args = new List<string>(8);
+            splitResult.Clear();
 
             int pos = 0;
 
@@ -232,7 +230,7 @@ namespace XFlag.Alter3Simulator
                 {
                     ++i;
                 }
-                args.Add(line.Substring(pos, i - pos));
+                splitResult.Add(line.Substring(pos, i - pos));
 
                 pos = i + 1;
                 while (pos < line.Length && char.IsWhiteSpace(line[pos]))
@@ -240,8 +238,6 @@ namespace XFlag.Alter3Simulator
                     ++pos;
                 }
             }
-
-            return args.ToArray();
         }
     }
 }

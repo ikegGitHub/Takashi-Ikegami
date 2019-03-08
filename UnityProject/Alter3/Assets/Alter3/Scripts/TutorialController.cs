@@ -1,26 +1,32 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.IO;
+using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 namespace XFlag.Alter3Simulator
 {
     [DisallowMultipleComponent]
     public class TutorialController : MonoBehaviour, IPointerClickHandler
     {
-        private const string FlagKey = "tutorialShown";
+        private const string FlagFileName = "tutorial_shown.txt";
 
         [SerializeField]
         private Animator _animator = null;
 
-        private void Awake()
+        private IEnumerator Start()
         {
-            var tutorialShownFlag = PlayerPrefs.GetInt(FlagKey, 0);
-            if (tutorialShownFlag == 0)
+            var path = Path.Combine(Application.persistentDataPath, FlagFileName);
+            if (File.Exists(path))
             {
-                PlayerPrefs.SetInt(FlagKey, 1);
+                Destroy(gameObject);
             }
             else
             {
-                Destroy(gameObject);
+                yield return new WaitUntil(() => SceneManager.GetActiveScene() == gameObject.scene);
+                yield return new WaitForSeconds(1.0f);
+                _animator.SetTrigger("Loaded");
+                File.WriteAllText(path, "If you want to view tutorial again, delete me!");
             }
         }
 

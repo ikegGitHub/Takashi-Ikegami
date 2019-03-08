@@ -76,11 +76,7 @@ namespace XFlag.Alter3Simulator
         {
             foreach (var axis in _axes.Values)
             {
-                axis.Value = 128;
-            }
-            foreach (var jointParameter in dictionary.Values)
-            {
-                jointParameter.NextRotation = jointParameter.DefaultRotation;
+                UpdateJoint(axis.Id, _initialAxisValueTable.GetValue(axis.Id));
             }
         }
 

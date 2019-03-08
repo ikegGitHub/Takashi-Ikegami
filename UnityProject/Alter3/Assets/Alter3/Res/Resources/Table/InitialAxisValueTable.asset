@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _defaultValue: 127
   _overrideValues:
-  - AxisNumber: 43
-    Value: 15
+  - _axisNumber: 43
+    _value: 15

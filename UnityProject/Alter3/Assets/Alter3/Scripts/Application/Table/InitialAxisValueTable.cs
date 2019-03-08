@@ -25,12 +25,17 @@ namespace XFlag.Alter3Simulator
         }
 
         [Serializable]
-        private struct OverrideValue
+        private class OverrideValue
         {
-            public int AxisNumber;
+            [SerializeField]
+            private int _axisNumber = 0;
 
-            [Range(0, 255)]
-            public float Value;
+            [SerializeField, Range(0, 255)]
+            private float _value = 127;
+
+            public int AxisNumber => _axisNumber;
+
+            public float Value => _value;
         }
     }
 }

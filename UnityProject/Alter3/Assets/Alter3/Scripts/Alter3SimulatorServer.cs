@@ -74,6 +74,7 @@ namespace XFlag.Alter3Simulator
 
         private IDictionary<string, string> _config;
         private CoreSystem _coreSystem = new CoreSystem();
+        private CommandProcessor _commandProcessor;
         private ConnectionManager _server;
         private SettingModel _setting = new SettingModel();
 
@@ -104,6 +105,8 @@ namespace XFlag.Alter3Simulator
             _logger = CreateLogger();
 
             _coreSystem.Robot = _robot;
+
+            _commandProcessor = new CommandProcessor(_coreSystem);
 
             _server = new ConnectionManager(new IncrementalSequencer())
             {
@@ -292,7 +295,7 @@ namespace XFlag.Alter3Simulator
 
         private void OnReceived(RequestContext context)
         {
-            new CommandProcessor(_coreSystem).ProcessCommand(context);
+            _commandProcessor.ProcessCommand(context);
         }
 
         private ILogger CreateLogger()

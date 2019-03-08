@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using XFlag.Alter3Simulator.Network;
 
 namespace XFlag.Alter3Simulator
@@ -9,29 +8,27 @@ namespace XFlag.Alter3Simulator
         private static readonly CommandParser _commandParser = new CommandParser();
 
         private CoreSystem _coreSystem;
-        private RequestContext _requestContext;
 
-        public CommandProcessor(CoreSystem coreSystem, RequestContext requestContext)
+        public CommandProcessor(CoreSystem coreSystem)
         {
             _coreSystem = coreSystem;
-            _requestContext = requestContext;
         }
 
-        public void ProcessCommand()
+        public void ProcessCommand(RequestContext requestContext)
         {
             try
             {
-                var command = _commandParser.ParseCommandLine(_requestContext.ReceivedString);
-                ProcessCommand(command);
-                _requestContext.ResponseWriter.WriteLine(Response.OK);
+                var command = _commandParser.ParseCommandLine(requestContext.ReceivedString);
+                ProcessCommand(requestContext, command);
+                requestContext.ResponseWriter.WriteLine(Response.OK);
             }
             catch (Exception e)
             {
-                _requestContext.ResponseWriter.WriteLine($"ERROR: {e.Message}");
+                requestContext.ResponseWriter.WriteLine($"ERROR: {e.Message.Replace("\r", "<CR>").Replace("\n", "<LF>")}");
             }
         }
 
-        private void ProcessCommand(ICommand originalCommand)
+        private void ProcessCommand(RequestContext requestContext, ICommand originalCommand)
         {
             switch (originalCommand)
             {
@@ -42,27 +39,27 @@ namespace XFlag.Alter3Simulator
                     break;
                 case IsRecordingMotionCommand _:
                     {
-                        _requestContext.ResponseWriter.WriteLine(_coreSystem.IsRecording ? StatusText.Recording : StatusText.NotRecording);
+                        requestContext.ResponseWriter.WriteLine(_coreSystem.IsRecording ? StatusText.Recording : StatusText.NotRecording);
                     }
                     break;
                 case RobotInfoCommand _:
                     {
-                        _requestContext.ResponseWriter.WriteLine("DummyRobot 0 0");
+                        requestContext.ResponseWriter.WriteLine("DummyRobot 0 0");
                     }
                     break;
                 case HelloCommand command:
                     {
-                        _coreSystem.SetClientName(_requestContext.ClientId, command.ClientName);
+                        _coreSystem.SetClientName(requestContext.ClientId, command.ClientName);
                     }
                     break;
                 case QuitCommand _:
                     {
-                        _requestContext.IsClose = true;
+                        requestContext.IsClose = true;
                     }
                     break;
                 case IsConnectedCommand _:
                     {
-                        _requestContext.ResponseWriter.WriteLine(_coreSystem.IsRobotConnected ? StatusText.Connected : StatusText.NotConnected);
+                        requestContext.ResponseWriter.WriteLine(_coreSystem.IsRobotConnected ? StatusText.Connected : StatusText.NotConnected);
                     }
                     break;
                 case ConnectRobotCommand _:
@@ -77,13 +74,13 @@ namespace XFlag.Alter3Simulator
                     break;
                 case WhoAmICommand _:
                     {
-                        _requestContext.ResponseWriter.WriteLine(_coreSystem.GetClient(_requestContext.ClientId).ToString());
+                        requestContext.ResponseWriter.WriteLine(_coreSystem.GetClient(requestContext.ClientId).ToString());
                     }
                     break;
                 case ClientsInfoCommand _:
                     foreach (var client in _coreSystem.Clients)
                     {
-                        _requestContext.ResponseWriter.WriteLine(client.ToString());
+                        requestContext.ResponseWriter.WriteLine(client.ToString());
                     }
                     break;
                 case GetAxisCommand command:
@@ -93,16 +90,16 @@ namespace XFlag.Alter3Simulator
                         {
                             if (i != 0)
                             {
-                                _requestContext.ResponseWriter.Write(' ');
+                                requestContext.ResponseWriter.Write(' ');
                             }
-                            _requestContext.ResponseWriter.Write(_coreSystem.Robot.GetAxis(i + 1));
+                            requestContext.ResponseWriter.Write(_coreSystem.Robot.GetAxis(i + 1));
                         }
-                        _requestContext.ResponseWriter.WriteLine();
+                        requestContext.ResponseWriter.WriteLine();
                     }
                     else
                     {
                         var axisValue = _coreSystem.Robot.GetAxis(command.AxisNumber);
-                        _requestContext.ResponseWriter.WriteLine(axisValue.ToString());
+                        requestContext.ResponseWriter.WriteLine(axisValue.ToString());
                     }
                     break;
                 case MoveAxisCommand command:
@@ -127,16 +124,16 @@ namespace XFlag.Alter3Simulator
                             }
                             else
                             {
-                                _requestContext.ResponseWriter.Write(' ');
+                                requestContext.ResponseWriter.Write(' ');
                             }
 
-                            _requestContext.ResponseWriter.Write(position.x);
-                            _requestContext.ResponseWriter.Write(' ');
-                            _requestContext.ResponseWriter.Write(position.y);
-                            _requestContext.ResponseWriter.Write(' ');
-                            _requestContext.ResponseWriter.Write(position.z);
+                            requestContext.ResponseWriter.Write(position.x);
+                            requestContext.ResponseWriter.Write(' ');
+                            requestContext.ResponseWriter.Write(position.y);
+                            requestContext.ResponseWriter.Write(' ');
+                            requestContext.ResponseWriter.Write(position.z);
                         }
-                        _requestContext.ResponseWriter.WriteLine();
+                        requestContext.ResponseWriter.WriteLine();
                     }
                     break;
             }

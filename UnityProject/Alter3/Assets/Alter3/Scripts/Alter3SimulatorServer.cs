@@ -292,7 +292,7 @@ namespace XFlag.Alter3Simulator
 
         private void OnReceived(RequestContext context)
         {
-            new CommandProcessor(_coreSystem, context).ProcessCommand();
+            new CommandProcessor(_coreSystem).ProcessCommand(context);
         }
 
         private ILogger CreateLogger()

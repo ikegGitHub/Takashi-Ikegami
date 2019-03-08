@@ -292,11 +292,6 @@ namespace XFlag.Alter3Simulator
             return _jointTransforms[name];
         }
 
-        protected JointParameter FindJointParameter(string name)
-        {
-            return dictionary[name];
-        }
-
         protected void UpdateJointParameter()
         {
             var dt = Time.deltaTime;

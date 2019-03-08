@@ -47,11 +47,11 @@ namespace XFlag.Alter3Simulator
 
         protected void CreateEyeCamera(string jointName, EyeCameraPos eyePos)
         {
-            var param = FindJointParameter(jointName);
+            var param = FindJoint(jointName);
             if (eyePos == EyeCameraPos.Left)
             {
                 eyeCameraLeft = Instantiate(eyeCameraPrefab).GetComponent<Alter3EveCameraController>();
-                eyeCameraLeft.gameObject.transform.SetParent(param.Transform, false);
+                eyeCameraLeft.gameObject.transform.SetParent(param, false);
                 eyeCameraLeft.gameObject.transform.localPosition = Vector3.zero;
                 eyeCameraLeft.gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
                 eyeCameraLeft.EyeCameraPos = eyePos;
@@ -61,7 +61,7 @@ namespace XFlag.Alter3Simulator
             else if (eyePos == EyeCameraPos.Right)
             {
                 eyeCameraRight = Instantiate(eyeCameraPrefab).GetComponent<Alter3EveCameraController>();
-                eyeCameraRight.gameObject.transform.SetParent(param.Transform, false);
+                eyeCameraRight.gameObject.transform.SetParent(param, false);
                 eyeCameraRight.gameObject.transform.localPosition = Vector3.zero;
                 eyeCameraRight.gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
                 eyeCameraRight.EyeCameraPos = eyePos;
@@ -71,9 +71,9 @@ namespace XFlag.Alter3Simulator
 
         protected void CreateRigdBody(string jointName)
         {
-            var param = FindJointParameter(jointName);
+            var param = FindJoint(jointName);
             var controller = Instantiate(rigidBodyPredab).GetComponent<Alter3RigidBodyController>();
-            controller.gameObject.transform.SetParent(param.Transform, false);
+            controller.gameObject.transform.SetParent(param, false);
             controller.gameObject.transform.localPosition = new Vector3(0f, -0.1f, 0f);
             controller.gameObject.transform.rotation = Quaternion.identity;
             controller.Name = jointName;

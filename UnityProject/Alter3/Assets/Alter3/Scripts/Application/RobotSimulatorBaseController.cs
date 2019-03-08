@@ -44,6 +44,9 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         protected GameObject positionMarkerPrefab = null;
 
+        [SerializeField]
+        private InitialAxisValueTable _initialAxisValueTable = null;
+
         protected Alter3EveCameraController eyeCameraLeft = null;
         public Alter3EveCameraController EyeCameraLeft
         {
@@ -208,6 +211,8 @@ namespace XFlag.Alter3Simulator
                     }
                     axis.Joints.Add(param);
                 }
+
+                UpdateJoint(axis.Id, _initialAxisValueTable.GetValue(axis.Id));
             }
         }
 

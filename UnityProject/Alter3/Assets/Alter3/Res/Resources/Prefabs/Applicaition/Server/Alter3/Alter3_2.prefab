@@ -56,6 +56,8 @@ MonoBehaviour:
     type: 3}
   positionMarkerPrefab: {fileID: 7913963064440149853, guid: ebde045c4a3970a4ea9be2afb338f209,
     type: 3}
+  _initialAxisValueTable: {fileID: 11400000, guid: 7b2f702b22148694b97802947b88053a,
+    type: 2}
   eyeCameraPrefab: {fileID: 4055364985713604388, guid: fb6fb58d5cd8bd64c8dead39327ac4ac,
     type: 3}
   rigidBodyPredab: {fileID: 2711682230804247242, guid: 0f70da32424a74b5f94d7ab6e955876d,
@@ -80,10 +82,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1132}
     m_Modifications:
-    - target: {fileID: 732, guid: 5a4151662d8279e42b42ab39c338dd54, type: 3}
-      propertyPath: m_Name
-      value: Alter3Model2
-      objectReference: {fileID: 0}
     - target: {fileID: 1569, guid: 5a4151662d8279e42b42ab39c338dd54, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -127,6 +125,10 @@ PrefabInstance:
     - target: {fileID: 1569, guid: 5a4151662d8279e42b42ab39c338dd54, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 732, guid: 5a4151662d8279e42b42ab39c338dd54, type: 3}
+      propertyPath: m_Name
+      value: Alter3Model2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a4151662d8279e42b42ab39c338dd54, type: 3}

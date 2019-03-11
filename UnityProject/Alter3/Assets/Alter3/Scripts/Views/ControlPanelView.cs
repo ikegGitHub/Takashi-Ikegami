@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
@@ -32,6 +33,9 @@ namespace XFlag.Alter3Simulator
         [SerializeField]
         private Button _openPersistentFolderButton = null;
 
+        [SerializeField]
+        private TMP_InputField _frameRateInputField = null;
+
         public event Action<bool> OnEnableEyeCameraChanged = delegate { };
         public event Action<bool> OnEnableFaceCameraChanged = delegate { };
         public event Action<bool> OnEnableCollisionCheckChanged = delegate { };
@@ -40,6 +44,7 @@ namespace XFlag.Alter3Simulator
         public event Action OnResetCameraButtonClicked = delegate { };
         public event Action OnResetPositionButtonClicked = delegate { };
         public event Action OnOpenPersistentFolderButtonClicked = delegate { };
+        public event Action<string> OnFrameRateChanged = delegate { };
 
         public bool EnableEyeCamera
         {
@@ -101,6 +106,18 @@ namespace XFlag.Alter3Simulator
             }
         }
 
+        public string FrameRateText
+        {
+            get
+            {
+                return _frameRateInputField.text;
+            }
+            set
+            {
+                _frameRateInputField.text = value;
+            }
+        }
+
         private void Awake()
         {
             Assert.IsNotNull(_enableEyeCameraToggle);
@@ -111,6 +128,7 @@ namespace XFlag.Alter3Simulator
             Assert.IsNotNull(_resetCameraButton);
             Assert.IsNotNull(_resetPositionButton);
             Assert.IsNotNull(_openPersistentFolderButton);
+            Assert.IsNotNull(_frameRateInputField);
 
             _enableEyeCameraToggle.onValueChanged.AddListener(isOn => OnEnableEyeCameraChanged(isOn));
             _enableFaceCameraToggle.onValueChanged.AddListener(isOn => OnEnableFaceCameraChanged(isOn));
@@ -120,6 +138,7 @@ namespace XFlag.Alter3Simulator
             _resetCameraButton.onClick.AddListener(() => OnResetCameraButtonClicked());
             _resetPositionButton.onClick.AddListener(() => OnResetPositionButtonClicked());
             _openPersistentFolderButton.onClick.AddListener(() => OnOpenPersistentFolderButtonClicked());
+            _frameRateInputField.onEndEdit.AddListener(text => OnFrameRateChanged(text));
         }
     }
 }

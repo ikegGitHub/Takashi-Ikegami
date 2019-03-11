@@ -147,6 +147,13 @@ namespace XFlag.Alter3Simulator
                     UseShellExecute = true
                 });
             };
+            _controlPanelView.OnFrameRateChanged += frameRateText =>
+            {
+                if (int.TryParse(frameRateText, out var frameRate))
+                {
+                    _setting.FrameRate = frameRate;
+                }
+            };
 
             _setting.OnEnableEyeCameraChanged += enabled =>
             {
@@ -172,6 +179,10 @@ namespace XFlag.Alter3Simulator
             {
                 _screenCaptureCommandBuffer.enabled = enabled;
             };
+            _setting.OnFrameRateChanged += frameRate =>
+            {
+                _controlPanelView.FrameRateText = frameRate.ToString();
+            };
 
             _eyeCameraScreen.SetActive(_setting.EnableEyeCamera);
             _controlPanelView.EnableEyeCamera = _setting.EnableEyeCamera;
@@ -187,6 +198,8 @@ namespace XFlag.Alter3Simulator
 
             _screenCaptureCommandBuffer.enabled = _setting.CaptureScreen;
             _controlPanelView.CaptureScreen = _setting.CaptureScreen;
+
+            _setting.FrameRate = 60;
         }
 
         private void Update()

@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace XFlag.Alter3Simulator
 {
@@ -84,11 +85,26 @@ namespace XFlag.Alter3Simulator
             }
         }
 
+        public int FrameRate
+        {
+            get
+            {
+                return Application.targetFrameRate;
+            }
+            set
+            {
+                var frameRate = Mathf.Clamp(value, 1, 60);
+                Application.targetFrameRate = frameRate;
+                OnFrameRateChanged(frameRate);
+            }
+        }
+
         public event Action<bool> OnEnableEyeCameraChanged = delegate { };
         public event Action<bool> OnEnableFaceCameraChanged = delegate { };
         public event Action<bool> OnEnableCollisionCheckChanged = delegate { };
         public event Action<bool> OnEnableClothModelChanged = delegate { };
         public event Action<bool> OnCaptureScreenChanged = delegate { };
+        public event Action<int> OnFrameRateChanged = delegate { };
 
         private bool _enableEyeCamera;
         private bool _enableFaceCamera;

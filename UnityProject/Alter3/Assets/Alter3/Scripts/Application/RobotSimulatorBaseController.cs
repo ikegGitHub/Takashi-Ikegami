@@ -58,8 +58,6 @@ namespace XFlag.Alter3Simulator
             get { return this.eyeCameraRight; }
         }
 
-        protected readonly List<JointParameter> _jointParameters = new List<JointParameter>();
-
         protected readonly Dictionary<string, PositionMarkerController> positionMarkers = new Dictionary<string, PositionMarkerController>();
 
         private readonly Dictionary<string, Transform> _jointTransforms = new Dictionary<string, Transform>();
@@ -169,13 +167,10 @@ namespace XFlag.Alter3Simulator
 
         }
 
-        // Use this for initialization
         protected virtual void Start()
         {
-
         }
 
-        // Update is called once per frame
         protected virtual void Update()
         {
             UpdateJointParameter();
@@ -183,7 +178,6 @@ namespace XFlag.Alter3Simulator
 
         protected virtual void OnDestroy()
         {
-
         }
 
         void CreateJointParameter()
@@ -202,7 +196,6 @@ namespace XFlag.Alter3Simulator
                 foreach (var jointItem in jointTableEntity.JointItems)
                 {
                     var param = new JointParameter(jointItem, FindJoint(jointItem.JointName));
-                    _jointParameters.Add(param);
                     axis.Joints.Add(param);
 
                     if (!_transformJointParameters.TryGetValue(jointItem.JointName, out var transJointParams))

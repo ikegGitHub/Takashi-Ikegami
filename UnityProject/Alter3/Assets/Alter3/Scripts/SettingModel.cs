@@ -93,7 +93,9 @@ namespace XFlag.Alter3Simulator
             }
             set
             {
-                Application.targetFrameRate = Mathf.Clamp(value, 1, 60);
+                var frameRate = Mathf.Clamp(value, 1, 60);
+                Application.targetFrameRate = frameRate;
+                OnFrameRateChanged(frameRate);
             }
         }
 

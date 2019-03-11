@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace XFlag.Alter3Simulator
 {
@@ -111,7 +109,7 @@ namespace XFlag.Alter3Simulator
             NextRotation = new Vector3(ax, ay, az);
         }
 
-        public void Update(float spring, float damper, float dt)
+        public Quaternion CalculateRotation(float spring, float damper, float dt)
         {
             // なんとなくスプリング＋ダンパー
             var acceleration = ((NextRotation - CurrentRotation) * spring) - (Velocity * damper);
@@ -122,7 +120,7 @@ namespace XFlag.Alter3Simulator
             var qy = Quaternion.AngleAxis(CurrentRotation.y, Vector3.up);
             var qz = Quaternion.AngleAxis(CurrentRotation.z, Vector3.forward);
 
-            Transform.localRotation = qx * qz * qy;
+            return qx * qz * qy;
         }
     }
 }

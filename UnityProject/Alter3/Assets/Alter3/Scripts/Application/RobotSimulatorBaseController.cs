@@ -63,6 +63,7 @@ namespace XFlag.Alter3Simulator
         protected readonly Dictionary<string, PositionMarkerController> positionMarkers = new Dictionary<string, PositionMarkerController>();
 
         private readonly Dictionary<string, Transform> _jointTransforms = new Dictionary<string, Transform>();
+        private readonly Dictionary<string, List<JointParameter>> _transformJointParameters = new Dictionary<string, List<JointParameter>>();
         private readonly Dictionary<int, AxisModel> _axes = new Dictionary<int, AxisModel>();
         private readonly Dictionary<int, AxisRangeView[]> _axisViewLists = new Dictionary<int, AxisRangeView[]>();
 
@@ -203,6 +204,13 @@ namespace XFlag.Alter3Simulator
                     var param = new JointParameter(jointItem, FindJoint(jointItem.JointName));
                     _jointParameters.Add(param);
                     axis.Joints.Add(param);
+
+                    if (!_transformJointParameters.TryGetValue(jointItem.JointName, out var transJointParams))
+                    {
+                        transJointParams = new List<JointParameter>();
+                        _transformJointParameters.Add(jointItem.JointName, transJointParams);
+                    }
+                    transJointParams.Add(param);
                 }
 
                 UpdateJoint(axis.Id, _initialAxisValueTable.GetValue(axis.Id));
@@ -292,9 +300,17 @@ namespace XFlag.Alter3Simulator
         protected void UpdateJointParameter()
         {
             var dt = Time.deltaTime;
-            foreach (var param in _jointParameters)
+
+            foreach (var entry in _transformJointParameters)
             {
-                param.Update(spring, damper, dt);
+                var jointTransform = FindJoint(entry.Key);
+                var jointParams = entry.Value;
+                var rotation = Quaternion.identity;
+                for (int i = 0; i < jointParams.Count; ++i)
+                {
+                    rotation *= jointParams[i].CalculateRotation(spring, damper, dt);
+                }
+                jointTransform.localRotation = rotation;
 
                 /*
                 //以前のプログラム
